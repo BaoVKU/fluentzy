@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "25664284579",
+    "project_id": "fluentzy",
+    "storage_bucket": "fluentzy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25664284579:android:f219f995d1412b21021c16",
+        "android_client_info": {
+          "package_name": "com.example.fluentzy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCRvfrrHtBuNEPBslBUhP30S6Tp5x1JHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
