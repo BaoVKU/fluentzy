@@ -5,9 +5,13 @@ import 'package:fluentzy/data/repositories/dictionary_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
+import 'package:fluentzy/data/services/audio_service.dart';
 import 'package:fluentzy/data/services/camera_service.dart';
 import 'package:fluentzy/data/services/image_picker_service.dart';
 import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/ui/listening/lesson_screen.dart';
+import 'package:fluentzy/ui/listening/play_screen.dart';
+import 'package:fluentzy/ui/listening/play_view_model.dart';
 import 'package:fluentzy/ui/login/login_screen.dart';
 import 'package:fluentzy/ui/login/login_view_model.dart';
 import 'package:fluentzy/ui/main/main_screen.dart';
@@ -20,13 +24,12 @@ import 'package:fluentzy/ui/scanner/option_view_model.dart';
 import 'package:fluentzy/ui/scanner/result_screen.dart';
 import 'package:fluentzy/ui/speaking/lesson_screen.dart';
 import 'package:fluentzy/ui/speaking/lesson_view_model.dart';
+import 'package:fluentzy/ui/listening/lesson_view_model.dart';
 import 'package:fluentzy/ui/speaking/record_screen.dart';
 import 'package:fluentzy/ui/speaking/record_view_model.dart';
 import 'package:fluentzy/ui/speaking/result_screen.dart';
-import 'package:fluentzy/ui/speaking/result_view_model.dart'
-    as SpeakingResultViewModel;
-import 'package:fluentzy/ui/scanner/result_view_model.dart'
-    as ScannerResultViewModel;
+import 'package:fluentzy/ui/speaking/result_view_model.dart';
+import 'package:fluentzy/ui/scanner/result_view_model.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -62,8 +65,9 @@ class AppRouter {
         builder:
             (context, state) => ChangeNotifierProvider(
               create:
-                  (context) =>
-                      LessonViewModel(context.read<LessonRepository>()),
+                  (context) => SpeakingLessonViewModel(
+                    context.read<LessonRepository>(),
+                  ),
               child: SpeakingLessonScreen(),
             ),
       ),
@@ -72,7 +76,7 @@ class AppRouter {
         builder:
             (context, state) => ChangeNotifierProvider(
               create:
-                  (context) => SpeakingResultViewModel.ResultViewModel(
+                  (context) => SpeakingResultViewModel(
                     context.read<TtsRepository>(),
                     context.read<AiRepository>(),
                     context.read<LessonRepository>(),
@@ -83,10 +87,13 @@ class AppRouter {
       ),
       GoRoute(
         path: RoutePath.scannerOptions,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (context) => OptionViewModel(context.read<ImagePickerService>()),
-          child: ScannerOptionScreen(),
-        ),
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) =>
+                      OptionViewModel(context.read<ImagePickerService>()),
+              child: ScannerOptionScreen(),
+            ),
       ),
       GoRoute(
         path: RoutePath.scannerCamera,
@@ -110,7 +117,7 @@ class AppRouter {
         builder:
             (context, state) => ChangeNotifierProvider(
               create:
-                  (context) => ScannerResultViewModel.ResultViewModel(
+                  (context) => ScannerResultViewModel(
                     context.read<AiRepository>(),
                     context.read<DictionaryRepository>(),
                     context.read<TtsRepository>(),
@@ -119,9 +126,29 @@ class AppRouter {
               child: ScannerResultScreen(),
             ),
       ),
-      // GoRoute(
-      //   path: RoutePath.scannerResult,
-      //   builder: (context, state) => ScannerResultScreen(),)
+      GoRoute(
+        path: RoutePath.listeningLesson,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) =>
+                      ListeningLessonViewModel(context.read<LessonRepository>()),
+              child: ListeningLessonScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.listeningPlayWithId,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => PlayViewModel(
+                    context.read<LessonRepository>(),
+                    context.read<AudioService>(),
+                    state.pathParameters[RoutePath.lessonId]!,
+                  ),
+              child: PlayScreen(),
+            ),
+      ),
     ],
   );
 }

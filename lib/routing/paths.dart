@@ -12,6 +12,9 @@ class RoutePath{
   static const speakingLesson = '$speaking/lesson';
   static const speakingResult = '$speaking/result';
   static const listening = '${main}listening';
+  static const listeningLesson = '$listening/lesson';
+  static const listeningPlay = '$listening/play';
+  static const listeningPlayWithId = '$listening/play/:$lessonId';
   static const scanner = '${main}scanner';
   static const scannerOptions = '$scanner/options';
   static const scannerCamera = '$scanner/camera';

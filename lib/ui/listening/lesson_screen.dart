@@ -1,18 +1,18 @@
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/speaking/lesson_view_model.dart';
-import 'package:fluentzy/utils/color_picker.dart';
+import 'package:fluentzy/ui/listening/lesson_view_model.dart';
+import 'package:fluentzy/utils/time_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class SpeakingLessonScreen extends StatelessWidget {
-  const SpeakingLessonScreen({super.key});
+class ListeningLessonScreen extends StatelessWidget {
+  const ListeningLessonScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final SpeakingLessonViewModel viewModel =
-        context.watch<SpeakingLessonViewModel>();
+    final ListeningLessonViewModel viewModel = context.watch<ListeningLessonViewModel>();
     return LayoutBuilder(
       builder: (context, constraint) {
         final isMediumScreen =
@@ -29,16 +29,15 @@ class SpeakingLessonScreen extends StatelessWidget {
           columnCount = 2;
         }
         return Scaffold(
-          backgroundColor: AppColors.background,
+            backgroundColor: AppColors.background,
           appBar: AppBar(
             backgroundColor: AppColors.background,
             leading: IconButton(
               onPressed: () => {context.go(RoutePath.main)},
               icon: SvgPicture.asset("assets/back.svg"),
             ),
-            title: const Text('Lessons'),
             titleSpacing: 0.0,
-          ),
+            title: const Text('Lessons'),),
           body: SafeArea(
             child: GridView.builder(
               padding: const EdgeInsets.all(8),
@@ -53,21 +52,9 @@ class SpeakingLessonScreen extends StatelessWidget {
                 return GestureDetector(
                   onTap:
                       () => {
-                        if (viewModel.lessons[index].lastDone ==
-                            viewModel.lessons[index].sentences.length - 1)
-                          {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("You have completed this lesson"),
-                              ),
-                            ),
-                          }
-                        else
-                          {
-                            context.go(
-                              "${RoutePath.speakingRecord}/${viewModel.lessons[index].id}",
-                            ),
-                          },
+                        context.go(
+                              "${RoutePath.listeningPlay}/${viewModel.lessons[index].id}",
+                            )
                       },
                   child: Card(
                     color: AppColors.surfacePrimary,
@@ -104,7 +91,6 @@ class SpeakingLessonScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -119,28 +105,12 @@ class SpeakingLessonScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Builder(
-                            builder: (context) {
-                              final percentage =
-                                  ((viewModel.lessons[index].lastDone + 1) /
-                                          viewModel
-                                              .lessons[index]
-                                              .sentences
-                                              .length *
-                                          100)
-                                      .toInt();
-                              return Text(
-                                "$percentage%",
-                                style: TextStyle(
-                                  color: ColorPicker.getColorForAccuracy(
-                                    percentage,
-                                  ),
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              );
-                            },
-                          ),
+                          Text(TimeUtil.formatDuration(viewModel.lessons[index].duration), style: 
+                          TextStyle(
+                            fontStyle: FontStyle.italic,
+                            color: AppColors.onSecondary,
+                          )
+                          , )
                         ],
                       ),
                     ),
@@ -150,7 +120,7 @@ class SpeakingLessonScreen extends StatelessWidget {
             ),
           ),
         );
-      },
+      }
     );
   }
 }

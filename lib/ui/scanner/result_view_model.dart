@@ -9,7 +9,7 @@ import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class ResultViewModel extends ChangeNotifier {
+class ScannerResultViewModel extends ChangeNotifier {
   final AiRepository _aiRepository;
   final DictionaryRepository _dictionaryRepository;
   final TtsRepository _ttsRepository;
@@ -18,7 +18,7 @@ class ResultViewModel extends ChangeNotifier {
   ResponseState _responseState = Initial();
   ResponseState get responseState => _responseState;
   bool get isSpeaking => _ttsRepository.isSpeaking;
-  ResultViewModel(
+  ScannerResultViewModel(
     this._aiRepository,
     this._dictionaryRepository,
     this._ttsRepository,
@@ -70,7 +70,7 @@ class ResultViewModel extends ChangeNotifier {
     }
     return bytes;
   }
-  
+
   Future<void> playSpeaker({required String text}) async {
     await _ttsRepository.playSpeaker(text: text);
     notifyListeners();

@@ -21,7 +21,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
   SpeakingResponse? _speakingResponse;
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<ResultViewModel>();
+    final viewModel = context.watch<SpeakingResultViewModel>();
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(

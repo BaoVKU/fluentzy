@@ -7,10 +7,10 @@ import 'package:fluentzy/data/repositories/tts_repository.dart';
 import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
 
-class ResultViewModel extends ChangeNotifier {
+class SpeakingResultViewModel extends ChangeNotifier {
   final TtsRepository _ttsRepository;
   final AiRepository _aiRepository;
-  final LessonRepository  _lessonRepository;
+  final LessonRepository _lessonRepository;
   bool get isSpeaking => _ttsRepository.isSpeaking;
   ResponseState _responseState = Initial();
   ResponseState get responseState => _responseState;
@@ -18,7 +18,12 @@ class ResultViewModel extends ChangeNotifier {
   late String lessonId;
   late int lastDone;
   late SpeakingLesson _lesson;
-  ResultViewModel(this._ttsRepository, this._aiRepository, this._lessonRepository,_extra) {
+  SpeakingResultViewModel(
+    this._ttsRepository,
+    this._aiRepository,
+    this._lessonRepository,
+    _extra,
+  ) {
     _lesson = _extra["lesson"];
     final String userSaid = _extra["said"];
     lessonId = _lesson.id;
@@ -61,7 +66,10 @@ class ResultViewModel extends ChangeNotifier {
 
   Future<void> increaseLastDone(Function() onLastDoneUpdated) async {
     // Logger.error("increaseLastDone: ${_lesson.id} ${_lesson.lastDone} ${_lesson.sentences}");
-    await _lessonRepository.updateSpeakingLessonLastDone(id: lessonId, newIndex: _lesson.lastDone + 1);
+    await _lessonRepository.updateSpeakingLessonLastDone(
+      id: lessonId,
+      newIndex: _lesson.lastDone + 1,
+    );
     onLastDoneUpdated();
     notifyListeners();
   }

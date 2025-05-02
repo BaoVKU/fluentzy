@@ -41,8 +41,9 @@ class HomePage extends StatelessWidget {
                                   RoutePath.speakingLesson,
                                 ),
 
-                                HomeFeature.listening =>
-                                  throw UnimplementedError(),
+                                HomeFeature.listening => context.go(
+                                  RoutePath.listeningLesson,
+                                ),
                                 HomeFeature.scanner => context.go(
                                   RoutePath.scannerOptions,
                                 ),

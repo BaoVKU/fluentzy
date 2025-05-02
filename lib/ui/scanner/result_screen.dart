@@ -16,7 +16,7 @@ class ScannerResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<ResultViewModel>();
+    final viewModel = context.watch<ScannerResultViewModel>();
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
