@@ -47,8 +47,9 @@ class HomePage extends StatelessWidget {
                                 HomeFeature.scanner => context.go(
                                   RoutePath.scannerOptions,
                                 ),
-                                HomeFeature.flashCard =>
-                                  throw UnimplementedError(),
+                                HomeFeature.flashCard => context.go(
+                                  RoutePath.flashCardList,
+                                ),
                                 HomeFeature.quiz => throw UnimplementedError(),
                                 HomeFeature.translator =>
                                   throw UnimplementedError(),

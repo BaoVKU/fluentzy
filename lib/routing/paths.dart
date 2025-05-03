@@ -1,4 +1,4 @@
-class RoutePath{
+class RoutePath {
   RoutePath();
   static const main = '/';
 
@@ -20,7 +20,11 @@ class RoutePath{
   static const scannerCamera = '$scanner/camera';
   static const scannerCrop = '$scanner/crop';
   static const scannerResult = '$scanner/result';
-  static const flashcard = '${main}flashcard';
+  static const flashCard = '${main}flashcard';
+  static const flashCardList = '$flashCard/list';
+  static const flashCardCreate = '$flashCard/create';
+  static const flashCardEdit = '$flashCard/edit';
+  static const flashCardLearn = '$flashCard/learn';
   static const quiz = '${main}quiz';
   static const translator = '${main}translator';
 

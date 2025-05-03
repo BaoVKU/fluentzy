@@ -12,7 +12,8 @@ class ListeningLessonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ListeningLessonViewModel viewModel = context.watch<ListeningLessonViewModel>();
+    final ListeningLessonViewModel viewModel =
+        context.watch<ListeningLessonViewModel>();
     return LayoutBuilder(
       builder: (context, constraint) {
         final isMediumScreen =
@@ -29,7 +30,7 @@ class ListeningLessonScreen extends StatelessWidget {
           columnCount = 2;
         }
         return Scaffold(
-            backgroundColor: AppColors.background,
+          backgroundColor: AppColors.background,
           appBar: AppBar(
             backgroundColor: AppColors.background,
             leading: IconButton(
@@ -37,7 +38,8 @@ class ListeningLessonScreen extends StatelessWidget {
               icon: SvgPicture.asset("assets/back.svg"),
             ),
             titleSpacing: 0.0,
-            title: const Text('Lessons'),),
+            title: const Text('Lessons'),
+          ),
           body: SafeArea(
             child: GridView.builder(
               padding: const EdgeInsets.all(8),
@@ -53,8 +55,8 @@ class ListeningLessonScreen extends StatelessWidget {
                   onTap:
                       () => {
                         context.go(
-                              "${RoutePath.listeningPlay}/${viewModel.lessons[index].id}",
-                            )
+                          "${RoutePath.listeningPlay}/${viewModel.lessons[index].id}",
+                        ),
                       },
                   child: Card(
                     color: AppColors.surfacePrimary,
@@ -105,12 +107,15 @@ class ListeningLessonScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Text(TimeUtil.formatDuration(viewModel.lessons[index].duration), style: 
-                          TextStyle(
-                            fontStyle: FontStyle.italic,
-                            color: AppColors.onSecondary,
-                          )
-                          , )
+                          Text(
+                            TimeUtil.formatDuration(
+                              viewModel.lessons[index].duration,
+                            ),
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              color: AppColors.onSecondary,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -120,7 +125,7 @@ class ListeningLessonScreen extends StatelessWidget {
             ),
           ),
         );
-      }
+      },
     );
   }
 }

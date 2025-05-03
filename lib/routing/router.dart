@@ -1,7 +1,9 @@
 import 'package:camera/camera.dart';
+import 'package:fluentzy/data/models/flash_card_set.dart';
 import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/dictionary_repository.dart';
+import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
@@ -9,6 +11,12 @@ import 'package:fluentzy/data/services/audio_service.dart';
 import 'package:fluentzy/data/services/camera_service.dart';
 import 'package:fluentzy/data/services/image_picker_service.dart';
 import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/ui/flash_card/edit_screen.dart';
+import 'package:fluentzy/ui/flash_card/edit_view_model.dart';
+import 'package:fluentzy/ui/flash_card/learn_screen.dart';
+import 'package:fluentzy/ui/flash_card/learn_view_model.dart';
+import 'package:fluentzy/ui/flash_card/list_screen.dart';
+import 'package:fluentzy/ui/flash_card/list_view_model.dart';
 import 'package:fluentzy/ui/listening/lesson_screen.dart';
 import 'package:fluentzy/ui/listening/play_screen.dart';
 import 'package:fluentzy/ui/listening/play_view_model.dart';
@@ -65,9 +73,8 @@ class AppRouter {
         builder:
             (context, state) => ChangeNotifierProvider(
               create:
-                  (context) => SpeakingLessonViewModel(
-                    context.read<LessonRepository>(),
-                  ),
+                  (context) =>
+                      SpeakingLessonViewModel(context.read<LessonRepository>()),
               child: SpeakingLessonScreen(),
             ),
       ),
@@ -131,8 +138,9 @@ class AppRouter {
         builder:
             (context, state) => ChangeNotifierProvider(
               create:
-                  (context) =>
-                      ListeningLessonViewModel(context.read<LessonRepository>()),
+                  (context) => ListeningLessonViewModel(
+                    context.read<LessonRepository>(),
+                  ),
               child: ListeningLessonScreen(),
             ),
       ),
@@ -147,6 +155,53 @@ class AppRouter {
                     state.pathParameters[RoutePath.lessonId]!,
                   ),
               child: PlayScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.flashCardList,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => FlashCardListViewModel(
+                    context.read<FlashCardRepository>(),
+                  ),
+              child: FlashCardListScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.flashCardCreate,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => FlashCardEditViewModel(
+                    context.read<FlashCardRepository>(),
+                    null,
+                  ),
+              child: FlashCardEditScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.flashCardEdit,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => FlashCardEditViewModel(
+                    context.read<FlashCardRepository>(),
+                    state.extra as FlashCardSet,
+                  ),
+              child: FlashCardEditScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.flashCardLearn,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => FlashCardLearnViewModel(
+                    context.read<FlashCardRepository>(),
+                    state.extra as FlashCardSet,
+                  ),
+              child: const FlashCardLearnScreen(),
             ),
       ),
     ],

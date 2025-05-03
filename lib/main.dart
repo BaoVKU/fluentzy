@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/dictionary_repository.dart';
+import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
@@ -10,6 +11,7 @@ import 'package:fluentzy/data/services/audio_service.dart';
 import 'package:fluentzy/data/services/auth_service.dart';
 import 'package:fluentzy/data/services/camera_service.dart';
 import 'package:fluentzy/data/services/dictionary_service.dart';
+import 'package:fluentzy/data/services/flash_card_service.dart';
 import 'package:fluentzy/data/services/image_picker_service.dart';
 import 'package:fluentzy/data/services/listening_service.dart';
 import 'package:fluentzy/data/services/speaking_service.dart';
@@ -36,6 +38,7 @@ void main() async {
         Provider(create: (context) => DictionaryService()),
         Provider(create: (context) => AudioService()),
         Provider(create: (context) => ListeningService()),
+        Provider(create: (context) => FlashCardService()),
         Provider(
           create: (context) => TtsRepository(context.read<TtsService>()),
         ),
@@ -57,6 +60,9 @@ void main() async {
           create:
               (context) =>
                   DictionaryRepository(context.read<DictionaryService>()),
+        ),
+        Provider(
+          create: (context) => FlashCardRepository(context.read<FlashCardService>()),
         ),
       ],
       child: const MainApp(),
