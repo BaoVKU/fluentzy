@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:fluentzy/routing/paths.dart';
-import 'package:fluentzy/ui/scanner/crop_view_model.dart';
+import 'package:fluentzy/ui/scanner/crop/crop_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AiService {
-  static const String _apiKey = "AIzaSyAz_CcNeJahOhWmnmxyqHBWo9HvlJlFhnE";
+  static const String _apiKey = "";
   late GenerativeModel model;
 
   AiService() {

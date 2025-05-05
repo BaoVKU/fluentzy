@@ -1,28 +1,28 @@
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/utils/auth_util.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-class LoginViewModel extends ChangeNotifier {
+class RegisterViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
-  bool _isLoggedIn = false;
-  bool get isLoggedIn => _isLoggedIn;
+  bool _isSignedUp = false;
+  bool get isSignedUp => _isSignedUp;
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  LoginViewModel(this._authRepository) {
+  RegisterViewModel(this._authRepository) {
     _authRepository.setAuthStateListener((user) {
       if (user != null) {
-        _isLoggedIn = true;
+        _isSignedUp = true;
         notifyListeners();
       } else {
-        _isLoggedIn = false;
+        _isSignedUp = false;
         notifyListeners();
       }
     });
   }
 
-  Future<void> login(String email, String password) async {
-    final result = await _authRepository.loginByEmail(
+  Future<void> register(String email, String password) async {
+    final result = await _authRepository.registerByEmail(
       email: email,
       password: password,
     );

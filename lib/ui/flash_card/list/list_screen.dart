@@ -1,6 +1,6 @@
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/flash_card/list_view_model.dart';
+import 'package:fluentzy/ui/flash_card/list/list_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -34,7 +34,7 @@ class FlashCardListScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: AppColors.background,
             leading: IconButton(
-              onPressed: () => {context.go(RoutePath.main)},
+              onPressed: () => {context.go(RoutePath.home)},
               icon: SvgPicture.asset("assets/back.svg"),
             ),
             titleSpacing: 0.0,

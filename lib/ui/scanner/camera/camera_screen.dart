@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/scanner/camera_view_model.dart';
+import 'package:fluentzy/ui/scanner/camera/camera_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';

@@ -1,7 +1,6 @@
 import 'package:fluentzy/data/models/flash_card.dart';
 import 'package:fluentzy/data/models/flash_card_set.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
-import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
 
 class FlashCardEditViewModel extends ChangeNotifier {

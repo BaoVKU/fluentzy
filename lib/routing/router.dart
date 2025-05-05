@@ -11,41 +11,77 @@ import 'package:fluentzy/data/services/audio_service.dart';
 import 'package:fluentzy/data/services/camera_service.dart';
 import 'package:fluentzy/data/services/image_picker_service.dart';
 import 'package:fluentzy/routing/paths.dart';
-import 'package:fluentzy/ui/flash_card/edit_screen.dart';
-import 'package:fluentzy/ui/flash_card/edit_view_model.dart';
-import 'package:fluentzy/ui/flash_card/learn_screen.dart';
-import 'package:fluentzy/ui/flash_card/learn_view_model.dart';
-import 'package:fluentzy/ui/flash_card/list_screen.dart';
-import 'package:fluentzy/ui/flash_card/list_view_model.dart';
-import 'package:fluentzy/ui/listening/lesson_screen.dart';
-import 'package:fluentzy/ui/listening/play_screen.dart';
-import 'package:fluentzy/ui/listening/play_view_model.dart';
+import 'package:fluentzy/ui/chat/chat_screen.dart';
+import 'package:fluentzy/ui/flash_card/edit/edit_screen.dart';
+import 'package:fluentzy/ui/flash_card/edit/edit_view_model.dart';
+import 'package:fluentzy/ui/flash_card/learn/learn_screen.dart';
+import 'package:fluentzy/ui/flash_card/learn/learn_view_model.dart';
+import 'package:fluentzy/ui/flash_card/list/list_screen.dart';
+import 'package:fluentzy/ui/flash_card/list/list_view_model.dart';
+import 'package:fluentzy/ui/home/home_page.dart';
+import 'package:fluentzy/ui/listening/lesson/lesson_screen.dart';
+import 'package:fluentzy/ui/listening/play/play_screen.dart';
+import 'package:fluentzy/ui/listening/play/play_view_model.dart';
 import 'package:fluentzy/ui/login/login_screen.dart';
 import 'package:fluentzy/ui/login/login_view_model.dart';
 import 'package:fluentzy/ui/main/main_screen.dart';
-import 'package:fluentzy/ui/scanner/camera_screen.dart';
-import 'package:fluentzy/ui/scanner/camera_view_model.dart';
-import 'package:fluentzy/ui/scanner/crop_screen.dart';
-import 'package:fluentzy/ui/scanner/crop_view_model.dart';
-import 'package:fluentzy/ui/scanner/option_screen.dart';
-import 'package:fluentzy/ui/scanner/option_view_model.dart';
-import 'package:fluentzy/ui/scanner/result_screen.dart';
-import 'package:fluentzy/ui/speaking/lesson_screen.dart';
-import 'package:fluentzy/ui/speaking/lesson_view_model.dart';
-import 'package:fluentzy/ui/listening/lesson_view_model.dart';
-import 'package:fluentzy/ui/speaking/record_screen.dart';
-import 'package:fluentzy/ui/speaking/record_view_model.dart';
-import 'package:fluentzy/ui/speaking/result_screen.dart';
-import 'package:fluentzy/ui/speaking/result_view_model.dart';
-import 'package:fluentzy/ui/scanner/result_view_model.dart';
+import 'package:fluentzy/ui/premium/premium_page.dart';
+import 'package:fluentzy/ui/profile/profile_page.dart';
+import 'package:fluentzy/ui/profile/profile_view_model.dart';
+import 'package:fluentzy/ui/register/register_screen.dart';
+import 'package:fluentzy/ui/register/register_view_model.dart';
+import 'package:fluentzy/ui/scanner/camera/camera_screen.dart';
+import 'package:fluentzy/ui/scanner/camera/camera_view_model.dart';
+import 'package:fluentzy/ui/scanner/crop/crop_screen.dart';
+import 'package:fluentzy/ui/scanner/crop/crop_view_model.dart';
+import 'package:fluentzy/ui/scanner/option/option_screen.dart';
+import 'package:fluentzy/ui/scanner/option/option_view_model.dart';
+import 'package:fluentzy/ui/scanner/result/result_screen.dart';
+import 'package:fluentzy/ui/speaking/lesson/lesson_screen.dart';
+import 'package:fluentzy/ui/speaking/lesson/lesson_view_model.dart';
+import 'package:fluentzy/ui/listening/lesson/lesson_view_model.dart';
+import 'package:fluentzy/ui/speaking/record/record_screen.dart';
+import 'package:fluentzy/ui/speaking/record/record_view_model.dart';
+import 'package:fluentzy/ui/speaking/result/result_screen.dart';
+import 'package:fluentzy/ui/speaking/result/result_view_model.dart';
+import 'package:fluentzy/ui/scanner/result/result_view_model.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AppRouter {
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
   static final GoRouter router = GoRouter(
     initialLocation: RoutePath.login,
+    navigatorKey: _rootNavigatorKey,
     routes: [
-      GoRoute(path: RoutePath.main, builder: (context, state) => MainScreen()),
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (context, state, child) {
+          return MainScreen(uri: state.uri, child: child);
+        },
+        routes: [
+          GoRoute(
+            path: RoutePath.home,
+            builder: (context, state) => HomePage(),
+          ),
+          GoRoute(
+            path: RoutePath.premium,
+            builder: (context, state) => PremiumPage(),
+          ),
+          GoRoute(
+            path: RoutePath.chat,
+            builder: (context, state) => ChatScreen(),
+          ),
+          GoRoute(
+            path: RoutePath.profile,
+            builder: (context, state) => ChangeNotifierProvider(create: (context) => ProfileViewModel(context.read<AuthRepository>()),
+              child: const ProfilePage(),
+            ),
+          ),
+        ],
+      ),
       GoRoute(
         path: RoutePath.login,
         builder:
@@ -53,6 +89,16 @@ class AppRouter {
               create:
                   (context) => LoginViewModel(context.read<AuthRepository>()),
               child: LoginScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.register,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) =>
+                      RegisterViewModel(context.read<AuthRepository>()),
+              child: RegisterScreen(),
             ),
       ),
       GoRoute(

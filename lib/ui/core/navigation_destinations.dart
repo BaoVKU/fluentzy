@@ -1,4 +1,4 @@
-import 'package:fluentzy/ui/home/home_page.dart';
+import 'package:fluentzy/routing/paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -21,10 +21,10 @@ class NavigationDestinations {
       label: 'Profile',
     ),
   ];
-  static List<Widget> pages = [
-    const HomePage(),
-    const Center(child: Text("Premium Screen")),
-    const Center(child: Text("Chat Screen")),
-    const Center(child: Text("Profile Screen")),
+  static List paths = [
+    RoutePath.home,
+    RoutePath.premium,
+    RoutePath.chat,
+    RoutePath.profile,
   ];
 }

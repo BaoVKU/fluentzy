@@ -50,9 +50,6 @@ class HomePage extends StatelessWidget {
                                 HomeFeature.flashCard => context.go(
                                   RoutePath.flashCardList,
                                 ),
-                                HomeFeature.quiz => throw UnimplementedError(),
-                                HomeFeature.translator =>
-                                  throw UnimplementedError(),
                               },
                             },
                         child: Card(

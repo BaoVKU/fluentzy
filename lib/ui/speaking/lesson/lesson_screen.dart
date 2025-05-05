@@ -1,7 +1,7 @@
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/speaking/lesson_view_model.dart';
-import 'package:fluentzy/utils/color_picker.dart';
+import 'package:fluentzy/ui/speaking/lesson/lesson_view_model.dart';
+import 'package:fluentzy/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +33,7 @@ class SpeakingLessonScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: AppColors.background,
             leading: IconButton(
-              onPressed: () => {context.go(RoutePath.main)},
+              onPressed: () => {context.go(RoutePath.home)},
               icon: SvgPicture.asset("assets/back.svg"),
             ),
             title: const Text('Lessons'),

@@ -22,16 +22,6 @@ enum HomeFeature {
     name: "Flash Card",
     backgroundColor: AppColors.flashCardBackground,
     iconPath: "assets/flash_card.svg",
-  ),
-  quiz(
-    name: "Quick Quiz",
-    backgroundColor: AppColors.quizBackground,
-    iconPath: "assets/quiz.svg",
-  ),
-  translator(
-    name: "Translator",
-    backgroundColor: AppColors.translatorBackground,
-    iconPath: "assets/translate.svg",
   );
 
   final String name;

@@ -1,26 +1,27 @@
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/login/login_view_model.dart';
+import 'package:fluentzy/ui/register/register_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<LoginViewModel>();
-    if (viewModel.isLoggedIn) {
+    final viewModel = context.watch<RegisterViewModel>();
+    if (viewModel.isSignedUp) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.go(RoutePath.home);
       });
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       });
     }
-    
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -65,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     children: [
                       Text(
-                        "Log in and continue your learning",
+                        "Sign up and start learning any language",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w500,
@@ -113,11 +114,52 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             SizedBox(height: 16),
+                            Text("Password", style: TextStyle(fontSize: 12)),
+                            TextField(
+                              controller: _confirmPasswordController,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                hintText: "Confirm your password",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 16),
                             FilledButton(
                               onPressed: () {
-                                viewModel.login(
+                                if (_emailController.text.isEmpty ||
+                                    _passwordController.text.isEmpty ||
+                                    _confirmPasswordController.text.isEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Please fill all fields"),
+                                      backgroundColor: AppColors.error,
+                                    ),
+                                  );
+                                  return;
+                                }
+          
+                                if (_passwordController.text !=
+                                    _confirmPasswordController.text) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Passwords do not match"),
+                                      backgroundColor: AppColors.error,
+                                    ),
+                                  );
+                                  return;
+                                }
+                                
+                                viewModel.register(
                                   _emailController.text,
-                                  _passwordController.text,
+                                  _passwordController.text
                                 );
                               },
                               style: ButtonStyle(
@@ -158,13 +200,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Don't have an account yet?"),
+                                Text("Already, have an account?"),
                                 TextButton(
                                   onPressed: () {
-                                    context.go(RoutePath.register);
+                                    context.go(RoutePath.login);
                                   },
                                   child: Text(
-                                    "Sign up",
+                                    "Log in",
                                     style: TextStyle(color: AppColors.primary),
                                   ),
                                 ),

@@ -2,8 +2,8 @@ import 'package:fluentzy/data/models/speaking_response.dart';
 import 'package:fluentzy/data/models/response_state.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/speaking/result_view_model.dart';
-import 'package:fluentzy/utils/color_picker.dart';
+import 'package:fluentzy/ui/speaking/result/result_view_model.dart';
+import 'package:fluentzy/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,7 +27,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            context.go(RoutePath.main);
+            context.go(RoutePath.home);
           },
           icon: SvgPicture.asset("assets/back.svg"),
         ),
@@ -70,11 +70,13 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
                       );
                     case Success():
                       {
+                        viewModel.vibrate();
                         final response =
                             (viewModel.responseState as Success).data;
                         WidgetsBinding.instance.addPostFrameCallback((_) {
                           setState(() {
                             _speakingResponse = response;
+                            
                           });
                         });
                         return Text(
@@ -107,6 +109,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
               SizedBox(height: 24),
               Text(
                 viewModel.sentence,
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),

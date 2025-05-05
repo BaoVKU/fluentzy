@@ -4,7 +4,7 @@ import 'package:fluentzy/data/models/dictionary_entry.dart';
 import 'package:fluentzy/data/models/response_state.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/scanner/result_view_model.dart';
+import 'package:fluentzy/ui/scanner/result/result_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

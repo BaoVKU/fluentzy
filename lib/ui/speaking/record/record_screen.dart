@@ -1,6 +1,6 @@
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/speaking/record_view_model.dart';
+import 'package:fluentzy/ui/speaking/record/record_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -47,8 +47,10 @@ class _SpeakingRecordScreenState extends State<SpeakingRecordScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    viewModel.lesson?.sentences[(viewModel.lesson!.lastDone + 1)] ??
+                    viewModel.lesson?.sentences[(viewModel.lesson!.lastDone +
+                            1)] ??
                         "Cannot find lesson",
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 32),

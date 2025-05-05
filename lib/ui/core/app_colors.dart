@@ -11,10 +11,8 @@ class AppColors {
   static const Color surfacePrimary = Color(0xFFE5F2FF);
   static const Color speakingBackground = Color(0xFFD32F2F);
   static const Color listeningBackground = Color(0xFF303F9F);
-  static const Color scannerBackground = Color(0xFF7B1FA2);
+  static const Color scannerBackground = Color(0xFFFFA000);
   static const Color flashCardBackground = Color(0xFF388E3C);
-  static const Color quizBackground = Color(0xFFFFA000);
-  static const Color translatorBackground = Color(0xFFA2845E);
   static const Color success = Color(0xFF38AD49);
   static const Color error = Color(0xFFD53F36);
   static const Color veryPoor = Color(0xFFD53F36);

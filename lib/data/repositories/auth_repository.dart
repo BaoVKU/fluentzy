@@ -3,6 +3,7 @@ import 'package:fluentzy/data/services/auth_service.dart';
 
 class AuthRepository {
   final AuthService _authService;
+  User? get user => _authService.user;
   AuthRepository(this._authService);
   Future<String> registerByEmail({required email, required password}) async {
     try {
@@ -25,8 +26,13 @@ class AuthRepository {
     }
   }
 
-  void logout() async {
-    await _authService.logout();
+  Future<String> logout() async {
+    try {
+      await _authService.logout();
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
   }
 
   void setAuthStateListener(Function(User?) listener) {
