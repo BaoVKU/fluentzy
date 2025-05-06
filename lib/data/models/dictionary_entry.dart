@@ -15,9 +15,8 @@ class DictionaryEntry {
     return DictionaryEntry(
       word: json['word'] ?? '',
       phonetic: json['phonetic'] ?? '',
-      meanings: (json['meanings'] as List)
-          .map((e) => Meaning.fromJson(e))
-          .toList(),
+      meanings:
+          (json['meanings'] as List).map((e) => Meaning.fromJson(e)).toList(),
     );
   }
 }

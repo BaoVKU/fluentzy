@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mime/mime.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScannerOptionScreen extends StatelessWidget {
   const ScannerOptionScreen({super.key});
@@ -24,27 +24,31 @@ class ScannerOptionScreen extends StatelessWidget {
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         titleSpacing: 0.0,
-        title: const Text('Scan Options'),
+        title: Text(AppLocalizations.of(context)!.scanOptions),
       ),
       body: Builder(
         builder: (context) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (viewModel.image != null) {
-              final mimeType = lookupMimeType(viewModel.image!.path);
-              if (mimeType == 'image/jpeg') {
+          WidgetsBinding.instance.addPostFrameCallback((_) async {
+            if (viewModel.image != null && viewModel.imageMimeType != null) {
+              if (viewModel.imageMimeType == 'image/jpeg' ||
+                  viewModel.imageMimeType == 'image/png') {
                 context.go(RoutePath.scannerCrop, extra: viewModel.image);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Please select a JPEG image"),
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.pleaseSelectJpgPng,
+                    ),
                     duration: Duration(seconds: 2),
                   ),
                 );
               }
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Please select an image"),
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.pleaseSelectImage,
+                  ),
                   duration: Duration(seconds: 2),
                 ),
               );
@@ -77,8 +81,8 @@ class ScannerOptionScreen extends StatelessWidget {
                             width: 40,
                             height: 40,
                           ),
-                          const Text(
-                            "Choose Image",
+                          Text(
+                            AppLocalizations.of(context)!.chooseImage,
                             style: TextStyle(
                               fontSize: 20,
                               color: AppColors.imageOptionForeground,
@@ -112,8 +116,8 @@ class ScannerOptionScreen extends StatelessWidget {
                               width: 40,
                               height: 40,
                             ),
-                            const Text(
-                              "Using Camera",
+                            Text(
+                              AppLocalizations.of(context)!.usingCamera,
                               style: TextStyle(
                                 fontSize: 20,
                                 color: AppColors.cameraOptionForeground,

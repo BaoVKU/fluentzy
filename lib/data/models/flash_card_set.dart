@@ -7,6 +7,14 @@ class FlashCardSet {
 
   FlashCardSet({this.id = '', required this.name, required this.cards});
 
+  FlashCardSet copy() {
+    return FlashCardSet(
+      id: id,
+      name: name,
+      cards: cards.map((card) => card.copy()).toList(),
+    );
+  }
+
   factory FlashCardSet.fromJson(Map<String, dynamic> json) {
     return FlashCardSet(
       id: json['id'] ?? '',

@@ -15,6 +15,7 @@ class SttRepository {
     if (_isListening) return;
     _isListening = true;
     _listenedResult = "";
+
     await _sttService.startRecording(
       onSpeechResult: (result) {
         if (result.finalResult) {
@@ -29,6 +30,7 @@ class SttRepository {
   Future<void> stopRecording() async {
     if (!_isListening) return;
     _isListening = false;
+
     await _sttService.stopRecording();
   }
 }

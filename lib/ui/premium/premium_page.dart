@@ -1,5 +1,6 @@
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PremiumPage extends StatefulWidget {
   const PremiumPage({super.key});
@@ -23,7 +24,7 @@ class _PremiumPageState extends State<PremiumPage> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: const Text('Premium'),
+        title: Text(AppLocalizations.of(context)!.premium),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -35,13 +36,13 @@ class _PremiumPageState extends State<PremiumPage> {
                 child: Column(
                   children: [
                     Text(
-                      "More than 100.000 people have purchased Premium",
+                      AppLocalizations.of(context)!.premiumTitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 28),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      "14 days money back guarantee",
+                      AppLocalizations.of(context)!.moneyBackGuarantee,
                       style: TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 16),
@@ -72,14 +73,14 @@ class _PremiumPageState extends State<PremiumPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Base Plan",
+                                    AppLocalizations.of(context)!.basePlan,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    "0\$",
+                                    AppLocalizations.of(context)!.basePlanPrice,
                                     style: TextStyle(
                                       color: AppColors.primary,
                                       fontSize: 20,
@@ -87,7 +88,9 @@ class _PremiumPageState extends State<PremiumPage> {
                                     ),
                                   ),
                                   Text(
-                                    '• Access to daily practice with limited exercises\n• Basic vocabulary flashcards\n• Text-based conversation feature\n• Standard learning paths\n• Limited AI explanation support\n• Ads supported experience\n',
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.basePlanDescription,
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],
@@ -118,14 +121,16 @@ class _PremiumPageState extends State<PremiumPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Premium Plan",
+                                    AppLocalizations.of(context)!.premiumPlan,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   Text(
-                                    "20\$",
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.premiumPlanPrice,
                                     style: TextStyle(
                                       color: AppColors.primary,
                                       fontSize: 20,
@@ -133,7 +138,9 @@ class _PremiumPageState extends State<PremiumPage> {
                                     ),
                                   ),
                                   Text(
-                                    '• Unlimited access to all practice exercises and flashcards\n• AI-powered pronunciation feedback\n• Interactive conversation chat with advanced AI support\n• Personalized learning paths tailored to your progress\n• Offline mode for all content\n• Ad-free experience\n• Early access to new features and updates\n• Support for image-based translation and rich explanations',
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.premiumPlanDescription,
                                     style: TextStyle(fontSize: 12),
                                   ),
                                 ],
@@ -147,7 +154,7 @@ class _PremiumPageState extends State<PremiumPage> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        "Restore purchase",
+                        AppLocalizations.of(context)!.restorePurchase,
                         style: TextStyle(color: AppColors.primary),
                       ),
                     ),
@@ -166,7 +173,7 @@ class _PremiumPageState extends State<PremiumPage> {
                           ),
                         ),
                       ),
-                      child: Text("Try 7 days free"),
+                      child: Text(AppLocalizations.of(context)!.try7DaysFree),
                     ),
                   ],
                 ),

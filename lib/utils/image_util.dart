@@ -40,7 +40,10 @@ class ImageUtil {
     return await compressedFile.readAsBytes();
   }
 
-  static Future<Uint8List> compressImageWeb(XFile file, {int maxSizeMB = 4}) async {
+  static Future<Uint8List> compressImageWeb(
+    XFile file, {
+    int maxSizeMB = 4,
+  }) async {
     final bytes = await file.readAsBytes();
     final image = img.decodeImage(bytes);
 

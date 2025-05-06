@@ -5,6 +5,8 @@ class RoutePath {
   static const login = '${main}login';
   static const register = '${main}register';
 
+  static const language = '${main}language';
+
   static const home = '${main}home';
   static const premium = '${main}premium';
   static const chat = '${main}chat';
@@ -26,7 +28,7 @@ class RoutePath {
   static const scannerCamera = '$scanner/camera';
   static const scannerCrop = '$scanner/crop';
   static const scannerResult = '$scanner/result';
-  
+
   static const flashCard = '${main}flashcard';
   static const flashCardList = '$flashCard/list';
   static const flashCardCreate = '$flashCard/create';

@@ -35,7 +35,9 @@ class ScannerCameraScreen extends StatelessWidget {
               viewModel.toggleFlash();
             },
             icon: Icon(
-              viewModel.isFlashOn ? Icons.flash_on_rounded : Icons.flash_off_rounded,
+              viewModel.isFlashOn
+                  ? Icons.flash_on_rounded
+                  : Icons.flash_off_rounded,
               color: Colors.white,
             ),
           ),
@@ -71,7 +73,9 @@ class ScannerCameraScreen extends StatelessWidget {
                 ],
               );
             } else {
-              return Center(child: CircularProgressIndicator(color: AppColors.primary,));
+              return Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              );
             }
           },
         ),

@@ -30,5 +30,4 @@ class AuthService {
   void setAuthStateListener(Function(User?) listener) {
     _auth.authStateChanges().listen(listener);
   }
-  
 }

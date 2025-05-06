@@ -14,14 +14,12 @@ class AiResponseSchemas {
       ),
     },
     description: 'Response for pronunciation checking',
-    requiredProperties: ['rate', 'ipa','feedback'],
+    requiredProperties: ['rate', 'ipa', 'feedback'],
   );
 
   static final objectDetection = Schema.object(
     properties: {
-      'name': Schema.string(
-        description: 'Detected object name in English',
-      ),
+      'name': Schema.string(description: 'Detected object name in English'),
     },
     description: 'Response for object detection',
     requiredProperties: ['name'],

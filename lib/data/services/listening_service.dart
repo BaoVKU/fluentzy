@@ -6,6 +6,7 @@ class ListeningService {
 
   Future<List<ListeningLesson>> fetchLessons() async {
     final snapshot = await _db.collection('listen_lessons').get();
+
     return snapshot.docs.map((doc) {
       final data = doc.data();
       data['id'] = doc.id;
@@ -23,6 +24,7 @@ class ListeningService {
         return ListeningLesson.fromJson(data);
       }
     }
+
     return null;
   }
 }

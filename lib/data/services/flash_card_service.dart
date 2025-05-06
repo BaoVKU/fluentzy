@@ -6,6 +6,7 @@ class FlashCardService {
 
   Future<List<FlashCardSet>> fetchFlashCardSets() async {
     final snapshot = await _db.collection('flash_card_sets').get();
+
     return snapshot.docs.map((doc) {
       final data = doc.data();
       data['id'] = doc.id;
@@ -23,20 +24,26 @@ class FlashCardService {
         return FlashCardSet.fromJson(data);
       }
     }
+
     return null;
   }
 
   Future<String> createFlashCardSet(FlashCardSet cardSet) async {
-    final docRef = await _db.collection('flash_card_sets').add(cardSet.toJson());
+    final docRef = await _db
+        .collection('flash_card_sets')
+        .add(cardSet.toJson());
     return docRef.id;
   }
 
   Future<String> updateFlashCardSet(FlashCardSet cardSet) async {
-    await _db.collection('flash_card_sets').doc(cardSet.id).set(cardSet.toJson());
+    await _db
+        .collection('flash_card_sets')
+        .doc(cardSet.id)
+        .set(cardSet.toJson());
     return cardSet.id;
   }
 
   Future<void> deleteFlashCardSet(String id) async {
-      await _db.collection('flash_card_sets').doc(id).delete();
+    await _db.collection('flash_card_sets').doc(id).delete();
   }
 }

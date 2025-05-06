@@ -11,7 +11,7 @@ class CameraViewModel extends ChangeNotifier {
   XFile? get image => _image;
   bool get isFlashOn => _cameraService.isFlashOn;
 
-  CameraViewModel(this._cameraService){
+  CameraViewModel(this._cameraService) {
     initCamera();
   }
 
@@ -22,7 +22,9 @@ class CameraViewModel extends ChangeNotifier {
 
   Future<void> takePicture() async {
     _image = await _cameraService.takePicture();
-    Logger.error("Image path: ${_image!.path} - ${(await _image!.length()) / 1024 / 1024} MB");
+    Logger.error(
+      "Image path: ${_image!.path} - ${(await _image!.length()) / 1024 / 1024} MB",
+    );
     notifyListeners();
   }
 

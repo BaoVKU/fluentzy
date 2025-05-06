@@ -7,7 +7,7 @@ class ListeningLessonViewModel extends ChangeNotifier {
   final LessonRepository _lessonRepository;
   List<ListeningLesson> _lessons = [];
   List<ListeningLesson> get lessons => _lessons;
-  ListeningLessonViewModel(this._lessonRepository){
+  ListeningLessonViewModel(this._lessonRepository) {
     _fetchLessons();
   }
 

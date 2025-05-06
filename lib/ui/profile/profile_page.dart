@@ -4,6 +4,7 @@ import 'package:fluentzy/ui/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -20,7 +21,7 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: const Text('Profile'),
+        title: Text(AppLocalizations.of(context)!.profile),
       ),
       body: SafeArea(
         child: Padding(
@@ -35,14 +36,14 @@ class ProfilePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "About me",
+                      AppLocalizations.of(context)!.aboutMe,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     Text(
-                      "Write a little about yourself",
+                      AppLocalizations.of(context)!.writeAboutYourself,
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -59,7 +60,8 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      viewModel.user?.email ?? "No email",
+                      viewModel.user?.email ??
+                          AppLocalizations.of(context)!.noEmail,
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -69,13 +71,16 @@ class ProfilePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "I speak",
+                      AppLocalizations.of(context)!.iSpeak,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text("Vietnamese", style: TextStyle(fontSize: 14)),
+                    Text(
+                      AppLocalizations.of(context)!.vietnamese,
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ],
                 ),
                 Divider(color: AppColors.border, thickness: 1),
@@ -83,41 +88,56 @@ class ProfilePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Plan of education",
+                      AppLocalizations.of(context)!.planOfEducation,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text("Free", style: TextStyle(fontSize: 14)),
+                    Text(
+                      AppLocalizations.of(context)!.free,
+                      style: TextStyle(fontSize: 14),
+                    ),
                   ],
+                ),
+                Divider(color: AppColors.border, thickness: 1),
+                GestureDetector(
+                  onTap: () {
+                    context.go(RoutePath.language);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.interfaceLanguage,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        viewModel.currentLanguageName ??
+                            AppLocalizations.of(context)!.english,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
                 ),
                 Divider(color: AppColors.border, thickness: 1),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Interface language",
+                      AppLocalizations.of(context)!.support,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Text("English", style: TextStyle(fontSize: 14)),
-                  ],
-                ),
-                Divider(color: AppColors.border, thickness: 1),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
                     Text(
-                      "Support",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      AppLocalizations.of(context)!.contactUs,
+                      style: TextStyle(fontSize: 14),
                     ),
-                    Text("Contact us", style: TextStyle(fontSize: 14)),
                   ],
                 ),
                 Divider(color: AppColors.border, thickness: 1),
@@ -128,8 +148,12 @@ class ProfilePage extends StatelessWidget {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           backgroundColor: AppColors.surface,
-                          title: Text("Confirm Logout"),
-                          content: Text("Are you sure you want to log out?"),
+                          title: Text(
+                            AppLocalizations.of(context)!.confirmLogout,
+                          ),
+                          content: Text(
+                            AppLocalizations.of(context)!.areYouSureLogout,
+                          ),
                           actions: [
                             TextButton(
                               style: TextButton.styleFrom(
@@ -138,7 +162,7 @@ class ProfilePage extends StatelessWidget {
                               onPressed: () {
                                 context.pop(); // Close the dialog
                               },
-                              child: Text("Cancel"),
+                              child: Text(AppLocalizations.of(context)!.cancel),
                             ),
                             TextButton(
                               style: TextButton.styleFrom(
@@ -147,9 +171,10 @@ class ProfilePage extends StatelessWidget {
                               ),
                               onPressed: () async {
                                 context.pop(); // Close the dialog
-                                await viewModel.logout(); // Call the logout method
+                                await viewModel
+                                    .logout(); // Call the logout method
                               },
-                              child: Text("Log Out"),
+                              child: Text(AppLocalizations.of(context)!.logout),
                             ),
                           ],
                         );
@@ -157,7 +182,7 @@ class ProfilePage extends StatelessWidget {
                     );
                   },
                   child: Text(
-                    "Log out",
+                    AppLocalizations.of(context)!.logout,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

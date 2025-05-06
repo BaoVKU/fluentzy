@@ -4,6 +4,7 @@ import 'package:fluentzy/data/enums/home_feature.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -24,7 +25,7 @@ class HomePage extends StatelessWidget {
           backgroundColor: AppColors.background,
           appBar: AppBar(
             backgroundColor: AppColors.background,
-            title: const Text('Home'),
+            title: Text(AppLocalizations.of(context)!.home),
           ),
           body: SafeArea(
             child: Padding(
@@ -69,7 +70,10 @@ class HomePage extends StatelessWidget {
                               Expanded(
                                 flex: 1,
                                 child: Text(
-                                  feature.name,
+                                  HomeFeature.getLocalizedName(
+                                    context,
+                                    feature,
+                                  ),
                                   style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,

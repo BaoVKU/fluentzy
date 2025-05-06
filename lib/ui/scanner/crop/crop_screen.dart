@@ -35,7 +35,10 @@ class ScannerCropScreen extends StatelessWidget {
                 child: Builder(
                   builder: (context) {
                     if (kIsWeb) {
-                      return Image.network(viewModel.image.path, fit: BoxFit.cover);
+                      return Image.network(
+                        viewModel.image.path,
+                        fit: BoxFit.cover,
+                      );
                     } else {
                       return Image.file(
                         File(viewModel.image.path),

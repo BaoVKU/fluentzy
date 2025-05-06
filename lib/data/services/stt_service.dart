@@ -8,10 +8,10 @@ class SttService {
   bool get isListening => _isListening;
 
   SttService() {
-    initSpeech();
+    _initSpeech();
   }
 
-  Future<void> initSpeech() async {
+  Future<void> _initSpeech() async {
     await _speechToText.initialize(
       onStatus: (status) => Logger.error("STT status: $status"),
       onError: (error) => Logger.error("STT error: $error"),

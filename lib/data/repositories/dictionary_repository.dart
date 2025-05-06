@@ -7,14 +7,17 @@ class DictionaryRepository {
 
   Future<DictionaryEntry?> getDefinition(String word) async {
     final List<DictionaryEntry> entries;
+    
     try {
       entries = await _dictionaryService.fetchWord(word);
     } catch (e) {
       return null;
     }
+
     if (entries.isEmpty) {
       return null;
     }
+
     return entries.first;
   }
 }

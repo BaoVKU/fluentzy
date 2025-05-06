@@ -2,7 +2,11 @@ class SpeakingResponse {
   final String feedback;
   final int rate;
   final String ipa;
-  SpeakingResponse({required this.feedback, required this.rate, required this.ipa});
+  SpeakingResponse({
+    required this.feedback,
+    required this.rate,
+    required this.ipa,
+  });
 
   factory SpeakingResponse.fromJson(Map<String, dynamic> json) {
     return SpeakingResponse(

@@ -1,5 +1,6 @@
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -7,15 +8,13 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: const Text('Chat'),
+        title: Text(AppLocalizations.of(context)!.chat),
       ),
       body: Center(
-        child: Text(
-          'This feature is not available yet',
-        ),
+        child: Text(AppLocalizations.of(context)!.featureNotAvailableYet),
       ),
     );
   }

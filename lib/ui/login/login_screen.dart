@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -36,12 +37,12 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       });
     }
-    
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
+        child: Center(
+          child: SingleChildScrollView(
             child: SizedBox(
               width: 480,
               child: Column(
@@ -51,7 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SvgPicture.asset('assets/logo.svg', width: 48, height: 48),
+                      SvgPicture.asset(
+                        'assets/logo.svg',
+                        width: 48,
+                        height: 48,
+                      ),
                       SizedBox(width: 8),
                       Text(
                         "Fluentzy",
@@ -65,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Column(
                     children: [
                       Text(
-                        "Log in and continue your learning",
+                        AppLocalizations.of(context)!.loginAndContinue,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w500,
@@ -95,7 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             SizedBox(height: 16),
-                            Text("Password", style: TextStyle(fontSize: 12)),
+                            Text(
+                              AppLocalizations.of(context)!.password,
+                              style: TextStyle(fontSize: 12),
+                            ),
                             TextField(
                               controller: _passwordController,
                               obscureText: true,
@@ -103,7 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                hintText: "Enter your password",
+                                hintText:
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.enterYourPassword,
                                 focusedBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: AppColors.primary,
@@ -133,24 +144,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                              child: Text("Continue"),
+                              child: Text(
+                                AppLocalizations.of(context)!.continueStr,
+                              ),
                             ),
                             SizedBox(height: 8),
                             Row(
                               children: [
-                                Expanded(child: Divider(color: AppColors.border)),
+                                Expanded(
+                                  child: Divider(color: AppColors.border),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 8.0,
                                   ),
-                                  child: Text("or"),
+                                  child: Text(AppLocalizations.of(context)!.or),
                                 ),
-                                Expanded(child: Divider(color: AppColors.border)),
+                                Expanded(
+                                  child: Divider(color: AppColors.border),
+                                ),
                               ],
                             ),
                             SizedBox(height: 8),
                             Text(
-                              "By joining, I declare that I have read and accent the Terms and Privacy Policy",
+                              AppLocalizations.of(context)!.privacyPolicy,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: AppColors.secondary),
                             ),
@@ -158,13 +175,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("Don't have an account yet?"),
+                                Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.dontHaveAccountYet,
+                                ),
                                 TextButton(
                                   onPressed: () {
                                     context.go(RoutePath.register);
                                   },
                                   child: Text(
-                                    "Sign up",
+                                    AppLocalizations.of(context)!.signUp,
                                     style: TextStyle(color: AppColors.primary),
                                   ),
                                 ),

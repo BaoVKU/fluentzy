@@ -6,8 +6,8 @@ class FlashCardListViewModel extends ChangeNotifier {
   FlashCardRepository _flashCardRepository;
   List<FlashCardSet> _flashCardSets = [];
   List<FlashCardSet> get flashCardSets => _flashCardSets;
-  
-  FlashCardListViewModel(this._flashCardRepository){
+
+  FlashCardListViewModel(this._flashCardRepository) {
     _fetchFlashCardSets();
   }
 

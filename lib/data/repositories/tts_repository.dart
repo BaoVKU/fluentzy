@@ -4,7 +4,7 @@ class TtsRepository {
   final TtsService _ttsService;
   bool _isSpeaking = false;
   bool get isSpeaking => _isSpeaking;
-  
+
   TtsRepository(this._ttsService) {
     _ttsService.setOnSpeakFinished(() {
       _isSpeaking = false;

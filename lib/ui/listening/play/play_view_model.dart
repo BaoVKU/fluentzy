@@ -16,16 +16,15 @@ class PlayViewModel extends ChangeNotifier {
   bool _isDualLanguageEnabled = false;
   bool get isDualLanguageEnabled => _isDualLanguageEnabled;
 
-  PlayViewModel(this._lessonRepository,this._audioService, this._lessonId){
+  PlayViewModel(this._lessonRepository, this._audioService, this._lessonId) {
     _initAudioPlayer();
   }
 
-Future<void> _initAudioPlayer() async {
+  Future<void> _initAudioPlayer() async {
     await _fetchLessonById(id: _lessonId);
     if (_lesson == null) return;
     await _audioService.audioPlayer.setUrl(_lesson!.url);
   }
-
 
   Future<void> _fetchLessonById({required id}) async {
     if (_lesson != null) return;

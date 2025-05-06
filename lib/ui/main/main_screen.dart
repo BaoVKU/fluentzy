@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
                   indicatorColor: AppColors.surfacePrimary,
                   extended: isLargeScreen,
                   destinations:
-                      NavigationDestinations.list
+                      NavigationDestinations.getList(context)
                           .map(
                             (dest) => NavigationRailDestination(
                               icon: dest.icon,
@@ -64,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
                     onDestinationSelected: (int index) {
                       context.go(NavigationDestinations.paths[index]);
                     },
-                    destinations: NavigationDestinations.list,
+                    destinations: NavigationDestinations.getList(context),
                   )
                   : null,
         );

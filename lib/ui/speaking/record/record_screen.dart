@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SpeakingRecordScreen extends StatefulWidget {
   const SpeakingRecordScreen({super.key});
@@ -34,7 +35,7 @@ class _SpeakingRecordScreenState extends State<SpeakingRecordScreen> {
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         backgroundColor: AppColors.background,
-        title: const Text('Speaking'),
+        title: Text(AppLocalizations.of(context)!.speaking),
         titleSpacing: 0.0,
       ),
       body: SafeArea(
@@ -49,7 +50,7 @@ class _SpeakingRecordScreenState extends State<SpeakingRecordScreen> {
                   Text(
                     viewModel.lesson?.sentences[(viewModel.lesson!.lastDone +
                             1)] ??
-                        "Cannot find lesson",
+                        AppLocalizations.of(context)!.cannotFindLesson,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   ),
@@ -90,8 +91,8 @@ class _SpeakingRecordScreenState extends State<SpeakingRecordScreen> {
                   if (viewModel.hasFinalResult &&
                       viewModel.listenedResult.isEmpty &&
                       !viewModel.isListening)
-                    const Text(
-                      "I can't hear you, say it again",
+                    Text(
+                      AppLocalizations.of(context)!.sayItAgain,
                       style: TextStyle(fontSize: 16, color: AppColors.error),
                     ),
                 ],

@@ -9,6 +9,14 @@ class FlashCard {
     this.isLearned = false,
   });
 
+  FlashCard copy() {
+    return FlashCard(
+      word: word,
+      description: description,
+      isLearned: isLearned,
+    );
+  }
+
   factory FlashCard.fromJson(Map<String, dynamic> json) {
     return FlashCard(
       word: json['word'] ?? '',

@@ -6,7 +6,6 @@ import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
 import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:vibration/vibration.dart';
 
 class SpeakingResultViewModel extends ChangeNotifier {
   final TtsRepository _ttsRepository;
@@ -73,11 +72,5 @@ class SpeakingResultViewModel extends ChangeNotifier {
     );
     onLastDoneUpdated();
     notifyListeners();
-  }
-
-  void vibrate() async {
-    if (await Vibration.hasVibrator()) {
-      Vibration.vibrate();
-    }
   }
 }

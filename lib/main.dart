@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluentzy/data/enums/support_language.dart';
 import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/dictionary_repository.dart';
@@ -19,8 +20,11 @@ import 'package:fluentzy/data/services/stt_service.dart';
 import 'package:fluentzy/data/services/tts_service.dart';
 import 'package:fluentzy/firebase_options.dart';
 import 'package:fluentzy/routing/router.dart';
+import 'package:fluentzy/ui/language/language_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +32,7 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (context) => LanguageViewModel()),
         Provider(create: (context) => TtsService()),
         Provider(create: (context) => SttService()),
         Provider(create: (context) => AiService()),
@@ -62,7 +67,9 @@ void main() async {
                   DictionaryRepository(context.read<DictionaryService>()),
         ),
         Provider(
-          create: (context) => FlashCardRepository(context.read<FlashCardService>()),
+          create:
+              (context) =>
+                  FlashCardRepository(context.read<FlashCardService>()),
         ),
       ],
       child: const MainApp(),
@@ -75,9 +82,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<LanguageViewModel>().locale;
     return MaterialApp.router(
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
+      locale: locale,
+      supportedLocales:
+          SupportLanguage.values
+              .map((lang) => lang.languageCode.locale)
+              .toList(),
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
     );
   }
 }

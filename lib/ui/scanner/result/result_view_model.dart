@@ -7,7 +7,6 @@ import 'package:fluentzy/data/repositories/tts_repository.dart';
 import 'package:fluentzy/utils/image_util.dart';
 import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 class ScannerResultViewModel extends ChangeNotifier {
   final AiRepository _aiRepository;

@@ -7,6 +7,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlashCardListScreen extends StatelessWidget {
   const FlashCardListScreen({super.key});
@@ -38,7 +39,7 @@ class FlashCardListScreen extends StatelessWidget {
               icon: SvgPicture.asset("assets/back.svg"),
             ),
             titleSpacing: 0.0,
-            title: const Text('Sets'),
+            title: Text(AppLocalizations.of(context)!.sets),
             actions: [
               IconButton(
                 onPressed: () => {context.go(RoutePath.flashCardCreate)},
@@ -50,9 +51,9 @@ class FlashCardListScreen extends StatelessWidget {
             child: Builder(
               builder: (context) {
                 if (viewModel.flashCardSets.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
-                      'No flash card sets available',
+                      AppLocalizations.of(context)!.noFlashCardSetsAvailable,
                       style: TextStyle(fontSize: 16),
                     ),
                   );
@@ -176,7 +177,7 @@ class FlashCardListScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                   Text(
-                                    "${viewModel.getTotalCards(index)- viewModel.getLearnedCards(index)}",
+                                    "${viewModel.getTotalCards(index) - viewModel.getLearnedCards(index)}",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,

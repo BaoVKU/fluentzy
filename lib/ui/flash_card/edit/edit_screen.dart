@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlashCardEditScreen extends StatefulWidget {
   const FlashCardEditScreen({super.key});
@@ -43,7 +44,7 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
     if (wordControllers.length <= 1) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('At least one card is required.'),
+          content: Text(AppLocalizations.of(context)!.atLeastOneCardRequired),
           backgroundColor: AppColors.error,
         ),
       );
@@ -69,7 +70,7 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
         setNameController.text = name; // Set the initial value
 
         return AlertDialog(
-          title: const Text('Set Name'),
+          title: Text(AppLocalizations.of(context)!.setName),
           titleTextStyle: TextStyle(color: AppColors.onSecondary, fontSize: 20),
           content: TextField(
             controller: setNameController,
@@ -87,8 +88,8 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text(
-                'Cancel',
+              child: Text(
+                AppLocalizations.of(context)!.cancel,
                 style: TextStyle(color: AppColors.onSecondary),
               ),
             ),
@@ -98,7 +99,9 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
                 if (setName.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: const Text('Set name cannot be empty.'),
+                      content: Text(
+                        AppLocalizations.of(context)!.setNameCannotBeEmpty,
+                      ),
                       backgroundColor: AppColors.error,
                     ),
                   );
@@ -107,8 +110,8 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
                 onSaved(setName); // Call the function passed from the parent
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text(
-                'Save',
+              child: Text(
+                AppLocalizations.of(context)!.save,
                 style: TextStyle(color: AppColors.primary),
               ),
             ),
@@ -137,7 +140,9 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
       if (viewModel.isOperationSuccessful) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Flash card set saved successfully!'),
+            content: Text(
+              AppLocalizations.of(context)!.flashCardSetSavedSuccessfully,
+            ),
             backgroundColor: AppColors.success,
           ),
         );
@@ -154,14 +159,16 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         titleSpacing: 0.0,
-        title: const Text('Flash Card Edit'),
+        title: Text(AppLocalizations.of(context)!.flashCardEdit),
         actions: [
           IconButton(
             onPressed: () {
               if (wordControllers[0].text.trim().isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Please add at least one card.'),
+                    content: Text(
+                      AppLocalizations.of(context)!.pleaseAddAtLeastOneCard,
+                    ),
                     backgroundColor: AppColors.error,
                   ),
                 );
@@ -212,7 +219,9 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                'Please fill the word before adding a new card.',
+                                AppLocalizations.of(
+                                  context,
+                                )!.pleaseFillWordBeforeAdding,
                               ),
                               backgroundColor: AppColors.error,
                             ),
@@ -256,7 +265,7 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${index + 1}',
+                                  (++index).toString(),
                                   style: TextStyle(
                                     color: AppColors.onSecondary,
                                     fontSize: 18,

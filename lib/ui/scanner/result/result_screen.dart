@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ScannerResultScreen extends StatelessWidget {
   const ScannerResultScreen({super.key});
@@ -21,7 +22,7 @@ class ScannerResultScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: const Text('Result'),
+        title: Text(AppLocalizations.of(context)!.result),
         leading: IconButton(
           onPressed: () => {context.go(RoutePath.scannerOptions)},
           icon: SvgPicture.asset("assets/back.svg"),
@@ -118,13 +119,21 @@ class ScannerResultScreen extends StatelessWidget {
                                   j++
                                 ) ...[
                                   Text(
-                                    "Defination: ${meanings[i].definitions[j].definition}",
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.dictionaryWordDefinition(
+                                      meanings[i].definitions[j].definition,
+                                    ),
                                   ),
                                   if (meanings[i].definitions[j].example !=
                                       null) ...[
                                     SizedBox(height: 4.0),
                                     Text(
-                                      "Sample: ${meanings[i].definitions[j].example}",
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.dictionaryWordSample(
+                                        meanings[i].definitions[j].example!,
+                                      ),
                                       style: TextStyle(
                                         fontStyle: FontStyle.italic,
                                         color: AppColors.onSecondary,
@@ -140,7 +149,7 @@ class ScannerResultScreen extends StatelessWidget {
                       case Error():
                         {
                           return Text(
-                            "Error occurred while detecting object.",
+                            AppLocalizations.of(context)!.objectDetectionError,
                             style: TextStyle(color: AppColors.error),
                           );
                         }

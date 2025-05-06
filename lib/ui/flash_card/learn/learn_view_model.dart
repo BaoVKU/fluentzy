@@ -1,6 +1,5 @@
 import 'package:fluentzy/data/models/flash_card_set.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
-import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
 
 class FlashCardLearnViewModel extends ChangeNotifier {
@@ -14,15 +13,13 @@ class FlashCardLearnViewModel extends ChangeNotifier {
   bool get isCardFlipped => _isCardFlipped;
 
   FlashCardLearnViewModel(this._flashCardRepository, this._flashCardSet) {
-    _oldFlashCardSet = _flashCardSet;
+    _oldFlashCardSet = _flashCardSet?.copy();
   }
 
   void nextCard() {
     if (_flashCardSet != null) {
       if (_currentIndex < _flashCardSet!.cards.length - 1) {
         _currentIndex++;
-        Logger.error("${_flashCardSet!.toJson()}");
-        Logger.error("${_flashCardSet == _oldFlashCardSet}");
         notifyListeners();
       }
     }
@@ -60,7 +57,7 @@ class FlashCardLearnViewModel extends ChangeNotifier {
   }
 
   Future<void> saveFlashCardSet() async {
-    if (_checkIfCardSetChanged()) {
+    if (!_checkIfCardSetChanged()) {
       return;
     }
     if (_flashCardSet != null) {

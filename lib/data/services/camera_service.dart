@@ -10,15 +10,18 @@ class CameraService {
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
+
     if (cameras.isEmpty) {
       throw Exception("No cameras found on this device.");
     }
+
     final firstCamera = cameras.first;
     _controller = CameraController(
       firstCamera,
       ResolutionPreset.medium,
       enableAudio: false,
     );
+
     await _controller.initialize();
     _isInitialized = true;
   }
@@ -37,15 +40,17 @@ class CameraService {
     if (!_isInitialized) {
       throw Exception("Camera is not initialized.");
     }
+
     if (!_isFlashOn) {
       await _controller.setFlashMode(FlashMode.torch);
     } else {
       await _controller.setFlashMode(FlashMode.off);
     }
+
     _isFlashOn = !_isFlashOn;
   }
 
-  Future<void> dispose() async{
+  Future<void> dispose() async {
     if (_isInitialized) {
       await _controller.dispose();
       _isInitialized = false;

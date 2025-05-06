@@ -19,6 +19,7 @@ import 'package:fluentzy/ui/flash_card/learn/learn_view_model.dart';
 import 'package:fluentzy/ui/flash_card/list/list_screen.dart';
 import 'package:fluentzy/ui/flash_card/list/list_view_model.dart';
 import 'package:fluentzy/ui/home/home_page.dart';
+import 'package:fluentzy/ui/language/language_screen.dart';
 import 'package:fluentzy/ui/listening/lesson/lesson_screen.dart';
 import 'package:fluentzy/ui/listening/play/play_screen.dart';
 import 'package:fluentzy/ui/listening/play/play_view_model.dart';
@@ -76,9 +77,13 @@ class AppRouter {
           ),
           GoRoute(
             path: RoutePath.profile,
-            builder: (context, state) => ChangeNotifierProvider(create: (context) => ProfileViewModel(context.read<AuthRepository>()),
-              child: const ProfilePage(),
-            ),
+            builder:
+                (context, state) => ChangeNotifierProvider(
+                  create:
+                      (context) =>
+                          ProfileViewModel(context.read<AuthRepository>()),
+                  child: const ProfilePage(),
+                ),
           ),
         ],
       ),
@@ -100,6 +105,10 @@ class AppRouter {
                       RegisterViewModel(context.read<AuthRepository>()),
               child: RegisterScreen(),
             ),
+      ),
+      GoRoute(
+        path: RoutePath.language,
+        builder: (context, state) => LanguageScreen(),
       ),
       GoRoute(
         path: RoutePath.speakingRecordWithId,

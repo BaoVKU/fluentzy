@@ -4,11 +4,13 @@ import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/speaking/result/result_view_model.dart';
 import 'package:fluentzy/utils/color_util.dart';
+import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SpeakingResultScreen extends StatefulWidget {
   const SpeakingResultScreen({super.key});
@@ -32,7 +34,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         backgroundColor: AppColors.background,
-        title: const Text('Result'),
+        title: Text(AppLocalizations.of(context)!.result),
         titleSpacing: 0.0,
         actions: [
           IconButton(
@@ -70,15 +72,16 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
                       );
                     case Success():
                       {
-                        viewModel.vibrate();
+                        Logger.error("Vibrating...2");
                         final response =
                             (viewModel.responseState as Success).data;
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          setState(() {
-                            _speakingResponse = response;
-                            
+                        if (_speakingResponse == null) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            setState(() {
+                              _speakingResponse = response;
+                            });
                           });
-                        });
+                        }
                         return Text(
                           "${_speakingResponse?.rate}%",
                           style: TextStyle(

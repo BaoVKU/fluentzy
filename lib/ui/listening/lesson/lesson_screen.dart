@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ListeningLessonScreen extends StatelessWidget {
   const ListeningLessonScreen({super.key});
@@ -38,7 +39,7 @@ class ListeningLessonScreen extends StatelessWidget {
               icon: SvgPicture.asset("assets/back.svg"),
             ),
             titleSpacing: 0.0,
-            title: const Text('Lessons'),
+            title: Text(AppLocalizations.of(context)!.lessons),
           ),
           body: SafeArea(
             child: GridView.builder(

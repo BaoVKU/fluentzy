@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlashCardLearnScreen extends StatelessWidget {
   const FlashCardLearnScreen({super.key});
@@ -33,7 +34,7 @@ class FlashCardLearnScreen extends StatelessWidget {
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         titleSpacing: 0.0,
-        title: const Text('Flash Card Learn'),
+        title: Text(viewModel.flashCardSet?.name ?? ""),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -157,7 +158,11 @@ class FlashCardLearnScreen extends StatelessWidget {
                               if (viewModel.currentIndex == 0) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("No more cards to undo"),
+                                    content: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.noMoreCardsToUndo,
+                                    ),
                                     duration: Duration(seconds: 2),
                                   ),
                                 );
@@ -176,15 +181,6 @@ class FlashCardLearnScreen extends StatelessWidget {
                             onPressed: () {
                               viewModel.setCardLearned(true);
                               viewModel.nextCard();
-                              if (viewModel.currentIndex ==
-                                  viewModel.getTotalCards() - 1) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("No more cards to learn"),
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              }
                             },
                             iconSize: 32,
                             icon: Icon(Icons.check_rounded),

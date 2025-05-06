@@ -2,10 +2,7 @@ class Definition {
   final String definition;
   final String? example;
 
-  Definition({
-    required this.definition,
-    this.example,
-  });
+  Definition({required this.definition, this.example});
 
   factory Definition.fromJson(Map<String, dynamic> json) {
     return Definition(

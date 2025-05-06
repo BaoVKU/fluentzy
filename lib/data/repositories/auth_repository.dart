@@ -7,10 +7,7 @@ class AuthRepository {
   AuthRepository(this._authService);
   Future<String> registerByEmail({required email, required password}) async {
     try {
-      await _authService.registerByEmail(
-        email: email,
-        password: password,
-      );
+      await _authService.registerByEmail(email: email, password: password);
       return "success";
     } on FirebaseAuthException catch (e) {
       return e.code;

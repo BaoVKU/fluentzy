@@ -15,10 +15,8 @@ class FlashCardRepository {
 
   Future<String> saveFlashCardSet(FlashCardSet cardSet) async {
     if (cardSet.id.isEmpty) {
-      // Create new set
       return await _flashCardService.createFlashCardSet(cardSet);
     } else {
-      // Update existing set
       return await _flashCardService.updateFlashCardSet(cardSet);
     }
   }

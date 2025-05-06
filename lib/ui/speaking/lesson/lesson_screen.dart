@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SpeakingLessonScreen extends StatelessWidget {
   const SpeakingLessonScreen({super.key});
@@ -36,7 +37,7 @@ class SpeakingLessonScreen extends StatelessWidget {
               onPressed: () => {context.go(RoutePath.home)},
               icon: SvgPicture.asset("assets/back.svg"),
             ),
-            title: const Text('Lessons'),
+            title: Text(AppLocalizations.of(context)!.lessons),
             titleSpacing: 0.0,
           ),
           body: SafeArea(
@@ -57,8 +58,10 @@ class SpeakingLessonScreen extends StatelessWidget {
                             viewModel.lessons[index].sentences.length - 1)
                           {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("You have completed this lesson"),
+                              SnackBar(
+                                content: Text(
+                                  AppLocalizations.of(context)!.lessonCompleted,
+                                ),
                               ),
                             ),
                           }

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:language_code/language_code.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayScreen extends StatefulWidget {
   const PlayScreen({super.key});
@@ -34,7 +35,7 @@ class _PlayScreenState extends State<PlayScreen> {
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         backgroundColor: AppColors.background,
-        title: const Text('Listening'),
+        title: Text(AppLocalizations.of(context)!.listening),
         titleSpacing: 0.0,
         actions: [
           IconButton(
@@ -71,249 +72,272 @@ class _PlayScreenState extends State<PlayScreen> {
                 child: CircularProgressIndicator(color: AppColors.primary),
               );
             }
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    viewModel.lesson!.name,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  StreamBuilder<PlayerState>(
-                    stream: viewModel.audioPlayer.playerStateStream,
-                    builder: (context, snapshot) {
-                      final state = snapshot.data;
-                      final isPlaying = state?.playing ?? false;
-
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.replay_5, size: 36),
-                            onPressed: () async {
-                              final current = viewModel.audioPlayer.position;
-                              viewModel.audioPlayer.seek(
-                                current - const Duration(seconds: 5),
-                              );
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              isPlaying ? Icons.pause : Icons.play_arrow,
-                              size: 64,
-                            ),
-                            onPressed: () {
-                              isPlaying
-                                  ? viewModel.audioPlayer.pause()
-                                  : viewModel.audioPlayer.play();
-                            },
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.forward_5, size: 36),
-                            onPressed: () async {
-                              final current = viewModel.audioPlayer.position;
-                              viewModel.audioPlayer.seek(
-                                current + const Duration(seconds: 5),
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  /// Position Slider with time indicators
-                  StreamBuilder<Duration>(
-                    stream: viewModel.audioPlayer.positionStream,
-                    builder: (context, snapshot) {
-                      final position = snapshot.data ?? Duration.zero;
-                      final total =
-                          viewModel.audioPlayer.duration ??
-                          Duration(seconds: 1);
-
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0,
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  formatDuration(position.inSeconds),
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  formatDuration(total.inSeconds),
-                                  style: const TextStyle(color: Colors.black),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Slider(
-                            activeColor: AppColors.primary,
-                            inactiveColor: AppColors.surfacePrimary,
-                            value:
-                                position.inSeconds
-                                    .clamp(0, total.inSeconds)
-                                    .toDouble(),
-                            max: total.inSeconds.toDouble(),
-                            onChanged: (value) {
-                              viewModel.audioPlayer.seek(
-                                Duration(seconds: value.toInt()),
-                              );
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  /// Volume Control
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            return Center(
+              child: SizedBox(
+                width: 800,
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          "Volume",
-                          style: TextStyle(color: Colors.black),
+                      Text(
+                        viewModel.lesson!.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      StreamBuilder<double>(
-                        stream: viewModel.audioPlayer.volumeStream,
+                      const SizedBox(height: 16),
+                      StreamBuilder<PlayerState>(
+                        stream: viewModel.audioPlayer.playerStateStream,
                         builder: (context, snapshot) {
-                          final volume = snapshot.data ?? 1.0;
-                          return Slider(
-                            activeColor: AppColors.primary,
-                            inactiveColor: AppColors.surfacePrimary,
-                            value: volume,
-                            min: 0,
-                            max: 1,
-                            divisions: 10,
-                            onChanged:
-                                (value) =>
-                                    viewModel.audioPlayer.setVolume(value),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                          final state = snapshot.data;
+                          final isPlaying = state?.playing ?? false;
 
-                  const SizedBox(height: 16),
-
-                  /// Speed Control
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          "Speed",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                      StreamBuilder<double>(
-                        stream: viewModel.audioPlayer.speedStream,
-                        builder: (context, snapshot) {
-                          final speed = snapshot.data ?? 1.0;
-                          return Slider(
-                            activeColor: AppColors.primary,
-                            inactiveColor: AppColors.surfacePrimary,
-                            value: speed,
-                            min: 0.5,
-                            max: 2.0,
-                            divisions: 6,
-                            label: "${speed.toStringAsFixed(1)}x",
-                            onChanged:
-                                (value) =>
-                                    viewModel.audioPlayer.setSpeed(value),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  if (viewModel.isTranscriptEnabled)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 16),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Row(
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Expanded(child: Divider()),
+                              IconButton(
+                                icon: const Icon(Icons.replay_5, size: 36),
+                                onPressed: () async {
+                                  final current =
+                                      viewModel.audioPlayer.position;
+                                  viewModel.audioPlayer.seek(
+                                    current - const Duration(seconds: 5),
+                                  );
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  isPlaying ? Icons.pause : Icons.play_arrow,
+                                  size: 64,
+                                ),
+                                onPressed: () {
+                                  isPlaying
+                                      ? viewModel.audioPlayer.pause()
+                                      : viewModel.audioPlayer.play();
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.forward_5, size: 36),
+                                onPressed: () async {
+                                  final current =
+                                      viewModel.audioPlayer.position;
+                                  viewModel.audioPlayer.seek(
+                                    current + const Duration(seconds: 5),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      /// Position Slider with time indicators
+                      StreamBuilder<Duration>(
+                        stream: viewModel.audioPlayer.positionStream,
+                        builder: (context, snapshot) {
+                          final position = snapshot.data ?? Duration.zero;
+                          final total =
+                              viewModel.audioPlayer.duration ??
+                              Duration(seconds: 1);
+
+                          return Column(
+                            children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8.0,
                                 ),
-                                child: Text(
-                                  "Transcript",
-                                  style: TextStyle(
-                                    color: AppColors.onSecondary,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      formatDuration(position.inSeconds),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      formatDuration(total.inSeconds),
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Expanded(child: Divider()),
+                              Slider(
+                                activeColor: AppColors.primary,
+                                inactiveColor: AppColors.surfacePrimary,
+                                value:
+                                    position.inSeconds
+                                        .clamp(0, total.inSeconds)
+                                        .toDouble(),
+                                max: total.inSeconds.toDouble(),
+                                onChanged: (value) {
+                                  viewModel.audioPlayer.seek(
+                                    Duration(seconds: value.toInt()),
+                                  );
+                                },
+                              ),
                             ],
-                          ),
-                        ),
+                          );
+                        },
+                      ),
 
-                        const SizedBox(height: 16),
+                      const SizedBox(height: 16),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            LanguageCodes.en.nativeName,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 8),
-
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(viewModel.lesson!.transcripts['en']!),
-                        ),
-                        if (viewModel.isDualLanguageEnabled) ...[
-                          const SizedBox(height: 32),
+                      /// Volume Control
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8.0,
                             ),
                             child: Text(
-                              LanguageCodes.vi.nativeName,
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              AppLocalizations.of(context)!.volume,
+                              style: TextStyle(color: Colors.black),
                             ),
                           ),
-                          SizedBox(height: 8),
+                          StreamBuilder<double>(
+                            stream: viewModel.audioPlayer.volumeStream,
+                            builder: (context, snapshot) {
+                              final volume = snapshot.data ?? 1.0;
+                              return Slider(
+                                activeColor: AppColors.primary,
+                                inactiveColor: AppColors.surfacePrimary,
+                                value: volume,
+                                min: 0,
+                                max: 1,
+                                divisions: 10,
+                                onChanged:
+                                    (value) =>
+                                        viewModel.audioPlayer.setVolume(value),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      /// Speed Control
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 8.0,
                             ),
-                            child: Text(viewModel.lesson!.transcripts['vi']!),
+                            child: Text(
+                              AppLocalizations.of(context)!.speed,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ),
+                          StreamBuilder<double>(
+                            stream: viewModel.audioPlayer.speedStream,
+                            builder: (context, snapshot) {
+                              final speed = snapshot.data ?? 1.0;
+                              return Slider(
+                                activeColor: AppColors.primary,
+                                inactiveColor: AppColors.surfacePrimary,
+                                value: speed,
+                                min: 0.5,
+                                max: 2.0,
+                                divisions: 6,
+                                label: "${speed.toStringAsFixed(1)}x",
+                                onChanged:
+                                    (value) =>
+                                        viewModel.audioPlayer.setSpeed(value),
+                              );
+                            },
                           ),
                         ],
-                      ],
-                    ),
-                ],
+                      ),
+                      if (viewModel.isTranscriptEnabled)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 16),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Divider()),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: Text(
+                                      AppLocalizations.of(context)!.transcript,
+                                      style: TextStyle(
+                                        color: AppColors.onSecondary,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(child: Divider()),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(height: 16),
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: Text(
+                                LanguageCodes.en.nativeName,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 8),
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8.0,
+                              ),
+                              child: Text(viewModel.lesson!.transcripts['en']!),
+                            ),
+                            if (viewModel.isDualLanguageEnabled) ...[
+                              const SizedBox(height: 32),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: Text(
+                                  LanguageCodes.vi.nativeName,
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0,
+                                ),
+                                child: Text(
+                                  viewModel.lesson!.transcripts['vi']!,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                    ],
+                  ),
+                ),
               ),
             );
           },
