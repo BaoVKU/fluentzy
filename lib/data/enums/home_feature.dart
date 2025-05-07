@@ -18,7 +18,7 @@ enum HomeFeature {
   ),
   quiz(
     backgroundColor: Color.fromARGB(255, 232, 18, 186),
-    iconPath: "assets/scan.svg",
+    iconPath: "assets/quiz.svg",
   ),
   flashCard(
     backgroundColor: AppColors.flashCardBackground,

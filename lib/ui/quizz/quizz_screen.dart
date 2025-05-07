@@ -14,20 +14,32 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  final List<Quiz> quizzes = QuizRepository().getQuizzes();
+  List<Quiz> quizzes = [];
   int currentQuestion = 0;
   int? selectedOption;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadQuizzes();
+  }
+
+  Future<void> loadQuizzes() async {
+    quizzes = await QuizRepository().getQuizzes();
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   void checkAnswer() {
     final bool isCorrect =
         selectedOption == quizzes[currentQuestion].correctOptionIndex;
 
-    // Hiển thị SnackBar với màu sắc tương ứng
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(isCorrect ? 'Correct!' : 'Wrong answer'),
-        backgroundColor:
-            isCorrect ? Colors.green : Colors.red, // Màu sắc của SnackBar
+        backgroundColor: isCorrect ? Colors.green : Colors.red,
       ),
     );
 
@@ -37,14 +49,30 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void endQuiz() {
-    Navigator.popUntil(context, ModalRoute.withName('/'));
-  }
-
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     if (currentQuestion >= quizzes.length) {
-      return Center(child: Text("You completed the quiz!"));
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => context.go(RoutePath.home),
+            icon: SvgPicture.asset("assets/back.svg"),
+          ),
+          title: const Text("Quiz Complete"),
+          backgroundColor: AppColors.background,
+        ),
+        body: const Center(
+          child: Text(
+            "You completed the quiz!",
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+      );
     }
 
     final quiz = quizzes[currentQuestion];
@@ -53,7 +81,7 @@ class _QuizScreenState extends State<QuizScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () => {context.go(RoutePath.home)},
+          onPressed: () => context.go(RoutePath.home),
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         title: const Text("English Quiz"),
@@ -62,8 +90,15 @@ class _QuizScreenState extends State<QuizScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(quiz.question, style: const TextStyle(fontSize: 20)),
+            Center(
+              child: Text(
+                quiz.question,
+                style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ),
             const SizedBox(height: 20),
             ...List.generate(
               quiz.options.length,
@@ -80,16 +115,26 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: selectedOption == null ? null : checkAnswer,
-              child: const Text("Submit"),
+            const Spacer(),
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32,
+                    vertical: 16,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: AppColors.primary,
+                ),
+                onPressed: selectedOption == null ? null : checkAnswer,
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-            const SizedBox(height: 20),
-            // ElevatedButton(
-            //   onPressed: endQuiz, // Khi nhấn sẽ quay lại trang trước
-            //   child: const Text("End Quiz"),
-            // ),
           ],
         ),
       ),
