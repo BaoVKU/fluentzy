@@ -150,179 +150,187 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
       }
     });
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+            context.go(RoutePath.flashCardList);
+        }
+      },
+      child: Scaffold(
         backgroundColor: AppColors.background,
-        leading: IconButton(
-          onPressed: () => {context.go(RoutePath.flashCardList)},
-          icon: SvgPicture.asset("assets/back.svg"),
-        ),
-        titleSpacing: 0.0,
-        title: Text(AppLocalizations.of(context)!.flashCardEdit),
-        actions: [
-          IconButton(
-            onPressed: () {
-              if (wordControllers[0].text.trim().isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      AppLocalizations.of(context)!.pleaseAddAtLeastOneCard,
-                    ),
-                    backgroundColor: AppColors.error,
-                  ),
-                );
-                return;
-              }
-              showFlashCardSetNameDialog(
-                context,
-                viewModel.flashCardSet?.name ?? '',
-                (setName) {
-                  viewModel.saveFlashCardSet(
-                    setName: setName,
-                    wordControllers: wordControllers,
-                    descControllers: descControllers,
-                  );
-                },
-              );
-            },
-            icon: const Icon(Icons.check),
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          leading: IconButton(
+            onPressed: () => {context.go(RoutePath.flashCardList)},
+            icon: SvgPicture.asset("assets/back.svg"),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: ListView.builder(
-            itemCount: wordControllers.length + 1, // Add 1 for the Add button
-            itemBuilder: (context, index) {
-              if (index == wordControllers.length) {
-                // This is the Add Button at the bottom
-                return Center(
-                  child: Container(
-                    width: 600, // Set max width
-                    margin: const EdgeInsets.only(top: 8),
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.secondary,
-                          blurRadius: 4,
-                          offset: Offset(0, 2), // changes position of shadow
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(16),
+          titleSpacing: 0.0,
+          title: Text(AppLocalizations.of(context)!.flashCardEdit),
+          actions: [
+            IconButton(
+              onPressed: () {
+                if (wordControllers[0].text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        AppLocalizations.of(context)!.pleaseAddAtLeastOneCard,
+                      ),
+                      backgroundColor: AppColors.error,
                     ),
-                    child: IconButton.filled(
-                      onPressed: () {
-                        final lastWord = wordControllers.last.text.trim();
-                        if (lastWord.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                AppLocalizations.of(
-                                  context,
-                                )!.pleaseFillWordBeforeAdding,
-                              ),
-                              backgroundColor: AppColors.error,
-                            ),
-                          );
-                          return;
-                        }
-                        _addCard();
-                      },
-                      icon: Icon(Icons.add),
-                      iconSize: 32,
-                      style: ButtonStyle(
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
+                  );
+                  return;
+                }
+                showFlashCardSetNameDialog(
+                  context,
+                  viewModel.flashCardSet?.name ?? '',
+                  (setName) {
+                    viewModel.saveFlashCardSet(
+                      setName: setName,
+                      wordControllers: wordControllers,
+                      descControllers: descControllers,
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.check),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ListView.builder(
+              itemCount: wordControllers.length + 1, // Add 1 for the Add button
+              itemBuilder: (context, index) {
+                if (index == wordControllers.length) {
+                  // This is the Add Button at the bottom
+                  return Center(
+                    child: Container(
+                      width: 600, // Set max width
+                      margin: const EdgeInsets.only(top: 8),
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.secondary,
+                            blurRadius: 4,
+                            offset: Offset(0, 2), // changes position of shadow
                           ),
+                        ],
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: IconButton.filled(
+                        onPressed: () {
+                          final lastWord = wordControllers.last.text.trim();
+                          if (lastWord.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.pleaseFillWordBeforeAdding,
+                                ),
+                                backgroundColor: AppColors.error,
+                              ),
+                            );
+                            return;
+                          }
+                          _addCard();
+                        },
+                        icon: Icon(Icons.add),
+                        iconSize: 32,
+                        style: ButtonStyle(
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          backgroundColor: WidgetStatePropertyAll(
+                            AppColors.surface,
+                          ),
+                          foregroundColor: WidgetStatePropertyAll(Colors.black),
                         ),
-                        backgroundColor: WidgetStatePropertyAll(
-                          AppColors.surface,
-                        ),
-                        foregroundColor: WidgetStatePropertyAll(Colors.black),
                       ),
                     ),
-                  ),
-                );
-              }
-
-              return Center(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 600), // Set max width
-                  child: Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8),
-                    color: AppColors.surface,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  (++index).toString(),
-                                  style: TextStyle(
+                  );
+                }
+      
+                return Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 600), // Set max width
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      color: AppColors.surface,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    (index + 1).toString(),
+                                    style: TextStyle(
+                                      color: AppColors.onSecondary,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () => _removeCard(index),
+                                  icon: Icon(Icons.remove_circle_outline),
+                                  color: AppColors.error,
+                                ),
+                              ],
+                            ),
+                            TextField(
+                              controller: wordControllers[index],
+                              style: TextStyle(color: AppColors.onSecondary),
+                              decoration: InputDecoration(
+                                labelText: 'Word',
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
                                     color: AppColors.onSecondary,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    width: 2,
+                                  ),
+                                ),
+                                labelStyle: TextStyle(
+                                  color: AppColors.onSecondary,
+                                ),
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 12),
+                            TextField(
+                              controller: descControllers[index],
+                              style: TextStyle(color: AppColors.onSecondary),
+                              decoration: InputDecoration(
+                                labelText: 'Description',
+                                labelStyle: TextStyle(
+                                  color: AppColors.onSecondary,
+                                ),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.onSecondary,
+                                    width: 2,
                                   ),
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () => _removeCard(index),
-                                icon: Icon(Icons.remove_circle_outline),
-                                color: AppColors.error,
-                              ),
-                            ],
-                          ),
-                          TextField(
-                            controller: wordControllers[index],
-                            style: TextStyle(color: AppColors.onSecondary),
-                            decoration: InputDecoration(
-                              labelText: 'Word',
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.onSecondary,
-                                  width: 2,
-                                ),
-                              ),
-                              labelStyle: TextStyle(
-                                color: AppColors.onSecondary,
-                              ),
-                              border: OutlineInputBorder(),
+                              maxLines: 2,
                             ),
-                          ),
-                          SizedBox(height: 12),
-                          TextField(
-                            controller: descControllers[index],
-                            style: TextStyle(color: AppColors.onSecondary),
-                            decoration: InputDecoration(
-                              labelText: 'Description',
-                              labelStyle: TextStyle(
-                                color: AppColors.onSecondary,
-                              ),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.onSecondary,
-                                  width: 2,
-                                ),
-                              ),
-                            ),
-                            maxLines: 2,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),

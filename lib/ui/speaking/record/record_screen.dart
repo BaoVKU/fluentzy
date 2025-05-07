@@ -27,78 +27,86 @@ class _SpeakingRecordScreenState extends State<SpeakingRecordScreen> {
         );
       });
     }
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => {context.go(RoutePath.speakingLesson)},
-          icon: SvgPicture.asset("assets/back.svg"),
-        ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+            context.go(RoutePath.speakingLesson);
+        }
+      },
+      child: Scaffold(
         backgroundColor: AppColors.background,
-        title: Text(AppLocalizations.of(context)!.speaking),
-        titleSpacing: 0.0,
-      ),
-      body: SafeArea(
-        child: ListenableBuilder(
-          listenable: viewModel,
-          builder: (context, _) {
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    viewModel.lesson?.sentences[(viewModel.lesson!.lastDone +
-                            1)] ??
-                        AppLocalizations.of(context)!.cannotFindLesson,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 32),
-                  SvgPicture.asset(
-                    "assets/speaking.svg",
-                    width: 200,
-                    height: 200,
-                  ),
-                  SizedBox(height: 32),
-                  Builder(
-                    builder: (context) {
-                      return viewModel.isListening
-                          ? GestureDetector(
-                            onTap: viewModel.stopRecording,
-                            child: LottieBuilder.asset(
-                              "assets/voice_recording.json",
-                              width: 180,
-                              height: 180,
-                            ),
-                          )
-                          : IconButton.filled(
-                            onPressed: viewModel.startRecording,
-                            style: ButtonStyle(
-                              backgroundColor: WidgetStatePropertyAll(
-                                AppColors.primary,
-                              ),
-                            ),
-                            icon: SvgPicture.asset(
-                              "assets/microphone.svg",
-                              width: 48,
-                              height: 48,
-                            ),
-                          );
-                    },
-                  ),
-                  SizedBox(height: 32),
-                  if (viewModel.hasFinalResult &&
-                      viewModel.listenedResult.isEmpty &&
-                      !viewModel.isListening)
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => {context.go(RoutePath.speakingLesson)},
+            icon: SvgPicture.asset("assets/back.svg"),
+          ),
+          backgroundColor: AppColors.background,
+          title: Text(AppLocalizations.of(context)!.speaking),
+          titleSpacing: 0.0,
+        ),
+        body: SafeArea(
+          child: ListenableBuilder(
+            listenable: viewModel,
+            builder: (context, _) {
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Text(
-                      AppLocalizations.of(context)!.sayItAgain,
-                      style: TextStyle(fontSize: 16, color: AppColors.error),
+                      viewModel.lesson?.sentences[(viewModel.lesson!.lastDone +
+                              1)] ??
+                          AppLocalizations.of(context)!.cannotFindLesson,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                     ),
-                ],
-              ),
-            );
-          },
+                    SizedBox(height: 32),
+                    SvgPicture.asset(
+                      "assets/speaking.svg",
+                      width: 200,
+                      height: 200,
+                    ),
+                    SizedBox(height: 32),
+                    Builder(
+                      builder: (context) {
+                        return viewModel.isListening
+                            ? GestureDetector(
+                              onTap: viewModel.stopRecording,
+                              child: LottieBuilder.asset(
+                                "assets/voice_recording.json",
+                                width: 180,
+                                height: 180,
+                              ),
+                            )
+                            : IconButton.filled(
+                              onPressed: viewModel.startRecording,
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll(
+                                  AppColors.primary,
+                                ),
+                              ),
+                              icon: SvgPicture.asset(
+                                "assets/microphone.svg",
+                                width: 48,
+                                height: 48,
+                              ),
+                            );
+                      },
+                    ),
+                    SizedBox(height: 32),
+                    if (viewModel.hasFinalResult &&
+                        viewModel.listenedResult.isEmpty &&
+                        !viewModel.isListening)
+                      Text(
+                        AppLocalizations.of(context)!.sayItAgain,
+                        style: TextStyle(fontSize: 16, color: AppColors.error),
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

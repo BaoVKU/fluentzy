@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluentzy/data/enums/support_language.dart';
+import 'package:fluentzy/data/models/chat_message.dart';
 import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/dictionary_repository.dart';
@@ -23,12 +24,19 @@ import 'package:fluentzy/routing/router.dart';
 import 'package:fluentzy/ui/language/language_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // final appDir = await getApplicationDocumentsDirectory();
+  // Hive.init(appDir.path);
+  await Hive.initFlutter();
+  Hive.registerAdapter(ChatMessageAdapter());
+  await Hive.openBox<ChatMessage>('chatBox');
   runApp(
     MultiProvider(
       providers: [

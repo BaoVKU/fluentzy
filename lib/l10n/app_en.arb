@@ -88,5 +88,7 @@
 	"confirmYourPassword": "Confirm your password",
 	"scanner": "Scanner",
 	"flashCard": "Flash Card",
-	"vietnamese": "Vietnamese"
+	"vietnamese": "Vietnamese",
+	"typeQuestion": "Type your question",
+	"startChatNow": "Start chat now"
 }

@@ -18,153 +18,161 @@ class ScannerResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<ScannerResultViewModel>();
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+            context.go(RoutePath.scannerOptions);
+        }
+      },
+      child: Scaffold(
         backgroundColor: AppColors.background,
-        title: Text(AppLocalizations.of(context)!.result),
-        leading: IconButton(
-          onPressed: () => {context.go(RoutePath.scannerOptions)},
-          icon: SvgPicture.asset("assets/back.svg"),
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          title: Text(AppLocalizations.of(context)!.result),
+          leading: IconButton(
+            onPressed: () => {context.go(RoutePath.scannerOptions)},
+            icon: SvgPicture.asset("assets/back.svg"),
+          ),
+          titleSpacing: 0.0,
         ),
-        titleSpacing: 0.0,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12.0),
-                  child: Builder(
-                    builder: (context) {
-                      if (kIsWeb) {
-                        return SizedBox(
-                          height: 360,
-                          width: 640,
-                          child: Image.network(
-                            viewModel.image.path,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12.0),
+                    child: Builder(
+                      builder: (context) {
+                        if (kIsWeb) {
+                          return SizedBox(
+                            height: 360,
+                            width: 640,
+                            child: Image.network(
+                              viewModel.image.path,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        } else {
+                          return Image.file(
+                            File(viewModel.image.path),
                             fit: BoxFit.cover,
-                          ),
-                        );
-                      } else {
-                        return Image.file(
-                          File(viewModel.image.path),
-                          fit: BoxFit.cover,
-                        );
-                      }
-                    },
+                          );
+                        }
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(height: 16.0),
-                Builder(
-                  builder: (context) {
-                    switch (viewModel.responseState) {
-                      case Success():
-                        {
-                          final data =
-                              (viewModel.responseState as Success).data
-                                  as DictionaryEntry;
-                          final meanings = data.meanings;
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '${data.word[0].toUpperCase()}${data.word.substring(1)}',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    data.phonetic,
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  SizedBox(width: 8.0),
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (viewModel.isSpeaking) {
-                                        viewModel.stopSpeaker();
-                                      } else {
-                                        viewModel.playSpeaker(text: data.word);
-                                      }
-                                    },
-                                    child: SvgPicture.asset(
-                                      "assets/speaker.svg",
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              for (int i = 0; i < meanings.length; i++) ...[
-                                SizedBox(height: 32.0),
+                  SizedBox(height: 16.0),
+                  Builder(
+                    builder: (context) {
+                      switch (viewModel.responseState) {
+                        case Success():
+                          {
+                            final data =
+                                (viewModel.responseState as Success).data
+                                    as DictionaryEntry;
+                            final meanings = data.meanings;
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Text(
-                                  "(${meanings[i].partOfSpeech})",
+                                  '${data.word[0].toUpperCase()}${data.word.substring(1)}',
+                                  textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 28,
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.primary,
                                   ),
                                 ),
-                                for (
-                                  int j = 0;
-                                  j < meanings[i].definitions.length;
-                                  j++
-                                ) ...[
-                                  Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.dictionaryWordDefinition(
-                                      meanings[i].definitions[j].definition,
-                                    ),
-                                  ),
-                                  if (meanings[i].definitions[j].example !=
-                                      null) ...[
-                                    SizedBox(height: 4.0),
+                                Row(
+                                  children: [
                                     Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.dictionaryWordSample(
-                                        meanings[i].definitions[j].example!,
-                                      ),
-                                      style: TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        color: AppColors.onSecondary,
+                                      data.phonetic,
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    SizedBox(width: 8.0),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (viewModel.isSpeaking) {
+                                          viewModel.stopSpeaker();
+                                        } else {
+                                          viewModel.playSpeaker(text: data.word);
+                                        }
+                                      },
+                                      child: SvgPicture.asset(
+                                        "assets/speaker.svg",
+                                        width: 20,
+                                        height: 20,
                                       ),
                                     ),
                                   ],
-                                  SizedBox(height: 24.0),
+                                ),
+                                for (int i = 0; i < meanings.length; i++) ...[
+                                  SizedBox(height: 32.0),
+                                  Text(
+                                    "(${meanings[i].partOfSpeech})",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  for (
+                                    int j = 0;
+                                    j < meanings[i].definitions.length;
+                                    j++
+                                  ) ...[
+                                    Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.dictionaryWordDefinition(
+                                        meanings[i].definitions[j].definition,
+                                      ),
+                                    ),
+                                    if (meanings[i].definitions[j].example !=
+                                        null) ...[
+                                      SizedBox(height: 4.0),
+                                      Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.dictionaryWordSample(
+                                          meanings[i].definitions[j].example!,
+                                        ),
+                                        style: TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          color: AppColors.onSecondary,
+                                        ),
+                                      ),
+                                    ],
+                                    SizedBox(height: 24.0),
+                                  ],
                                 ],
                               ],
-                            ],
-                          );
-                        }
-                      case Error():
-                        {
-                          return Text(
-                            AppLocalizations.of(context)!.objectDetectionError,
-                            style: TextStyle(color: AppColors.error),
-                          );
-                        }
-                      default:
-                        {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: AppColors.primary,
-                            ),
-                          );
-                        }
-                    }
-                  },
-                ),
-              ],
+                            );
+                          }
+                        case Error():
+                          {
+                            return Text(
+                              AppLocalizations.of(context)!.objectDetectionError,
+                              style: TextStyle(color: AppColors.error),
+                            );
+                          }
+                        default:
+                          {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primary,
+                              ),
+                            );
+                          }
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

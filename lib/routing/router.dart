@@ -12,6 +12,7 @@ import 'package:fluentzy/data/services/camera_service.dart';
 import 'package:fluentzy/data/services/image_picker_service.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/chat/chat_screen.dart';
+import 'package:fluentzy/ui/chat/chat_view_model.dart';
 import 'package:fluentzy/ui/flash_card/edit/edit_screen.dart';
 import 'package:fluentzy/ui/flash_card/edit/edit_view_model.dart';
 import 'package:fluentzy/ui/flash_card/learn/learn_screen.dart';
@@ -73,7 +74,12 @@ class AppRouter {
           ),
           GoRoute(
             path: RoutePath.chat,
-            builder: (context, state) => ChatScreen(),
+            builder:
+                (context, state) => ChangeNotifierProvider(
+                  create:
+                      (context) => ChatViewModel(context.read<AiRepository>()),
+                  child: ChatScreen(),
+                ),
           ),
           GoRoute(
             path: RoutePath.profile,

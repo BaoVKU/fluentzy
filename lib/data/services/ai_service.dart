@@ -3,15 +3,16 @@ import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AiService {
-  static const String _apiKey = "AIzaSyAz_CcNeJahOhWmnmxyqHBWo9HvlJlFhnE";
-  late GenerativeModel model;
+  static const String _apiKey = "";
+  late GenerativeModel _model;
+  ChatSession? chatSession;
 
   AiService() {
     _init();
   }
 
   void _init() {
-    model = GenerativeModel(model: "gemini-1.5-flash", apiKey: _apiKey);
+    _model = GenerativeModel(model: "gemini-1.5-flash", apiKey: _apiKey);
   }
 
   Future<GenerateContentResponse> checkPronunciation({
@@ -30,7 +31,7 @@ class AiService {
 
     final promptIterable = [Content.text(prompt.trim())];
 
-    return await model.generateContent(
+    return await _model.generateContent(
       promptIterable,
       generationConfig: GenerationConfig(
         responseMimeType: "application/json",
@@ -50,12 +51,33 @@ class AiService {
       Content.multi([prompt, image]),
     ];
 
-    return await model.generateContent(
+    return await _model.generateContent(
       promptIterable,
       generationConfig: GenerationConfig(
         responseMimeType: "application/json",
         responseSchema: AiResponseSchemas.objectDetection,
       ),
     );
+  }
+
+  void startChatSession(List<Content>? history) {
+    chatSession = _model.startChat(history: history);
+  }
+
+  void endChatSession() {
+    chatSession = null;
+  }
+
+  Future<GenerateContentResponse> sendMessage({required String text}) async {
+    if (chatSession == null) {
+      throw Exception("Chat session is not started.");
+    }
+
+    final prompt = '''
+              Prompt: $text
+              Keep response simple, don't use markdown or code block but can use keyboard symbols like "-", "+", etc. for highlighting.
+          ''';
+
+    return await chatSession!.sendMessage(Content.text(prompt.trim()));
   }
 }

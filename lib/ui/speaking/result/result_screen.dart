@@ -24,159 +24,166 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<SpeakingResultViewModel>();
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            context.go(RoutePath.home);
-          },
-          icon: SvgPicture.asset("assets/back.svg"),
-        ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          context.go(RoutePath.home);
+        }
+      },
+      child: Scaffold(
         backgroundColor: AppColors.background,
-        title: Text(AppLocalizations.of(context)!.result),
-        titleSpacing: 0.0,
-        actions: [
-          IconButton(
+        appBar: AppBar(
+          leading: IconButton(
             onPressed: () {
-              viewModel.increaseLastDone(() {
-                if (viewModel.lastDone == viewModel.sentence.length - 1) {
-                  context.go(RoutePath.speakingLesson);
-                } else {
-                  context.go(
-                    "${RoutePath.speakingRecord}/${viewModel.lessonId}",
-                  );
-                }
-              });
+              context.go(RoutePath.home);
             },
-            icon: SvgPicture.asset("assets/next.svg"),
+            icon: SvgPicture.asset("assets/back.svg"),
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Builder(
-                builder: (context) {
-                  switch (viewModel.responseState) {
-                    case Initial():
-                      return CircularProgressIndicator(
-                        color: AppColors.primary,
-                      );
-                    case Loading():
-                      return CircularProgressIndicator(
-                        color: AppColors.primary,
-                      );
-                    case Success():
-                      {
-                        Logger.error("Vibrating...2");
-                        final response =
-                            (viewModel.responseState as Success).data;
-                        if (_speakingResponse == null) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            setState(() {
-                              _speakingResponse = response;
-                            });
-                          });
-                        }
-                        return Text(
-                          "${_speakingResponse?.rate}%",
-                          style: TextStyle(
-                            fontSize: 96,
-                            fontWeight: FontWeight.bold,
-                            color: ColorPicker.getColorForAccuracy(
-                              _speakingResponse?.rate,
-                            ),
-                          ),
-                        );
-                      }
-                    case Error():
-                      {
-                        final error =
-                            (viewModel.responseState as Error).message;
-                        return Text(
-                          error,
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.error,
-                          ),
-                        );
-                      }
+          backgroundColor: AppColors.background,
+          title: Text(AppLocalizations.of(context)!.result),
+          titleSpacing: 0.0,
+          actions: [
+            IconButton(
+              onPressed: () {
+                viewModel.increaseLastDone(() {
+                  if (viewModel.lastDone == viewModel.sentence.length - 1) {
+                    context.go(RoutePath.speakingLesson);
+                  } else {
+                    context.go(
+                      "${RoutePath.speakingRecord}/${viewModel.lessonId}",
+                    );
                   }
-                },
-              ),
-              SizedBox(height: 24),
-              Text(
-                viewModel.sentence,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    viewModel.responseState is Success &&
-                            _speakingResponse != null
-                        ? _speakingResponse!.ipa
-                        : '',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      if (viewModel.isSpeaking) {
-                        viewModel.stopSpeaker();
-                      } else {
-                        viewModel.playSpeaker(text: viewModel.sentence);
-                      }
-                    },
-                    icon: SvgPicture.asset(
-                      "assets/speaker.svg",
-                      width: 24,
-                      height: 24,
+                });
+              },
+              icon: SvgPicture.asset("assets/next.svg"),
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Builder(
+                  builder: (context) {
+                    switch (viewModel.responseState) {
+                      case Initial():
+                        return CircularProgressIndicator(
+                          color: AppColors.primary,
+                        );
+                      case Loading():
+                        return CircularProgressIndicator(
+                          color: AppColors.primary,
+                        );
+                      case Success():
+                        {
+                          final response =
+                              (viewModel.responseState as Success).data;
+                          if (_speakingResponse == null) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              setState(() {
+                                _speakingResponse = response;
+                              });
+                            });
+                          }
+                          return Text(
+                            "${_speakingResponse?.rate}%",
+                            style: TextStyle(
+                              fontSize: 96,
+                              fontWeight: FontWeight.bold,
+                              color: ColorPicker.getColorForAccuracy(
+                                _speakingResponse?.rate,
+                              ),
+                            ),
+                          );
+                        }
+                      case Error():
+                        {
+                          final error =
+                              (viewModel.responseState as Error).message;
+                          return Text(
+                            error,
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.error,
+                            ),
+                          );
+                        }
+                    }
+                  },
+                ),
+                SizedBox(height: 24),
+                Text(
+                  viewModel.sentence,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      viewModel.responseState is Success &&
+                              _speakingResponse != null
+                          ? _speakingResponse!.ipa
+                          : '',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        if (viewModel.isSpeaking) {
+                          viewModel.stopSpeaker();
+                        } else {
+                          viewModel.playSpeaker(text: viewModel.sentence);
+                        }
+                      },
+                      icon: SvgPicture.asset(
+                        "assets/speaker.svg",
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                if (viewModel.responseState is Success &&
+                    _speakingResponse != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Text(
+                      _speakingResponse!.feedback,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(height: 16),
-              if (viewModel.responseState is Success &&
-                  _speakingResponse != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    _speakingResponse!.feedback,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w500,
+                SizedBox(height: 32),
+                IconButton.filled(
+                  padding: EdgeInsets.all(16),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      AppColors.primary,
                     ),
                   ),
-                ),
-              SizedBox(height: 32),
-              IconButton.filled(
-                padding: EdgeInsets.all(16),
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                    AppColors.primary,
+                  onPressed: () {
+                    context.go(
+                      "${RoutePath.speakingRecord}/${viewModel.lessonId}",
+                    );
+                  },
+                  icon: SvgPicture.asset(
+                    "assets/retry.svg",
+                    width: 48,
+                    height: 48,
                   ),
                 ),
-                onPressed: () {
-                  context.go(
-                    "${RoutePath.speakingRecord}/${viewModel.lessonId}",
-                  );
-                },
-                icon: SvgPicture.asset(
-                  "assets/retry.svg",
-                  width: 48,
-                  height: 48,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
