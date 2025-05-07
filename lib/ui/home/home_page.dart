@@ -51,6 +51,10 @@ class HomePage extends StatelessWidget {
                                 HomeFeature.flashCard => context.go(
                                   RoutePath.flashCardList,
                                 ),
+                                // TODO: Handle this case.
+                                HomeFeature.quiz => context.go(
+                                  RoutePath.quiz
+                                ),
                               },
                             },
                         child: Card(

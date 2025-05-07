@@ -50,6 +50,7 @@ import 'package:fluentzy/ui/scanner/result/result_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:fluentzy/ui/quizz/quizz_screen.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -264,6 +265,10 @@ class AppRouter {
                   ),
               child: const FlashCardLearnScreen(),
             ),
+      ),
+      GoRoute(
+        path: RoutePath.quiz,
+        builder: (context, state) => const QuizScreen(),
       ),
     ],
   );

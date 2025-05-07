@@ -16,6 +16,10 @@ enum HomeFeature {
     backgroundColor: AppColors.scannerBackground,
     iconPath: "assets/scan.svg",
   ),
+  quiz(
+    backgroundColor: Color.fromARGB(255, 232, 18, 186),
+    iconPath: "assets/scan.svg",
+  ),
   flashCard(
     backgroundColor: AppColors.flashCardBackground,
     iconPath: "assets/flash_card.svg",
@@ -33,9 +37,11 @@ enum HomeFeature {
       case HomeFeature.listening:
         return l10n.listening;
       case HomeFeature.scanner:
-        return l10n.scanner; // or any better-matching key
+        return l10n.scanner;
+      case HomeFeature.quiz:
+        return l10n.quiz;
       case HomeFeature.flashCard:
-        return l10n.flashCard; // or just `l10n.flashCard` if available
+        return l10n.flashCard;
     }
   }
 }

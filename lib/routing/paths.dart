@@ -36,4 +36,7 @@ class RoutePath {
   static const flashCardLearn = '$flashCard/learn';
 
   static const lessonId = 'lessonId';
+  static const quiz = '/quiz';
+
+
 }
