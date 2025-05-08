@@ -8,14 +8,9 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SpeakingRecordScreen extends StatefulWidget {
+class SpeakingRecordScreen extends StatelessWidget {
   const SpeakingRecordScreen({super.key});
 
-  @override
-  State<SpeakingRecordScreen> createState() => _SpeakingRecordScreenState();
-}
-
-class _SpeakingRecordScreenState extends State<SpeakingRecordScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<RecordViewModel>();

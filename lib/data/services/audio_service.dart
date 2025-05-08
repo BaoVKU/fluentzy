@@ -1,11 +1,19 @@
 import 'package:just_audio/just_audio.dart';
 
 class AudioService {
-  final AudioPlayer _audioPlayer;
-  AudioPlayer get audioPlayer => _audioPlayer;
-  AudioService() : _audioPlayer = AudioPlayer();
+  AudioPlayer? _audioPlayer;
+  AudioPlayer? get audioPlayer => _audioPlayer;
 
-  void dispose() {
-    _audioPlayer.dispose();
+  void initAudioPlayer() {
+    if (_audioPlayer != null) {
+      _audioPlayer!.dispose();
+      _audioPlayer = null;
+    }
+    _audioPlayer = AudioPlayer();
+  }
+
+  Future<void> dispose() async {
+    await _audioPlayer?.dispose();
+    _audioPlayer = null;
   }
 }

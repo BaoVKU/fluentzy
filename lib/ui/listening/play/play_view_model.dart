@@ -10,30 +10,27 @@ class PlayViewModel extends ChangeNotifier {
   final String _lessonId;
   ListeningLesson? _lesson;
   ListeningLesson? get lesson => _lesson;
-  AudioPlayer get audioPlayer => _audioService.audioPlayer;
+  AudioPlayer get audioPlayer => _audioService.audioPlayer!;
   bool _isTranscriptEnabled = false;
   bool get isTranscriptEnabled => _isTranscriptEnabled;
   bool _isDualLanguageEnabled = false;
   bool get isDualLanguageEnabled => _isDualLanguageEnabled;
 
   PlayViewModel(this._lessonRepository, this._audioService, this._lessonId) {
-    _initAudioPlayer();
+    _audioService.initAudioPlayer();
+    _setupAudioPlayer();
   }
 
-  Future<void> _initAudioPlayer() async {
+  Future<void> _setupAudioPlayer() async {
     await _fetchLessonById(id: _lessonId);
     if (_lesson == null) return;
-    await _audioService.audioPlayer.setUrl(_lesson!.url);
+    await _audioService.audioPlayer!.setUrl(_lesson!.url);
   }
 
   Future<void> _fetchLessonById({required id}) async {
     if (_lesson != null) return;
     _lesson = await _lessonRepository.fetchListeningLessonById(id);
     notifyListeners();
-  }
-
-  void disposePlayer() {
-    _audioService.dispose();
   }
 
   void toggleTranscript() {
@@ -44,5 +41,11 @@ class PlayViewModel extends ChangeNotifier {
   void toggleDualLanguage() {
     _isDualLanguageEnabled = !_isDualLanguageEnabled;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _audioService.dispose();
+    super.dispose();
   }
 }

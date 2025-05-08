@@ -43,4 +43,10 @@ class RecordViewModel extends ChangeNotifier {
     _lesson = await _lessonRepository.fetchSpeakingLessonById(id);
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    _sttRepository.dispose();
+    super.dispose();
+  }
 }

@@ -4,8 +4,6 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 class SttService {
   final SpeechToText _speechToText = SpeechToText();
-  bool _isListening = false;
-  bool get isListening => _isListening;
 
   SttService() {
     _initSpeech();
@@ -26,5 +24,10 @@ class SttService {
 
   Future<void> stopRecording() async {
     await _speechToText.stop();
+  }
+
+  Future<void> dispose() async {
+    await _speechToText.stop();
+    await _speechToText.cancel();
   }
 }

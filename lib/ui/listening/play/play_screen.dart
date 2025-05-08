@@ -9,24 +9,12 @@ import 'package:language_code/language_code.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class PlayScreen extends StatefulWidget {
+class PlayScreen extends StatelessWidget {
   const PlayScreen({super.key});
 
   @override
-  State<PlayScreen> createState() => _PlayScreenState();
-}
-
-class _PlayScreenState extends State<PlayScreen> {
-  late PlayViewModel viewModel;
-  @override
-  void dispose() {
-    viewModel.disposePlayer();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    viewModel = context.watch<PlayViewModel>();
+    final PlayViewModel viewModel = context.watch<PlayViewModel>();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {

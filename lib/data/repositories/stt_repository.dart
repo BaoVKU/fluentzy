@@ -33,4 +33,9 @@ class SttRepository {
 
     await _sttService.stopRecording();
   }
+
+  Future<void> dispose() async {
+    _isListening = false;
+    await _sttService.dispose();
+  }
 }
