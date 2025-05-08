@@ -34,5 +34,13 @@
 </head>
 <body>
   <script src="flutter_bootstrap.js" async></script>
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://thanhtin.app.n8n.cloud/webhook/31787ccd-3de4-4f07-807d-6afeaae6a06f/chat'
+	});
+</script>
 </body>
 </html>
