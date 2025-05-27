@@ -90,5 +90,8 @@
 	"flashCard": "Flash Card",
 	"vietnamese": "Vietnamese",
 	"typeQuestion": "Type your question",
-	"startChatNow": "Start chat now"
+	"startChatNow": "Start chat now",
+	"confirmClearChat": "Confirm Clear Chat",
+	"areYouSureClearChat": "Are you sure you want to clear the chat?",
+	"clear": "Clear"
 }

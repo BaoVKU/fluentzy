@@ -4,6 +4,7 @@ import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/dictionary_repository.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
+import 'package:fluentzy/data/repositories/iap_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
@@ -28,6 +29,7 @@ import 'package:fluentzy/ui/login/login_screen.dart';
 import 'package:fluentzy/ui/login/login_view_model.dart';
 import 'package:fluentzy/ui/main/main_screen.dart';
 import 'package:fluentzy/ui/premium/premium_page.dart';
+import 'package:fluentzy/ui/premium/premium_view_model.dart';
 import 'package:fluentzy/ui/profile/profile_page.dart';
 import 'package:fluentzy/ui/profile/profile_view_model.dart';
 import 'package:fluentzy/ui/register/register_screen.dart';
@@ -70,7 +72,10 @@ class AppRouter {
           ),
           GoRoute(
             path: RoutePath.premium,
-            builder: (context, state) => PremiumPage(),
+            builder: (context, state) => ChangeNotifierProvider(
+              create: (context) => PremiumViewModel(context.read<IapRepository>()),
+              child: const PremiumPage(),
+            ),
           ),
           GoRoute(
             path: RoutePath.chat,

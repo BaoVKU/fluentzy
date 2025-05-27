@@ -1,25 +1,15 @@
 import 'package:fluentzy/ui/core/app_colors.dart';
+import 'package:fluentzy/ui/premium/premium_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
-class PremiumPage extends StatefulWidget {
+class PremiumPage extends StatelessWidget {
   const PremiumPage({super.key});
 
   @override
-  State<PremiumPage> createState() => _PremiumPageState();
-}
-
-class _PremiumPageState extends State<PremiumPage> {
-  int _selectedPlan = 0;
-
-  void _onPlanSelected(int plan) {
-    setState(() {
-      _selectedPlan = plan;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<PremiumViewModel>();
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -53,16 +43,16 @@ class _PremiumPageState extends State<PremiumPage> {
                         Expanded(
                           flex: 1,
                           child: GestureDetector(
-                            onTap: () => _onPlanSelected(0),
+                            onTap: () => viewModel.selectPlan(0),
                             child: Container(
                               decoration: BoxDecoration(
                                 color:
-                                    _selectedPlan == 0
+                                    viewModel.selectedPlanIndex == 0
                                         ? AppColors.surface
                                         : AppColors.surface,
                                 border: Border.all(
                                   color:
-                                      _selectedPlan == 0
+                                      viewModel.selectedPlanIndex == 0
                                           ? AppColors.primary
                                           : AppColors.border,
                                   width: 2,
@@ -101,16 +91,16 @@ class _PremiumPageState extends State<PremiumPage> {
                         Expanded(
                           flex: 1,
                           child: GestureDetector(
-                            onTap: () => _onPlanSelected(1),
+                            onTap: () => viewModel.selectPlan(1),
                             child: Container(
                               decoration: BoxDecoration(
                                 color:
-                                    _selectedPlan == 1
+                                    viewModel.selectedPlanIndex == 1
                                         ? AppColors.surfacePrimary
                                         : AppColors.surface,
                                 border: Border.all(
                                   color:
-                                      _selectedPlan == 1
+                                      viewModel.selectedPlanIndex == 1
                                           ? AppColors.primary
                                           : AppColors.border,
                                   width: 2,
@@ -151,29 +141,35 @@ class _PremiumPageState extends State<PremiumPage> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        AppLocalizations.of(context)!.restorePurchase,
-                        style: TextStyle(color: AppColors.primary),
+                    Visibility(
+                      visible: viewModel.currentPlan == 'premium',
+                      child: TextButton(
+                        onPressed: viewModel.restorePurchase,
+                        child: Text(
+                          AppLocalizations.of(context)!.restorePurchase,
+                          style: TextStyle(color: AppColors.primary),
+                        ),
                       ),
                     ),
-                    FilledButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(
-                          AppColors.primary,
-                        ),
-                        minimumSize: WidgetStatePropertyAll(
-                          Size(double.infinity, 48),
-                        ),
-                        shape: WidgetStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
+                    Visibility(
+                      visible: viewModel.currentPlan == 'free',
+                      child: FilledButton(
+                        onPressed: viewModel.purchasePremium,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(
+                            AppColors.primary,
+                          ),
+                          minimumSize: WidgetStatePropertyAll(
+                            Size(double.infinity, 48),
+                          ),
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
                         ),
+                        child: Text(AppLocalizations.of(context)!.try7DaysFree),
                       ),
-                      child: Text(AppLocalizations.of(context)!.try7DaysFree),
                     ),
                   ],
                 ),

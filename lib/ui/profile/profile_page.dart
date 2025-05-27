@@ -1,8 +1,10 @@
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/profile/profile_view_model.dart';
+import 'package:fluentzy/utils/string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:language_code/language_code.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -36,23 +38,6 @@ class ProfilePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      AppLocalizations.of(context)!.aboutMe,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.writeAboutYourself,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
-                ),
-                Divider(color: AppColors.border, thickness: 1),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
                       "Email",
                       style: TextStyle(
                         fontSize: 16,
@@ -78,7 +63,8 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context)!.vietnamese,
+                      LanguageCodes.fromCode(viewModel.user?.nativeLangCode ?? 'en')
+                          .nativeName,
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -95,7 +81,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context)!.free,
+                      StringUtil.capitalize(viewModel.user?.plan?? AppLocalizations.of(context)!.free),
                       style: TextStyle(fontSize: 14),
                     ),
                   ],

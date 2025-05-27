@@ -3,6 +3,7 @@ import 'package:fluentzy/ui/chat/chat_view_model.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -61,7 +62,40 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
             icon: const Icon(Icons.cleaning_services_rounded),
             onPressed: () {
-              viewModel.clearMessages();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: AppColors.surface,
+                    title: Text(AppLocalizations.of(context)!.confirmClearChat),
+                    content: Text(
+                      AppLocalizations.of(context)!.areYouSureClearChat,
+                    ),
+                    actions: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.onSecondary,
+                        ),
+                        onPressed: () {
+                          context.pop();
+                        },
+                        child: Text(AppLocalizations.of(context)!.cancel),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: AppColors.error,
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: () async {
+                          context.pop();
+                          viewModel.clearMessages();
+                        },
+                        child: Text(AppLocalizations.of(context)!.clear),
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
         ],
@@ -76,13 +110,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: Builder(
                     builder: (context) {
-                      if(viewModel.messages.isEmpty) {
+                      if (viewModel.messages.isEmpty) {
                         return Center(
                           child: Text(
                             AppLocalizations.of(context)!.startChatNow,
-                            style: const TextStyle(
-                              fontSize: 18,
-                            ),
+                            style: const TextStyle(fontSize: 18),
                           ),
                         );
                       }
@@ -94,20 +126,20 @@ class _ChatScreenState extends State<ChatScreen> {
                           if (index == viewModel.messages.length) {
                             return viewModel.isThinking
                                 ? const Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CircularProgressIndicator(
-                                        color: AppColors.onSecondary,
-                                      ),
+                                  padding: EdgeInsets.all(8),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.onSecondary,
                                     ),
-                                  )
+                                  ),
+                                )
                                 : const SizedBox.shrink();
                           }
                           return _buildMessage(viewModel.messages[index]);
                         },
                       );
-                    }
+                    },
                   ),
                 ),
                 Padding(
@@ -115,7 +147,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     8,
                     8,
                     8,
-                    MediaQuery.of(context).viewInsets.bottom + 8, // keyboard height
+                    MediaQuery.of(context).viewInsets.bottom +
+                        8, // keyboard height
                   ),
                   child: Row(
                     children: [
@@ -133,7 +166,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 borderSide: BorderSide.none, // No border line
                               ),
                               contentPadding: EdgeInsets.all(12),
-                              hintText: AppLocalizations.of(context)!.typeQuestion,
+                              hintText:
+                                  AppLocalizations.of(context)!.typeQuestion,
                             ),
                             onSubmitted: (_) {
                               viewModel.addMessage(text: _controller.text);
@@ -152,6 +186,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         color: Colors.white,
                         icon: const Icon(Icons.arrow_upward_rounded),
                         onPressed: () {
+                          if (_controller.text.isEmpty || viewModel.isThinking) return;
                           viewModel.addMessage(text: _controller.text);
                           _controller.clear();
                         },

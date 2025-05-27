@@ -5,6 +5,7 @@ import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/dictionary_repository.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
+import 'package:fluentzy/data/repositories/iap_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
@@ -19,6 +20,7 @@ import 'package:fluentzy/data/services/listening_service.dart';
 import 'package:fluentzy/data/services/speaking_service.dart';
 import 'package:fluentzy/data/services/stt_service.dart';
 import 'package:fluentzy/data/services/tts_service.dart';
+import 'package:fluentzy/data/services/user_service.dart';
 import 'package:fluentzy/firebase_options.dart';
 import 'package:fluentzy/routing/router.dart';
 import 'package:fluentzy/ui/language/language_view_model.dart';
@@ -45,6 +47,7 @@ void main() async {
         Provider(create: (context) => SttService()),
         Provider(create: (context) => AiService()),
         Provider(create: (context) => AuthService()),
+        Provider(create: (context) => UserService()),
         Provider(create: (context) => SpeakingService()),
         Provider(create: (context) => CameraService()),
         Provider(create: (context) => ImagePickerService()),
@@ -60,7 +63,7 @@ void main() async {
         ),
         Provider(create: (context) => AiRepository(context.read<AiService>())),
         Provider(
-          create: (context) => AuthRepository(context.read<AuthService>()),
+          create: (context) => AuthRepository(context.read<AuthService>(), context.read<UserService>()),
         ),
         Provider(
           create:
@@ -78,6 +81,12 @@ void main() async {
           create:
               (context) =>
                   FlashCardRepository(context.read<FlashCardService>()),
+        ),
+      Provider(
+          create:
+              (context) => IapRepository(
+                context.read<UserService>(),
+              ),
         ),
       ],
       child: const MainApp(),

@@ -1,10 +1,11 @@
+import 'package:fluentzy/data/models/transcript_line.dart';
+
 class ListeningLesson {
   final String id;
   final String name;
   final String url;
   final int duration;
-  final Map<String, String> transcripts;
-
+  final List<TranscriptLine> transcripts;
   ListeningLesson({
     required this.id,
     required this.name,
@@ -19,7 +20,7 @@ class ListeningLesson {
       name: json['name'] ?? '',
       url: json['url'] ?? '',
       duration: json['duration'] ?? 0,
-      transcripts: Map<String, String>.from(json['transcripts'] ?? {}),
+      transcripts: (json['transcripts'] as List).map((e) => TranscriptLine.fromJson(e)).toList()
     );
   }
 }

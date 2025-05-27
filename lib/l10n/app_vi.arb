@@ -29,13 +29,13 @@
 	"privacyPolicy": "Bằng việc tham gia, tôi xác nhận đã đọc và đồng ý với Điều khoản và Chính sách bảo mật",
 	"dontHaveAccountYet": "Chưa có tài khoản?",
 	"signUp": "Đăng ký",
-	"premium": "Cao cấp",
-	"premiumTitle": "Hơn 100.000 người đã mua gói Cao cấp",
+	"premium": "Premium",
+	"premiumTitle": "Hơn 100.000 người đã mua gói Premium",
 	"moneyBackGuarantee": "Đảm bảo hoàn tiền trong 14 ngày",
 	"basePlan": "Gói cơ bản",
 	"basePlanPrice": "0₫",
 	"basePlanDescription": "• Truy cập thực hành hàng ngày với số lượng bài tập hạn chế\n• Thẻ từ vựng cơ bản\n• Trò chuyện bằng văn bản\n• Lộ trình học tiêu chuẩn\n• Hỗ trợ giải thích AI hạn chế\n• Có quảng cáo\n",
-	"premiumPlan": "Gói cao cấp",
+	"premiumPlan": "Gói Premium",
 	"premiumPlanPrice": "499.000₫",
 	"premiumPlanDescription": "• Truy cập không giới hạn tất cả bài tập và thẻ từ\n• Phản hồi phát âm bằng AI\n• Trò chuyện tương tác với AI nâng cao\n• Lộ trình học cá nhân hóa theo tiến độ\n• Học offline toàn bộ nội dung\n• Không có quảng cáo\n• Truy cập sớm tính năng mới\n• Hỗ trợ dịch ảnh và giải thích chi tiết",
 	"restorePurchase": "Khôi phục mua hàng",
@@ -90,5 +90,8 @@
 	"flashCard": "Thẻ học",
 	"vietnamese": "Tiếng Việt",
 	"typeQuestion": "Nhập câu hỏi",
-	"startChatNow": "Bắt đầu trò chuyện ngay"
+	"startChatNow": "Bắt đầu trò chuyện ngay",
+	"confirmClearChat": "Xác nhận xóa trò chuyện",
+	"areYouSureClearChat": "Bạn có chắc muốn xóa trò chuyện không?",
+	"clear": "Xóa"
 }

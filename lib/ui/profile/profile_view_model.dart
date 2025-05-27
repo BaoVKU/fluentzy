@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluentzy/data/models/app_user.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:language_code/language_code.dart';
@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
-  User? get user => _authRepository.user;
+  AppUser? get user => _authRepository.user;
   String? _currentLanguageName;
   String? get currentLanguageName => _currentLanguageName;
 

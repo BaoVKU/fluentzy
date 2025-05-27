@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluentzy/data/models/listening_lesson.dart';
-
 class ListeningService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
