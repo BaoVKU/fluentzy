@@ -24,6 +24,7 @@ class HomePage extends StatelessWidget {
         return Scaffold(
           backgroundColor: AppColors.background,
           appBar: AppBar(
+            surfaceTintColor: AppColors.onSecondary,
             backgroundColor: AppColors.background,
             title: Text(AppLocalizations.of(context)!.home),
           ),
@@ -41,7 +42,6 @@ class HomePage extends StatelessWidget {
                                 HomeFeature.speaking => context.go(
                                   RoutePath.speakingLesson,
                                 ),
-    
                                 HomeFeature.listening => context.go(
                                   RoutePath.listeningLesson,
                                 ),
@@ -50,6 +50,15 @@ class HomePage extends StatelessWidget {
                                 ),
                                 HomeFeature.flashCard => context.go(
                                   RoutePath.flashCardList,
+                                ),
+                                HomeFeature.quiz => context.go(
+                                  "${RoutePath.quizLearn}/1",
+                                ),
+                                HomeFeature.translator => context.go(
+                                  RoutePath.translator,
+                                ),
+                                HomeFeature.statistics => context.go(
+                                  RoutePath.statistics,
                                 ),
                               },
                             },

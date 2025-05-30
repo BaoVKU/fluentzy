@@ -19,7 +19,7 @@ class FlashCardListScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.home);
+          context.go(RoutePath.home);
         }
       },
       child: LayoutBuilder(
@@ -40,6 +40,7 @@ class FlashCardListScreen extends StatelessWidget {
           return Scaffold(
             backgroundColor: AppColors.background,
             appBar: AppBar(
+              surfaceTintColor: AppColors.onSecondary,
               backgroundColor: AppColors.background,
               leading: IconButton(
                 onPressed: () => {context.go(RoutePath.home)},
@@ -57,6 +58,14 @@ class FlashCardListScreen extends StatelessWidget {
             body: SafeArea(
               child: Builder(
                 builder: (context) {
+                  if (viewModel.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
+                    );
+                  }
+
                   if (viewModel.flashCardSets.isEmpty) {
                     return Center(
                       child: Text(
@@ -65,7 +74,7 @@ class FlashCardListScreen extends StatelessWidget {
                       ),
                     );
                   }
-      
+
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: kIsWeb ? 8 : 0,

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fluentzy/data/models/chat_message.dart';
+import 'package:fluentzy/data/models/flash_card.dart';
 import 'package:fluentzy/data/models/speaking_response.dart';
 import 'package:fluentzy/data/services/ai_service.dart';
 import 'package:fluentzy/utils/logger.dart';
@@ -78,5 +79,25 @@ class AiRepository {
     }
 
     return response.text;
+  }
+
+  Future<List<FlashCard>> suggestFlashCards({
+    required String topic
+  }) async {
+    final pref = await SharedPreferences.getInstance();
+    final languageCode = pref.getString('language_code') ?? 'en';
+    final language = LanguageCodes.fromCode(languageCode).englishName;
+    
+    GenerateContentResponse response = await _aiService.suggestFlashCards(
+      topic: topic,
+      language: language,
+    );
+
+    if (response.text == null) {
+      return [];
+    }
+
+    final List<dynamic> jsonList = json.decode(response.text!);
+    return jsonList.map((json) => FlashCard.fromJson(json)).toList();
   }
 }

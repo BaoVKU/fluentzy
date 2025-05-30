@@ -8,25 +8,32 @@ class RecordViewModel extends ChangeNotifier {
   final String _lessonId;
   final SttRepository _sttRepository;
   final LessonRepository _lessonRepository;
+
   bool get isListening => _sttRepository.isListening;
+
   SpeakingLesson? _lesson;
   SpeakingLesson? get lesson => _lesson;
+
   bool _hasFinalResult = false;
   bool get hasFinalResult => _hasFinalResult;
+
   String get listenedResult => _sttRepository.listenedResult;
-  bool _isStoppedByUser = false;
-  bool get isStoppedByUser => _isStoppedByUser;
 
   RecordViewModel(this._sttRepository, this._lessonRepository, this._lessonId) {
     _fetchLessonById(id: _lessonId);
   }
+  
   void startRecording() async {
-    _isStoppedByUser = false;
     await _sttRepository.startRecording(
       onFinalResult: (isFinal) {
         _hasFinalResult = isFinal;
         Logger.error("said: $listenedResult");
         notifyListeners();
+      },
+      onTimeout: () {
+        _hasFinalResult = false;
+        Logger.error("Recording timed out");
+        stopRecording();
       },
     );
     notifyListeners();
@@ -34,7 +41,6 @@ class RecordViewModel extends ChangeNotifier {
 
   void stopRecording() async {
     await _sttRepository.stopRecording();
-    _isStoppedByUser = true;
     notifyListeners();
   }
 

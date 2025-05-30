@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class AiService {
-  static const String _apiKey = "";
+  static const String _apiKey = "AIzaSyAz_CcNeJahOhWmnmxyqHBWo9HvlJlFhnE";
   late GenerativeModel _model;
   ChatSession? chatSession;
 
@@ -79,5 +79,26 @@ class AiService {
           ''';
 
     return await chatSession!.sendMessage(Content.text(prompt.trim()));
+  }
+
+  Future<GenerateContentResponse> suggestFlashCards({
+    required String topic,
+    String language = "English",
+  }) async {
+    final prompt = '''
+                Suggest a set(list) of flashcards for the topic "$topic".
+                Each card should have a word (in English) and a description (definition if given language is English or translation if is other language).
+                Given language: $language.
+          ''';
+
+    final promptIterable = [Content.text(prompt.trim())];
+
+    return await _model.generateContent(
+      promptIterable,
+      generationConfig: GenerationConfig(
+        responseMimeType: "application/json",
+        responseSchema: AiResponseSchemas.flashCardsSuggestion,
+      ),
+    );
   }
 }

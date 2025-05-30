@@ -1,6 +1,11 @@
-class AuthUtil {
-  static String getAuthErrorMessage(String errorCode) {
-    switch (errorCode) {
+extension CapitalizeExtension on String {
+  String capitalize() {
+    if (isEmpty) return this;
+    return this[0].toUpperCase() + substring(1).toLowerCase();
+  }
+
+  String getAuthErrorMessage() {
+    switch (this) {
       case 'invalid-email':
         return 'The email address is not valid.';
       case 'user-disabled':
@@ -24,7 +29,7 @@ class AuthUtil {
       case 'internal-error':
         return 'An internal error occurred. Please try again.';
       default:
-        return 'An unknown error occurred. [$errorCode]';
+        return 'An unknown error occurred. [$this]';
     }
   }
 }

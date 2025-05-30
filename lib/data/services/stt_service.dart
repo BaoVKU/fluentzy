@@ -17,9 +17,10 @@ class SttService {
   }
 
   Future<void> startRecording({
+    String localeId = "en_US",
     required void Function(SpeechRecognitionResult) onSpeechResult,
   }) async {
-    await _speechToText.listen(onResult: onSpeechResult);
+    await _speechToText.listen(onResult: onSpeechResult, localeId: localeId, listenFor: Duration(seconds: 5));
   }
 
   Future<void> stopRecording() async {

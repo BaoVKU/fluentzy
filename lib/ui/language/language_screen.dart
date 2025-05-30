@@ -18,12 +18,13 @@ class LanguageScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.profile);
+          context.go(RoutePath.profile);
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
             onPressed: () => {context.go(RoutePath.profile)},
@@ -85,7 +86,10 @@ class LanguageScreen extends StatelessWidget {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Text(
-                                SupportLanguage.values[i].languageCode.nativeName,
+                                SupportLanguage
+                                    .values[i]
+                                    .languageCode
+                                    .nativeName,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,

@@ -1,9 +1,9 @@
 import 'package:fluentzy/data/models/speaking_response.dart';
 import 'package:fluentzy/data/models/response_state.dart';
+import 'package:fluentzy/extensions/int_ext.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/speaking/result/result_view_model.dart';
-import 'package:fluentzy/utils/color_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -32,6 +32,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           leading: IconButton(
             onPressed: () {
               context.go(RoutePath.home);
@@ -91,9 +92,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
                             style: TextStyle(
                               fontSize: 96,
                               fontWeight: FontWeight.bold,
-                              color: ColorPicker.getColorForAccuracy(
-                                _speakingResponse?.rate,
-                              ),
+                              color: _speakingResponse?.rate.getAccuracyColor(),
                             ),
                           );
                         }
@@ -128,16 +127,13 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
                               _speakingResponse != null
                           ? _speakingResponse!.ipa
                           : '',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20, fontFamily: 'NotoSans'),
                     ),
                     IconButton(
-                      onPressed: () {
-                        if (viewModel.isSpeaking) {
-                          viewModel.stopSpeaker();
-                        } else {
-                          viewModel.playSpeaker(text: viewModel.sentence);
-                        }
-                      },
+                      onPressed:
+                          () => {
+                            viewModel.speakOutLoud(text: viewModel.sentence),
+                          },
                       icon: SvgPicture.asset(
                         "assets/speaker.svg",
                         width: 24,

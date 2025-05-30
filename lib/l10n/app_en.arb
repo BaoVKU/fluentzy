@@ -93,5 +93,15 @@
 	"startChatNow": "Start chat now",
 	"confirmClearChat": "Confirm Clear Chat",
 	"areYouSureClearChat": "Are you sure you want to clear the chat?",
-	"clear": "Clear"
+	"clear": "Clear",
+	"quiz": "Quiz",
+	"selectAnswerFirst": "Please select an answer first",
+	"translator": "Translator",
+	"pleaseEnterText": "Please enter text",
+	"statistics": "Statistics",
+	"giveTopicForAi": "Please give a topic for AI flash card generation",
+	"topicCannotBeEmpty": "Topic cannot be empty",
+	"fieldCannotBeEmpty": "Field cannot be empty",
+	"name": "Name",
+	"topic": "Topic"
 }

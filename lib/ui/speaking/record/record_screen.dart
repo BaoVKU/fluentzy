@@ -26,18 +26,21 @@ class SpeakingRecordScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.speakingLesson);
+          context.go(RoutePath.speakingLesson);
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           leading: IconButton(
             onPressed: () => {context.go(RoutePath.speakingLesson)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           backgroundColor: AppColors.background,
-          title: Text(AppLocalizations.of(context)!.speaking),
+          title: Text(
+            viewModel.lesson?.name ?? AppLocalizations.of(context)!.speaking,
+          ),
           titleSpacing: 0.0,
         ),
         body: SafeArea(
@@ -54,7 +57,10 @@ class SpeakingRecordScreen extends StatelessWidget {
                               1)] ??
                           AppLocalizations.of(context)!.cannotFindLesson,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 32),
                     SvgPicture.asset(

@@ -1,5 +1,5 @@
 import 'package:fluentzy/data/repositories/auth_repository.dart';
-import 'package:fluentzy/utils/auth_util.dart';
+import 'package:fluentzy/extensions/string_ext.dart';
 import 'package:flutter/material.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -27,7 +27,7 @@ class LoginViewModel extends ChangeNotifier {
       password: password,
     );
     if (result != "success") {
-      _errorMessage = AuthUtil.getAuthErrorMessage(result);
+      _errorMessage = result.getAuthErrorMessage();
       notifyListeners();
     }
   }

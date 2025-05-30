@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.5.3
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -52,3 +53,7 @@ flutter:
   generate: true
   assets:
     - assets/
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: assets/NotoSans-Regular.ttf

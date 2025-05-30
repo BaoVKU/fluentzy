@@ -1,7 +1,7 @@
+import 'package:fluentzy/extensions/string_ext.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/profile/profile_view_model.dart';
-import 'package:fluentzy/utils/string_util.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:language_code/language_code.dart';
@@ -22,6 +22,7 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        surfaceTintColor: AppColors.onSecondary,
         backgroundColor: AppColors.background,
         title: Text(AppLocalizations.of(context)!.profile),
       ),
@@ -41,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                       "Email",
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
@@ -59,12 +60,13 @@ class ProfilePage extends StatelessWidget {
                       AppLocalizations.of(context)!.iSpeak,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      LanguageCodes.fromCode(viewModel.user?.nativeLangCode ?? 'en')
-                          .nativeName,
+                      LanguageCodes.fromCode(
+                        viewModel.user?.nativeLangCode ?? 'en',
+                      ).nativeName,
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -77,11 +79,12 @@ class ProfilePage extends StatelessWidget {
                       AppLocalizations.of(context)!.planOfEducation,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      StringUtil.capitalize(viewModel.user?.plan?? AppLocalizations.of(context)!.free),
+                      viewModel.user?.plan.capitalize() ??
+                          AppLocalizations.of(context)!.free,
                       style: TextStyle(fontSize: 14),
                     ),
                   ],
@@ -98,7 +101,7 @@ class ProfilePage extends StatelessWidget {
                         AppLocalizations.of(context)!.interfaceLanguage,
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
@@ -117,7 +120,7 @@ class ProfilePage extends StatelessWidget {
                       AppLocalizations.of(context)!.support,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
@@ -171,7 +174,7 @@ class ProfilePage extends StatelessWidget {
                     AppLocalizations.of(context)!.logout,
                     style: TextStyle(
                       fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       color: AppColors.error,
                     ),
                   ),

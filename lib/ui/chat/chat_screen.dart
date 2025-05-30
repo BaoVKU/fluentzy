@@ -56,6 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true, // Important
       appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
         title: Text(AppLocalizations.of(context)!.chat),
         backgroundColor: AppColors.background,
         actions: [

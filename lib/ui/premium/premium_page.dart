@@ -13,6 +13,7 @@ class PremiumPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        surfaceTintColor: AppColors.onSecondary,
         backgroundColor: AppColors.background,
         title: Text(AppLocalizations.of(context)!.premium),
       ),

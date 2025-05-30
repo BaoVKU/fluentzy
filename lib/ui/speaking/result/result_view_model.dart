@@ -11,7 +11,6 @@ class SpeakingResultViewModel extends ChangeNotifier {
   final TtsRepository _ttsRepository;
   final AiRepository _aiRepository;
   final LessonRepository _lessonRepository;
-  bool get isSpeaking => _ttsRepository.isSpeaking;
   ResponseState _responseState = Initial();
   ResponseState get responseState => _responseState;
   late String sentence;
@@ -32,13 +31,13 @@ class SpeakingResultViewModel extends ChangeNotifier {
     _checkPronunciation(said: userSaid, actual: sentence);
   }
 
-  Future<void> playSpeaker({required String text}) async {
+  Future<void> speakOutLoud({required String text}) async {
+    if (_ttsRepository.isSpeaking) {
+      await _ttsRepository.stopSpeaker();
+      notifyListeners();
+      return;
+    }
     await _ttsRepository.playSpeaker(text: text);
-    notifyListeners();
-  }
-
-  Future<void> stopSpeaker() async {
-    await _ttsRepository.stopSpeaker();
     notifyListeners();
   }
 

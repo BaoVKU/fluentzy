@@ -27,12 +27,12 @@ class FlashCardLearnViewModel extends ChangeNotifier {
 
   void undoCard() {
     if (_flashCardSet != null) {
+      _flashCardSet!.cards[_currentIndex].isLearned =
+          _oldFlashCardSet!.cards[_currentIndex].isLearned;
       if (_currentIndex > 0) {
         _currentIndex--;
-        _flashCardSet!.cards[_currentIndex].isLearned =
-            _oldFlashCardSet!.cards[_currentIndex].isLearned;
-        notifyListeners();
       }
+      notifyListeners();
     }
   }
 

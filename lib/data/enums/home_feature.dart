@@ -19,6 +19,18 @@ enum HomeFeature {
   flashCard(
     backgroundColor: AppColors.flashCardBackground,
     iconPath: "assets/flash_card.svg",
+  ),
+  quiz(
+    backgroundColor: AppColors.quizBackground,
+    iconPath: "assets/quiz.svg",
+  ),
+  translator(
+    backgroundColor: AppColors.translatorBackground,
+    iconPath: "assets/translate.svg",
+  ),
+  statistics(
+    backgroundColor: AppColors.statisticsBackground,
+    iconPath: "assets/statistics.svg",
   );
 
   final Color backgroundColor;
@@ -33,9 +45,15 @@ enum HomeFeature {
       case HomeFeature.listening:
         return l10n.listening;
       case HomeFeature.scanner:
-        return l10n.scanner; // or any better-matching key
+        return l10n.scanner;
       case HomeFeature.flashCard:
-        return l10n.flashCard; // or just `l10n.flashCard` if available
+        return l10n.flashCard;
+      case HomeFeature.quiz:
+        return l10n.quiz;
+      case HomeFeature.translator:
+        return l10n.translator;
+      case HomeFeature.statistics:
+        return l10n.statistics;
     }
   }
 }

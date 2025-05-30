@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:language_code/language_code.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -26,6 +25,7 @@ class PlayScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           leading: IconButton(
             onPressed: () => {context.go(RoutePath.listeningLesson)},
             icon: SvgPicture.asset("assets/back.svg"),
@@ -88,7 +88,7 @@ class PlayScreen extends StatelessWidget {
                         builder: (context, snapshot) {
                           final state = snapshot.data;
                           final isPlaying = state?.playing ?? false;
-              
+
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -127,9 +127,9 @@ class PlayScreen extends StatelessWidget {
                           );
                         },
                       ),
-              
+
                       const SizedBox(height: 8),
-              
+
                       /// Position Slider with time indicators
                       StreamBuilder<Duration>(
                         stream: viewModel.audioPlayer.positionStream,
@@ -138,7 +138,7 @@ class PlayScreen extends StatelessWidget {
                           final total =
                               viewModel.audioPlayer.duration ??
                               Duration(seconds: 1);
-              
+
                           return Column(
                             children: [
                               Padding(
@@ -176,14 +176,14 @@ class PlayScreen extends StatelessWidget {
                                     Duration(seconds: value.toInt()),
                                   );
                                 },
-                              )
+                              ),
                             ],
                           );
                         },
                       ),
-              
+
                       const SizedBox(height: 8),
-              
+
                       /// Volume Control
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,16 +209,16 @@ class PlayScreen extends StatelessWidget {
                                 max: 1,
                                 divisions: 10,
                                 onChanged:
-                                    (value) => viewModel.audioPlayer
-                                        .setVolume(value),
+                                    (value) =>
+                                        viewModel.audioPlayer.setVolume(value),
                               );
                             },
                           ),
                         ],
                       ),
-              
+
                       const SizedBox(height: 8),
-              
+
                       /// Speed Control
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,7 +252,7 @@ class PlayScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-              
+
                       if (viewModel.isTranscriptEnabled)
                         StreamBuilder<Duration>(
                           stream: viewModel.audioPlayer.positionStream,
@@ -296,9 +296,9 @@ class PlayScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-              
+
                                 const SizedBox(height: 8),
-              
+
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 8.0,
@@ -316,7 +316,7 @@ class PlayScreen extends StatelessWidget {
                                     ),
                                     child: Text(
                                       currentLine.vi,
-                                    textAlign: TextAlign.center,
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ],

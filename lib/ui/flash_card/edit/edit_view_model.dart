@@ -1,15 +1,27 @@
 import 'package:fluentzy/data/models/flash_card.dart';
 import 'package:fluentzy/data/models/flash_card_set.dart';
+import 'package:fluentzy/data/repositories/ai_repository.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:flutter/material.dart';
 
 class FlashCardEditViewModel extends ChangeNotifier {
   final FlashCardRepository _flashCardRepository;
-  FlashCardSet? _flashCardSet;
+  final AiRepository _aiRepository;
+
+  final FlashCardSet? _flashCardSet;
   FlashCardSet? get flashCardSet => _flashCardSet;
+
   bool _isOperationSuccessful = false;
   bool get isOperationSuccessful => _isOperationSuccessful;
-  FlashCardEditViewModel(this._flashCardRepository, this._flashCardSet);
+
+  bool _isAiGenerating = false;
+  bool get isAiGenerating => _isAiGenerating;
+
+  FlashCardEditViewModel(
+    this._flashCardRepository,
+    this._aiRepository,
+    this._flashCardSet,
+  );
 
   Future<void> saveFlashCardSet({
     required String setName,
@@ -36,5 +48,16 @@ class FlashCardEditViewModel extends ChangeNotifier {
 
     _isOperationSuccessful = true;
     notifyListeners();
+  }
+
+  Future<List<FlashCard>> generateFlashCardsByAi({
+    required String topic,
+  }) async {
+    _isAiGenerating = true;
+    notifyListeners();
+    final result = await _aiRepository.suggestFlashCards(topic: topic);
+    _isAiGenerating = false;
+    notifyListeners();
+    return result;
   }
 }

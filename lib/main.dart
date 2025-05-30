@@ -8,6 +8,7 @@ import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:fluentzy/data/repositories/iap_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
+import 'package:fluentzy/data/repositories/translation_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
 import 'package:fluentzy/data/services/ai_service.dart';
 import 'package:fluentzy/data/services/audio_service.dart';
@@ -17,8 +18,10 @@ import 'package:fluentzy/data/services/dictionary_service.dart';
 import 'package:fluentzy/data/services/flash_card_service.dart';
 import 'package:fluentzy/data/services/image_picker_service.dart';
 import 'package:fluentzy/data/services/listening_service.dart';
+import 'package:fluentzy/data/services/quiz_service.dart';
 import 'package:fluentzy/data/services/speaking_service.dart';
 import 'package:fluentzy/data/services/stt_service.dart';
+import 'package:fluentzy/data/services/translation_service.dart';
 import 'package:fluentzy/data/services/tts_service.dart';
 import 'package:fluentzy/data/services/user_service.dart';
 import 'package:fluentzy/firebase_options.dart';
@@ -26,8 +29,8 @@ import 'package:fluentzy/routing/router.dart';
 import 'package:fluentzy/ui/language/language_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -55,6 +58,8 @@ void main() async {
         Provider(create: (context) => AudioService()),
         Provider(create: (context) => ListeningService()),
         Provider(create: (context) => FlashCardService()),
+        Provider(create: (context) => QuizService()),
+        Provider(create: (context) => TranslationService()),
         Provider(
           create: (context) => TtsRepository(context.read<TtsService>()),
         ),
@@ -63,13 +68,18 @@ void main() async {
         ),
         Provider(create: (context) => AiRepository(context.read<AiService>())),
         Provider(
-          create: (context) => AuthRepository(context.read<AuthService>(), context.read<UserService>()),
+          create:
+              (context) => AuthRepository(
+                context.read<AuthService>(),
+                context.read<UserService>(),
+              ),
         ),
         Provider(
           create:
               (context) => LessonRepository(
                 context.read<SpeakingService>(),
                 context.read<ListeningService>(),
+                context.read<QuizService>(),
               ),
         ),
         Provider(
@@ -82,11 +92,13 @@ void main() async {
               (context) =>
                   FlashCardRepository(context.read<FlashCardService>()),
         ),
-      Provider(
+        Provider(
+          create: (context) => IapRepository(context.read<UserService>()),
+        ),
+        Provider(
           create:
-              (context) => IapRepository(
-                context.read<UserService>(),
-              ),
+              (context) =>
+                  TranslationRepository(context.read<TranslationService>()),
         ),
       ],
       child: const MainApp(),
@@ -103,6 +115,9 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        textTheme: GoogleFonts.varelaRoundTextTheme()
+      ),
       locale: locale,
       supportedLocales:
           SupportLanguage.values

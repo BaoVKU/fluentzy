@@ -24,4 +24,17 @@ class AiResponseSchemas {
     description: 'Response for object detection',
     requiredProperties: ['name'],
   );
+
+  static final flashCardsSuggestion = Schema.array(
+    items: Schema.object(
+      properties: {
+        'word': Schema.string(description: 'Card English word'),
+        'description': Schema.string(
+          description: 'Definition or translation(preferrer) of word above in given language',
+        )
+      },
+      requiredProperties: ['word', 'description'],
+    ),
+    description: 'Response for flashcard set(list) suggestion',
+  );
 }

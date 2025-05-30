@@ -16,7 +16,6 @@ class ScannerResultViewModel extends ChangeNotifier {
   XFile get image => _image;
   ResponseState _responseState = Initial();
   ResponseState get responseState => _responseState;
-  bool get isSpeaking => _ttsRepository.isSpeaking;
   ScannerResultViewModel(
     this._aiRepository,
     this._dictionaryRepository,
@@ -70,13 +69,14 @@ class ScannerResultViewModel extends ChangeNotifier {
     return bytes;
   }
 
-  Future<void> playSpeaker({required String text}) async {
+  Future<void> speakOutLoud({required String text}) async {
+    if (_ttsRepository.isSpeaking) {
+      await _ttsRepository.stopSpeaker();
+      notifyListeners();
+      return;
+    }
     await _ttsRepository.playSpeaker(text: text);
     notifyListeners();
   }
 
-  Future<void> stopSpeaker() async {
-    await _ttsRepository.stopSpeaker();
-    notifyListeners();
-  }
 }

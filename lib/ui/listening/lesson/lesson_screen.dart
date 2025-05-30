@@ -1,7 +1,7 @@
+import 'package:fluentzy/extensions/int_ext.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/listening/lesson/lesson_view_model.dart';
-import 'package:fluentzy/utils/time_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +19,7 @@ class ListeningLessonScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.home);
+          context.go(RoutePath.home);
         }
       },
       child: LayoutBuilder(
@@ -40,6 +40,7 @@ class ListeningLessonScreen extends StatelessWidget {
           return Scaffold(
             backgroundColor: AppColors.background,
             appBar: AppBar(
+              surfaceTintColor: AppColors.onSecondary,
               backgroundColor: AppColors.background,
               leading: IconButton(
                 onPressed: () => {context.go(RoutePath.home)},
@@ -49,85 +50,95 @@ class ListeningLessonScreen extends StatelessWidget {
               title: Text(AppLocalizations.of(context)!.lessons),
             ),
             body: SafeArea(
-              child: GridView.builder(
-                padding: const EdgeInsets.all(8),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columnCount,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  childAspectRatio: 3.5, // Width/Height ratio
-                ),
-                itemCount: viewModel.lessons.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap:
-                        () => {
-                          context.go(
-                            "${RoutePath.listeningPlay}/${viewModel.lessons[index].id}",
-                          ),
-                        },
-                    child: Card(
-                      color: AppColors.surfacePrimary,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              width: 72,
-                              height: 72,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: AppColors.primary,
-                                  width: 3,
-                                ),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: 56,
-                                height: 56,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Text(
-                                  (index + 1).toString(),
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                child: Text(
-                                  viewModel.lessons[index].name,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              TimeUtil.formatDuration(
-                                viewModel.lessons[index].duration,
-                              ),
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                color: AppColors.onSecondary,
-                              ),
-                            ),
-                          ],
-                        ),
+              child: Builder(
+                builder: (context) {
+                  if (viewModel.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
                       ),
+                    );
+                  }
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(8),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columnCount,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 3.5, // Width/Height ratio
                     ),
+                    itemCount: viewModel.lessons.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap:
+                            () => {
+                              context.go(
+                                "${RoutePath.listeningPlay}/${viewModel.lessons[index].id}",
+                              ),
+                            },
+                        child: Card(
+                          color: AppColors.surfacePrimary,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: 72,
+                                  height: 72,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: AppColors.primary,
+                                      width: 3,
+                                    ),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    width: 56,
+                                    height: 56,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      (index + 1).toString(),
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: Text(
+                                      viewModel.lessons[index].name,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  viewModel.lessons[index].duration
+                                      .toDurationString(),
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    color: AppColors.onSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

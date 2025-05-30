@@ -1,8 +1,6 @@
 import 'package:fluentzy/data/models/listening_lesson.dart';
-import 'package:fluentzy/data/models/transcript_line.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/services/audio_service.dart';
-import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 

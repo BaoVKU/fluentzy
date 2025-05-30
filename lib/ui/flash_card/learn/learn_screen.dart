@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FlashCardLearnScreen extends StatelessWidget {
   const FlashCardLearnScreen({super.key});
@@ -26,12 +25,13 @@ class FlashCardLearnScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.flashCardList);
+          context.go(RoutePath.flashCardList);
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
             onPressed: () {
@@ -162,18 +162,6 @@ class FlashCardLearnScreen extends StatelessWidget {
                             IconButton(
                               onPressed: () {
                                 viewModel.undoCard();
-                                if (viewModel.currentIndex == 0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.noMoreCardsToUndo,
-                                      ),
-                                      duration: Duration(seconds: 2),
-                                    ),
-                                  );
-                                }
                               },
                               icon: Icon(Icons.undo_rounded),
                             ),

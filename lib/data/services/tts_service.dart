@@ -9,13 +9,14 @@ class TtsService {
   }
 
   Future<void> _config() async {
-    await _tts.setLanguage("en-US");
     await _tts.setSpeechRate(0.5);
     await _tts.setPitch(1.0);
   }
 
-  Future<void> playSpeaker({required String text}) async =>
-      await _tts.speak(text);
+  Future<void> playSpeaker({required String text,required String localeId}) async {
+    await _tts.setLanguage(localeId);
+    await _tts.speak(text);
+  }
 
   Future<void> stopSpeaker() async => await _tts.stop();
 

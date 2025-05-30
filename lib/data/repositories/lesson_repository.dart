@@ -1,12 +1,19 @@
 import 'package:fluentzy/data/models/listening_lesson.dart';
+import 'package:fluentzy/data/models/quiz_lesson.dart';
 import 'package:fluentzy/data/models/speaking_lesson.dart';
 import 'package:fluentzy/data/services/listening_service.dart';
+import 'package:fluentzy/data/services/quiz_service.dart';
 import 'package:fluentzy/data/services/speaking_service.dart';
 
 class LessonRepository {
   final SpeakingService _speakingService;
   final ListeningService _listeningService;
-  LessonRepository(this._speakingService, this._listeningService);
+  final QuizService _quizService;
+  LessonRepository(
+    this._speakingService,
+    this._listeningService,
+    this._quizService,
+  );
 
   Future<List<SpeakingLesson>> fetchSpeakingLessons() async {
     return await _speakingService.fetchLessons();
@@ -14,6 +21,10 @@ class LessonRepository {
 
   Future<List<ListeningLesson>> fetchListeningLessons() async {
     return await _listeningService.fetchLessons();
+  }
+
+  QuizLesson fetchQuizLessonById() {
+    return _quizService.fetchFakeLesson();
   }
 
   Future<SpeakingLesson?> fetchSpeakingLessonById(String id) async {

@@ -11,9 +11,20 @@ class TtsRepository {
     });
   }
 
-  Future<void> playSpeaker({required String text}) async {
+  Future<void> playSpeaker({required String text, String langCode = "en"}) async {
     _isSpeaking = true;
-    await _ttsService.playSpeaker(text: text);
+    final String localeId;
+    switch (langCode) {
+      case "en":
+        localeId = "en-US";
+        break;
+      case "vi":
+        localeId = "vi-VN";
+        break;
+      default:
+        localeId = "en-US"; // Default to English if unsupported language
+    }
+    await _ttsService.playSpeaker(text: text, localeId: localeId);
   }
 
   Future<void> stopSpeaker() async {

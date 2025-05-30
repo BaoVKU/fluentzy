@@ -93,5 +93,15 @@
 	"startChatNow": "Bắt đầu trò chuyện ngay",
 	"confirmClearChat": "Xác nhận xóa trò chuyện",
 	"areYouSureClearChat": "Bạn có chắc muốn xóa trò chuyện không?",
-	"clear": "Xóa"
+	"clear": "Xóa",
+	"quiz": "Trắc nghiệm",
+	"selectAnswerFirst": "Vui lòng chọn câu trả lời trước",
+	"translator": "Dịch thuật",
+	"pleaseEnterText": "Vui lòng nhập văn bản",
+	"statistics": "Thống kê",
+	"giveTopicForAi": "Vui lòng cung cấp chủ đề để AI tạo thẻ học",
+	"topicCannotBeEmpty": "Chủ đề không được để trống",
+	"fieldCannotBeEmpty": "Trường không được để trống",
+	"name": "Tên",
+	"topic": "Chủ đề"
 }

@@ -14,7 +14,9 @@ class AppColors {
   static const Color scannerBackground = Color(0xFFFFA000);
   static const Color flashCardBackground = Color(0xFF388E3C);
   static const Color success = Color(0xFF38AD49);
+  static const Color successLight = Color.fromARGB(100, 217, 255, 223);
   static const Color error = Color(0xFFD53F36);
+  static const Color errorLight = Color.fromARGB(100, 255, 214, 212);
   static const Color veryPoor = Color(0xFFD53F36);
   static const Color poor = Color(0xFFE04F3D);
   static const Color fair = Color(0xFFED8A3B);
@@ -25,4 +27,7 @@ class AppColors {
   static const Color imageOptionForeground = Color(0xFF4A148C);
   static const Color cameraOptionBackground = Color(0xFFE0F7FA);
   static const Color cameraOptionForeground = Color(0xFF006064);
+  static const Color quizBackground = Color(0xFF7B1FA2);
+  static const Color translatorBackground = Color(0xFFA2845E);
+  static const Color statisticsBackground = Color(0xFF455A64);
 }

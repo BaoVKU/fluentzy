@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:fluentzy/data/models/dictionary_entry.dart';
 import 'package:fluentzy/data/models/response_state.dart';
+import 'package:fluentzy/extensions/string_ext.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/scanner/result/result_view_model.dart';
-import 'package:fluentzy/utils/string_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,12 +23,13 @@ class ScannerResultScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.scannerOptions);
+          context.go(RoutePath.scannerOptions);
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           title: Text(AppLocalizations.of(context)!.result),
           leading: IconButton(
@@ -80,7 +81,7 @@ class ScannerResultScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  StringUtil.capitalize(data.word),
+                                  data.word.capitalize(),
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontSize: 28,
@@ -92,17 +93,16 @@ class ScannerResultScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       data.phonetic,
-                                      style: TextStyle(fontSize: 16),
+                                      style: TextStyle(fontSize: 16, fontFamily: 'NotoSans'),
                                     ),
                                     SizedBox(width: 8.0),
                                     GestureDetector(
-                                      onTap: () {
-                                        if (viewModel.isSpeaking) {
-                                          viewModel.stopSpeaker();
-                                        } else {
-                                          viewModel.playSpeaker(text: data.word);
-                                        }
-                                      },
+                                      onTap:
+                                          () => {
+                                            viewModel.speakOutLoud(
+                                              text: data.word,
+                                            ),
+                                          },
                                       child: SvgPicture.asset(
                                         "assets/speaker.svg",
                                         width: 20,
@@ -157,7 +157,9 @@ class ScannerResultScreen extends StatelessWidget {
                         case Error():
                           {
                             return Text(
-                              AppLocalizations.of(context)!.objectDetectionError,
+                              AppLocalizations.of(
+                                context,
+                              )!.objectDetectionError,
                               style: TextStyle(color: AppColors.error),
                             );
                           }

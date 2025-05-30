@@ -19,12 +19,13 @@ class ScannerOptionScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.home);
+          context.go(RoutePath.home);
         }
       },
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+          surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
             onPressed: () => {context.go(RoutePath.home)},
@@ -50,15 +51,6 @@ class ScannerOptionScreen extends StatelessWidget {
                     ),
                   );
                 }
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      AppLocalizations.of(context)!.pleaseSelectImage,
-                    ),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
               }
             });
             return SafeArea(

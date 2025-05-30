@@ -35,5 +35,14 @@ class RoutePath {
   static const flashCardEdit = '$flashCard/edit';
   static const flashCardLearn = '$flashCard/learn';
 
+  static const quiz = '${main}quiz';
+  static const quizLesson = '$quiz/lesson';
+  static const quizLearn = '$quiz/learn';
+  static const quizLearnWithId = '$quiz/learn/:$lessonId';
+
+  static const translator = '${main}translator';
+
+  static const statistics = '${main}statistics';
+
   static const lessonId = 'lessonId';
 }

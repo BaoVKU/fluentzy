@@ -7,6 +7,7 @@ import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:fluentzy/data/repositories/iap_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
+import 'package:fluentzy/data/repositories/translation_repository.dart';
 import 'package:fluentzy/data/repositories/tts_repository.dart';
 import 'package:fluentzy/data/services/audio_service.dart';
 import 'package:fluentzy/data/services/camera_service.dart';
@@ -32,6 +33,8 @@ import 'package:fluentzy/ui/premium/premium_page.dart';
 import 'package:fluentzy/ui/premium/premium_view_model.dart';
 import 'package:fluentzy/ui/profile/profile_page.dart';
 import 'package:fluentzy/ui/profile/profile_view_model.dart';
+import 'package:fluentzy/ui/quiz/learn/learn_screen.dart';
+import 'package:fluentzy/ui/quiz/learn/learn_view_model.dart';
 import 'package:fluentzy/ui/register/register_screen.dart';
 import 'package:fluentzy/ui/register/register_view_model.dart';
 import 'package:fluentzy/ui/scanner/camera/camera_screen.dart';
@@ -49,6 +52,10 @@ import 'package:fluentzy/ui/speaking/record/record_view_model.dart';
 import 'package:fluentzy/ui/speaking/result/result_screen.dart';
 import 'package:fluentzy/ui/speaking/result/result_view_model.dart';
 import 'package:fluentzy/ui/scanner/result/result_view_model.dart';
+import 'package:fluentzy/ui/statistics/statistics_screen.dart';
+import 'package:fluentzy/ui/statistics/statistics_view_model.dart';
+import 'package:fluentzy/ui/translator/translator_screen.dart';
+import 'package:fluentzy/ui/translator/translator_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -72,10 +79,13 @@ class AppRouter {
           ),
           GoRoute(
             path: RoutePath.premium,
-            builder: (context, state) => ChangeNotifierProvider(
-              create: (context) => PremiumViewModel(context.read<IapRepository>()),
-              child: const PremiumPage(),
-            ),
+            builder:
+                (context, state) => ChangeNotifierProvider(
+                  create:
+                      (context) =>
+                          PremiumViewModel(context.read<IapRepository>()),
+                  child: const PremiumPage(),
+                ),
           ),
           GoRoute(
             path: RoutePath.chat,
@@ -241,6 +251,7 @@ class AppRouter {
               create:
                   (context) => FlashCardEditViewModel(
                     context.read<FlashCardRepository>(),
+                    context.read<AiRepository>(),
                     null,
                   ),
               child: FlashCardEditScreen(),
@@ -253,6 +264,7 @@ class AppRouter {
               create:
                   (context) => FlashCardEditViewModel(
                     context.read<FlashCardRepository>(),
+                    context.read<AiRepository>(),
                     state.extra as FlashCardSet,
                   ),
               child: FlashCardEditScreen(),
@@ -268,6 +280,39 @@ class AppRouter {
                     state.extra as FlashCardSet,
                   ),
               child: const FlashCardLearnScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.quizLearnWithId,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => QuizLearnViewModel(
+                    context.read<LessonRepository>(),
+                    state.pathParameters[RoutePath.lessonId]!,
+                  ),
+              child: QuizLearnScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.translator,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => TranslatorViewModel(
+                    context.read<TranslationRepository>(),
+                    context.read<TtsRepository>(),
+                    context.read<SttRepository>(),
+                  ),
+              child: TranslatorScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.statistics,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create: (context) => StatisticsViewModel(),
+              child: StatisticsScreen(),
             ),
       ),
     ],
