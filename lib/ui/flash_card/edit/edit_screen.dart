@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/flash_card/edit/edit_view_model.dart';
@@ -34,6 +36,18 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
     } // Add initial empty card
   }
 
+  @override
+  void dispose() {
+    // Always dispose controllers!
+    for (var c in wordControllers) {
+      c.dispose();
+    }
+    for (var c in descControllers) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+
   void _addCard() {
     setState(() {
       wordControllers.add(TextEditingController());
@@ -57,18 +71,6 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
       wordControllers.removeAt(index);
       descControllers.removeAt(index);
     });
-  }
-
-  @override
-  void dispose() {
-    // Always dispose controllers!
-    for (var c in wordControllers) {
-      c.dispose();
-    }
-    for (var c in descControllers) {
-      c.dispose();
-    }
-    super.dispose();
   }
 
   @override
@@ -262,41 +264,61 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
                               ),
                             ],
                           ),
-                          TextField(
-                            controller: wordControllers[index],
-                            style: TextStyle(color: AppColors.onSecondary),
-                            decoration: InputDecoration(
-                              labelText: 'Word',
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.onSecondary,
-                                  width: 2,
+                          Theme(
+                            data: Theme.of(context).copyWith(
+                              textSelectionTheme: TextSelectionThemeData(
+                                selectionColor: AppColors.primary.withAlpha(
+                                  (0.2 * 255).toInt(),
                                 ),
+                                cursorColor: AppColors.primary,
                               ),
-                              labelStyle: TextStyle(
-                                color: AppColors.onSecondary,
+                            ),
+                            child: TextField(
+                              controller: wordControllers[index],
+                              style: TextStyle(color: AppColors.onSecondary),
+                              decoration: InputDecoration(
+                                labelText: 'Word',
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.onSecondary,
+                                    width: 2,
+                                  ),
+                                ),
+                                labelStyle: TextStyle(
+                                  color: AppColors.onSecondary,
+                                ),
+                                border: OutlineInputBorder(),
                               ),
-                              border: OutlineInputBorder(),
                             ),
                           ),
                           SizedBox(height: 12),
-                          TextField(
-                            controller: descControllers[index],
-                            style: TextStyle(color: AppColors.onSecondary),
-                            decoration: InputDecoration(
-                              labelText: 'Description',
-                              labelStyle: TextStyle(
-                                color: AppColors.onSecondary,
-                              ),
-                              border: OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: AppColors.onSecondary,
-                                  width: 2,
+                          Theme(
+                            data: Theme.of(context).copyWith(
+                              textSelectionTheme: TextSelectionThemeData(
+                                selectionColor: AppColors.primary.withAlpha(
+                                  (0.2 * 255).toInt(),
                                 ),
+                                cursorColor: AppColors.primary,
                               ),
                             ),
-                            maxLines: 2,
+                            child: TextField(
+                              controller: descControllers[index],
+                              style: TextStyle(color: AppColors.onSecondary),
+                              decoration: InputDecoration(
+                                labelText: 'Description',
+                                labelStyle: TextStyle(
+                                  color: AppColors.onSecondary,
+                                ),
+                                border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: AppColors.onSecondary,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                              maxLines: 2,
+                            ),
                           ),
                         ],
                       ),

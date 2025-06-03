@@ -40,6 +40,12 @@ class TranslatorViewModel extends ChangeNotifier {
     this._sttRepository,
   );
 
+  @override
+  void dispose() {
+    _sttRepository.dispose();
+    super.dispose();
+  }
+  
   Future<String> translate(String text) async {
     _isTranslating = true;
     notifyListeners();
@@ -110,11 +116,5 @@ class TranslatorViewModel extends ChangeNotifier {
 
   void resetTimeout() {
     _isTimeout = false;
-  }
-
-  @override
-  void dispose() {
-    _sttRepository.dispose();
-    super.dispose();
   }
 }

@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AiRepository {
   final AiService _aiService;
+
   AiRepository(this._aiService);
 
   Future<SpeakingResponse?> checkPronunciation({
@@ -56,9 +57,10 @@ class AiRepository {
   void startChatSession(List<ChatMessage>? messages) {
     final List<Content>? history;
     if (messages != null && messages.isNotEmpty) {
-      history = messages.map((message) {
-        return Content.text(message.text);
-      }).toList();
+      history =
+          messages.map((message) {
+            return Content.text(message.text);
+          }).toList();
     } else {
       history = null;
     }
@@ -70,9 +72,7 @@ class AiRepository {
   }
 
   Future<String?> sendMessage({required String text}) async {
-    GenerateContentResponse response = await _aiService.sendMessage(
-      text: text,
-    );
+    GenerateContentResponse response = await _aiService.sendMessage(text: text);
 
     if (response.text == null) {
       return null;
@@ -81,13 +81,11 @@ class AiRepository {
     return response.text;
   }
 
-  Future<List<FlashCard>> suggestFlashCards({
-    required String topic
-  }) async {
+  Future<List<FlashCard>> suggestFlashCards({required String topic}) async {
     final pref = await SharedPreferences.getInstance();
     final languageCode = pref.getString('language_code') ?? 'en';
     final language = LanguageCodes.fromCode(languageCode).englishName;
-    
+
     GenerateContentResponse response = await _aiService.suggestFlashCards(
       topic: topic,
       language: language,

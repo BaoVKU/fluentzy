@@ -56,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true, // Important
       appBar: AppBar(
-          surfaceTintColor: AppColors.onSecondary,
+        surfaceTintColor: AppColors.onSecondary,
         title: Text(AppLocalizations.of(context)!.chat),
         backgroundColor: AppColors.background,
         actions: [
@@ -187,7 +187,8 @@ class _ChatScreenState extends State<ChatScreen> {
                         color: Colors.white,
                         icon: const Icon(Icons.arrow_upward_rounded),
                         onPressed: () {
-                          if (_controller.text.isEmpty || viewModel.isThinking) return;
+                          if (_controller.text.isEmpty || viewModel.isThinking)
+                            return;
                           viewModel.addMessage(text: _controller.text);
                           _controller.clear();
                         },

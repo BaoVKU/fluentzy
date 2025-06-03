@@ -2,6 +2,7 @@ class SpeakingResponse {
   final String feedback;
   final int rate;
   final String ipa;
+  
   SpeakingResponse({
     required this.feedback,
     required this.rate,

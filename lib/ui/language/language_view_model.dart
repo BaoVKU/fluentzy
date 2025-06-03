@@ -4,16 +4,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageViewModel extends ChangeNotifier {
   SharedPreferences? pref;
+
   SupportLanguage _selectedLanguage = SupportLanguage.english;
   SupportLanguage get selectedLanguage => _selectedLanguage;
+
   Locale _locale = const Locale('en');
   Locale get locale => _locale;
 
   LanguageViewModel() {
-    init();
+    _init();
   }
 
-  void init() async {
+  void _init() async {
     pref = await SharedPreferences.getInstance();
     final languageCode = pref?.getString('language_code') ?? 'en';
     _locale = Locale(languageCode);

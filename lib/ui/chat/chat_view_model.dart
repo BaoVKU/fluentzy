@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class ChatViewModel extends ChangeNotifier {
-  final Box<ChatMessage> _chatBox = Hive.box<ChatMessage>('chatBox');
   final AiRepository _aiRepository;
+  final Box<ChatMessage> _chatBox = Hive.box<ChatMessage>('chatBox');
+
   List<ChatMessage> get messages => _chatBox.values.toList();
+
   bool _isThinking = false;
   bool get isThinking => _isThinking;
 
@@ -14,6 +16,12 @@ class ChatViewModel extends ChangeNotifier {
     final List<ChatMessage> userMessages =
         messages.where((message) => message.isUser).toList();
     _aiRepository.startChatSession(userMessages);
+  }
+  
+  @override
+  dispose() {
+    _aiRepository.endChatSession();
+    super.dispose();
   }
 
   void addMessage({required String text, bool isUser = true}) {
@@ -41,9 +49,4 @@ class ChatViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  dispose() {
-    _aiRepository.endChatSession();
-    super.dispose();
-  }
 }

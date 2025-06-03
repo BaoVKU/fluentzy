@@ -93,7 +93,10 @@ class ScannerResultScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       data.phonetic,
-                                      style: TextStyle(fontSize: 16, fontFamily: 'NotoSans'),
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontFamily: 'NotoSans',
+                                      ),
                                     ),
                                     SizedBox(width: 8.0),
                                     GestureDetector(

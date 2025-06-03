@@ -1,12 +1,17 @@
 import 'package:fluentzy/data/models/flash_card_set.dart';
 import 'package:fluentzy/data/services/flash_card_service.dart';
+import 'package:fluentzy/data/services/user_service.dart';
 
 class FlashCardRepository {
   final FlashCardService _flashCardService;
-  FlashCardRepository(this._flashCardService);
+  final UserService _userService;
+
+  FlashCardRepository(this._flashCardService, this._userService);
 
   Future<List<FlashCardSet>> fetchFlashCardSets() async {
-    return await _flashCardService.fetchFlashCardSets();
+    return await _flashCardService.fetchFlashCardSets(
+      _userService.currentUser!.id,
+    );
   }
 
   Future<FlashCardSet?> fetchFlashCardSetById(String id) async {

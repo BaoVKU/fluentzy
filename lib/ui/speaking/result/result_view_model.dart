@@ -1,4 +1,5 @@
 import 'package:fluentzy/data/models/speaking_lesson.dart';
+import 'package:fluentzy/data/models/speaking_progress.dart';
 import 'package:fluentzy/data/models/speaking_response.dart';
 import 'package:fluentzy/data/models/response_state.dart';
 import 'package:fluentzy/data/repositories/ai_repository.dart';
@@ -11,12 +12,17 @@ class SpeakingResultViewModel extends ChangeNotifier {
   final TtsRepository _ttsRepository;
   final AiRepository _aiRepository;
   final LessonRepository _lessonRepository;
+
   ResponseState _responseState = Initial();
   ResponseState get responseState => _responseState;
+
   late String sentence;
   late String lessonId;
-  late int lastDone;
   late SpeakingLesson _lesson;
+
+  late SpeakingProgress _progress;
+  SpeakingProgress get progress => _progress;
+
   SpeakingResultViewModel(
     this._ttsRepository,
     this._aiRepository,
@@ -25,20 +31,10 @@ class SpeakingResultViewModel extends ChangeNotifier {
   ) {
     _lesson = _extra["lesson"];
     final String userSaid = _extra["said"];
+    _progress = _extra["progress"];
     lessonId = _lesson.id;
-    lastDone = _lesson.lastDone;
-    sentence = _lesson.sentences[lastDone + 1];
+    sentence = _lesson.sentences[_progress.lastDoneIndex + 1];
     _checkPronunciation(said: userSaid, actual: sentence);
-  }
-
-  Future<void> speakOutLoud({required String text}) async {
-    if (_ttsRepository.isSpeaking) {
-      await _ttsRepository.stopSpeaker();
-      notifyListeners();
-      return;
-    }
-    await _ttsRepository.playSpeaker(text: text);
-    notifyListeners();
   }
 
   Future<void> _checkPronunciation({required said, required actual}) async {
@@ -63,13 +59,22 @@ class SpeakingResultViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> increaseLastDone(Function() onLastDoneUpdated) async {
-    // Logger.error("increaseLastDone: ${_lesson.id} ${_lesson.lastDone} ${_lesson.sentences}");
-    await _lessonRepository.updateSpeakingLessonLastDone(
-      id: lessonId,
-      newIndex: _lesson.lastDone + 1,
-    );
-    onLastDoneUpdated();
+  Future<void> speakOutLoud({required String text}) async {
+    if (_ttsRepository.isSpeaking) {
+      await _ttsRepository.stopSpeaker();
+      notifyListeners();
+      return;
+    }
+    await _ttsRepository.playSpeaker(text: text);
     notifyListeners();
+  }
+  
+  Future<void> saveProgress(Function() onUpdated) async {
+    await _lessonRepository.saveSpeakingProgress(
+      speakingProgress: _progress.copy(
+        newLastDoneIndex: _progress.lastDoneIndex + 1,
+      ),
+    );
+    onUpdated();
   }
 }

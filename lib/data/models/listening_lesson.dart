@@ -20,7 +20,10 @@ class ListeningLesson {
       name: json['name'] ?? '',
       url: json['url'] ?? '',
       duration: json['duration'] ?? 0,
-      transcripts: (json['transcripts'] as List).map((e) => TranscriptLine.fromJson(e)).toList()
+      transcripts:
+          (json['transcripts'] as List)
+              .map((e) => TranscriptLine.fromJson(e))
+              .toList(),
     );
   }
 }

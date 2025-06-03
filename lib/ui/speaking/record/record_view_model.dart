@@ -1,4 +1,5 @@
 import 'package:fluentzy/data/models/speaking_lesson.dart';
+import 'package:fluentzy/data/models/speaking_progress.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:fluentzy/data/repositories/stt_repository.dart';
 import 'package:fluentzy/utils/logger.dart';
@@ -14,6 +15,12 @@ class RecordViewModel extends ChangeNotifier {
   SpeakingLesson? _lesson;
   SpeakingLesson? get lesson => _lesson;
 
+  SpeakingProgress? _progress;
+  SpeakingProgress? get progress => _progress;
+
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+
   bool _hasFinalResult = false;
   bool get hasFinalResult => _hasFinalResult;
 
@@ -22,7 +29,26 @@ class RecordViewModel extends ChangeNotifier {
   RecordViewModel(this._sttRepository, this._lessonRepository, this._lessonId) {
     _fetchLessonById(id: _lessonId);
   }
-  
+
+  void _fetchLessonById({required id}) async {
+    if (_lesson != null) return;
+    _isLoading = true;
+    notifyListeners();
+    _lesson = await _lessonRepository.fetchSpeakingLessonById(id);
+    _progress = await _lessonRepository.fetchSpeakingProgressById(lessonId: id);
+    if (progress == null) {
+      _progress = SpeakingProgress(lessonId: id, lastDoneIndex: -1);
+    }
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _sttRepository.dispose();
+    super.dispose();
+  }
+
   void startRecording() async {
     await _sttRepository.startRecording(
       onFinalResult: (isFinal) {
@@ -42,17 +68,5 @@ class RecordViewModel extends ChangeNotifier {
   void stopRecording() async {
     await _sttRepository.stopRecording();
     notifyListeners();
-  }
-
-  void _fetchLessonById({required id}) async {
-    if (_lesson != null) return;
-    _lesson = await _lessonRepository.fetchSpeakingLessonById(id);
-    notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _sttRepository.dispose();
-    super.dispose();
   }
 }

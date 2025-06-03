@@ -32,244 +32,296 @@ class StatisticsScreen extends StatelessWidget {
           title: Text(AppLocalizations.of(context)!.statistics),
           titleSpacing: 0.0,
         ),
-        body: Center(
-          child: Container(
-            width: 480,
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Stack(
-                    alignment: AlignmentDirectional.topCenter,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/award.svg",
-                        colorFilter: ColorFilter.mode(
-                          viewModel.getLevelBadge(60.0).$2,
-                          BlendMode.srcIn,
+        body: SafeArea(
+          child: Builder(
+            builder: (context) {
+              if (viewModel.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                );
+              }
+              return Center(
+                child: Container(
+                  width: 480,
+                  padding: const EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Stack(
+                          alignment: AlignmentDirectional.topCenter,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/award.svg",
+                              colorFilter: ColorFilter.mode(
+                                viewModel.getLevelBadge(60.0).$2,
+                                BlendMode.srcIn,
+                              ),
+                              width: 160,
+                              height: 160,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 24.0),
+                              child: Text(
+                                viewModel.getLevelBadge(60.0).$1,
+                                style: TextStyle(
+                                  fontSize: 48,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.background,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        width: 160,
-                        height: 160,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 24.0),
-                        child: Text(
-                          viewModel.getLevelBadge(60.0).$1,
+                        SizedBox(height: 32),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 160,
+                                  height: 160,
+                                  child: TweenAnimationBuilder<double>(
+                                    tween: Tween<double>(
+                                      begin: 0.0,
+                                      end:
+                                          viewModel.countLearnedWords() /
+                                          viewModel.countTotalWords(),
+                                    ),
+                                    duration: const Duration(seconds: 1),
+                                    builder: (context, value, child) {
+                                      return CircularProgressIndicator(
+                                        value: value,
+                                        backgroundColor: AppColors.secondary,
+                                        strokeWidth: 8,
+                                        color: AppColors.flashCardBackground,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                TweenAnimationBuilder<int>(
+                                  tween: IntTween(
+                                    begin: 0,
+                                    end: viewModel.countLearnedWords(),
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      "$value\nWords",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.flashCardBackground,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                            Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 160,
+                                  height: 160,
+                                  child: TweenAnimationBuilder<double>(
+                                    tween: Tween<double>(
+                                      begin: 0.0,
+                                      end:
+                                          viewModel
+                                              .countCorrectedQuizAnswers() /
+                                          viewModel.countTotalQuizAnswers(),
+                                    ),
+                                    duration: const Duration(seconds: 1),
+                                    builder: (context, value, child) {
+                                      return CircularProgressIndicator(
+                                        value: value,
+                                        backgroundColor: AppColors.secondary,
+                                        strokeWidth: 8,
+                                        color: AppColors.quizBackground,
+                                      );
+                                    },
+                                  ),
+                                ),
+                                TweenAnimationBuilder<int>(
+                                  tween: IntTween(
+                                    begin: 0,
+                                    end: viewModel.countCorrectedQuizAnswers(),
+                                  ),
+                                  duration: const Duration(seconds: 1),
+                                  builder: (context, value, child) {
+                                    return Text(
+                                      textAlign: TextAlign.center,
+                                      "$value%\nAccuracy",
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.quizBackground,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 32),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.speaking,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TweenAnimationBuilder<int>(
+                              tween: IntTween(
+                                begin: 0,
+                                end: viewModel.countCompletedSpeakingLessons(),
+                              ),
+                              duration: const Duration(seconds: 1),
+                              builder: (context, value, child) {
+                                return Text(
+                                  "$value/${viewModel.speakingLessons.length}",
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: TweenAnimationBuilder<double>(
+                            tween: Tween<double>(
+                              begin: 0.0,
+                              end:
+                                  viewModel.countCompletedSpeakingLessons() /
+                                  viewModel.speakingLessons.length,
+                            ),
+                            duration: const Duration(seconds: 1),
+                            builder: (context, value, child) {
+                              return LinearProgressIndicator(
+                                value: value,
+                                backgroundColor: AppColors.secondary,
+                                minHeight: 8,
+                                color: AppColors.speakingBackground,
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 32),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.flashCard,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TweenAnimationBuilder<int>(
+                              tween: IntTween(
+                                begin: 0,
+                                end: viewModel.countCompletedFlashCardSets(),
+                              ),
+                              duration: const Duration(seconds: 1),
+                              builder: (context, value, child) {
+                                return Text(
+                                  "$value/${viewModel.flashCardSets.length}",
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: TweenAnimationBuilder<double>(
+                            tween: Tween<double>(
+                              begin: 0.0,
+                              end:
+                                  viewModel.countCompletedFlashCardSets() /
+                                  viewModel.flashCardSets.length,
+                            ),
+                            duration: const Duration(seconds: 1),
+                            builder: (context, value, child) {
+                              return LinearProgressIndicator(
+                                value: value,
+                                backgroundColor: AppColors.secondary,
+                                minHeight: 8,
+                                color: AppColors.flashCardBackground,
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 32),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.quiz,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            TweenAnimationBuilder<int>(
+                              tween: IntTween(
+                                begin: 0,
+                                end: viewModel.countCompletedQuizLessons(),
+                              ),
+                              duration: const Duration(seconds: 1),
+                              builder: (context, value, child) {
+                                return Text(
+                                  "$value/${viewModel.quizLessons.length}",
+                                  style: TextStyle(fontSize: 16),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: TweenAnimationBuilder<double>(
+                            tween: Tween<double>(
+                              begin: 0.0,
+                              end:
+                                  viewModel.countCompletedQuizLessons() /
+                                  viewModel.quizLessons.length,
+                            ),
+                            duration: const Duration(seconds: 1),
+                            builder: (context, value, child) {
+                              return LinearProgressIndicator(
+                                value: value,
+                                backgroundColor: AppColors.secondary,
+                                minHeight: 8,
+                                color: AppColors.quizBackground,
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(height: 32),
+                        Text(
+                          textAlign: TextAlign.center,
+                          "\"${viewModel.todayTipQuote}\"",
                           style: TextStyle(
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.background,
+                            fontSize: 20,
+                            fontStyle: FontStyle.italic,
+                            color: AppColors.onSecondary,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 160,
-                            child: TweenAnimationBuilder<double>(
-                              tween: Tween<double>(begin: 0.0, end: 0.4),
-                              duration: const Duration(seconds: 1),
-                              builder: (context, value, child) {
-                                return CircularProgressIndicator(
-                                  value: value,
-                                  backgroundColor: AppColors.secondary,
-                                  strokeWidth: 8,
-                                  color: AppColors.flashCardBackground,
-                                );
-                              },
-                            ),
-                          ),
-                          TweenAnimationBuilder<int>(
-                            tween: IntTween(begin: 0, end: 150),
-                            duration: const Duration(seconds: 1),
-                            builder: (context, value, child) {
-                              return Text(
-                                "$value\nWords",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.flashCardBackground,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SizedBox(
-                            width: 160,
-                            height: 160,
-                            child: TweenAnimationBuilder<double>(
-                              tween: Tween<double>(begin: 0.0, end: 0.6),
-                              duration: const Duration(seconds: 1),
-                              builder: (context, value, child) {
-                                return CircularProgressIndicator(
-                                  value: value,
-                                  backgroundColor: AppColors.secondary,
-                                  strokeWidth: 8,
-                                  color: AppColors.quizBackground,
-                                );
-                              },
-                            ),
-                          ),
-                          TweenAnimationBuilder<int>(
-                            tween: IntTween(begin: 0, end: 60),
-                            duration: const Duration(seconds: 1),
-                            builder: (context, value, child) {
-                              return Text(
-                                textAlign: TextAlign.center,
-                                "$value%\nAccuracy",
-                                style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.quizBackground,
-                                ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.speaking,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TweenAnimationBuilder<int>(
-                        tween: IntTween(begin: 0, end: 3),
-                        duration: const Duration(seconds: 1),
-                        builder: (context, value, child) {
-                          return Text(
-                            "$value/5",
-                            style: TextStyle(fontSize: 16),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0.0, end: 0.7),
-                      duration: const Duration(seconds: 1),
-                      builder: (context, value, child) {
-                        return LinearProgressIndicator(
-                          value: value,
-                          backgroundColor: AppColors.secondary,
-                          minHeight: 8,
-                          color: AppColors.speakingBackground,
-                        );
-                      },
+                      ],
                     ),
                   ),
-                  SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.flashCard,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TweenAnimationBuilder<int>(
-                        tween: IntTween(begin: 0, end: 2),
-                        duration: const Duration(seconds: 1),
-                        builder: (context, value, child) {
-                          return Text(
-                            "$value/6",
-                            style: TextStyle(fontSize: 16),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0.0, end: 0.2),
-                      duration: const Duration(seconds: 1),
-                      builder: (context, value, child) {
-                        return LinearProgressIndicator(
-                          value: value,
-                          backgroundColor: AppColors.secondary,
-                          minHeight: 8,
-                          color: AppColors.flashCardBackground,
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.quiz,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TweenAnimationBuilder<int>(
-                        tween: IntTween(begin: 0, end: 5),
-                        duration: const Duration(seconds: 1),
-                        builder: (context, value, child) {
-                          return Text(
-                            "$value/10",
-                            style: TextStyle(fontSize: 16),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: TweenAnimationBuilder<double>(
-                      tween: Tween<double>(begin: 0.0, end: 0.5),
-                      duration: const Duration(seconds: 1),
-                      builder: (context, value, child) {
-                        return LinearProgressIndicator(
-                          value: value,
-                          backgroundColor: AppColors.secondary,
-                          minHeight: 8,
-                          color: AppColors.quizBackground,
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  Text(
-                    textAlign: TextAlign.center,
-                    "\"${viewModel.todayTipQuote}\"",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontStyle: FontStyle.italic,
-                      color: AppColors.onSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ),
       ),

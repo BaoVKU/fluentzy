@@ -1,15 +1,59 @@
+import 'package:collection/collection.dart';
+import 'package:fluentzy/data/models/flash_card_set.dart';
+import 'package:fluentzy/data/models/quiz_lesson.dart';
+import 'package:fluentzy/data/models/quiz_progress.dart';
+import 'package:fluentzy/data/models/speaking_lesson.dart';
+import 'package:fluentzy/data/models/speaking_progress.dart';
+import 'package:fluentzy/data/repositories/flash_card_repository.dart';
+import 'package:fluentzy/data/repositories/lesson_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StatisticsViewModel extends ChangeNotifier {
+  final LessonRepository _lessonRepository;
+  final FlashCardRepository _flashCardRepository;
+
+  List<FlashCardSet> _flashCardSets = [];
+  List<FlashCardSet> get flashCardSets => _flashCardSets;
+
+  List<SpeakingLesson> _speakingLessons = [];
+  List<SpeakingLesson> get speakingLessons => _speakingLessons;
+
+  List<SpeakingProgress> _speakingProgresses = [];
+  List<SpeakingProgress> get speakingProgresses => _speakingProgresses;
+
+  List<QuizLesson> _quizLessons = [];
+  List<QuizLesson> get quizLessons => _quizLessons;
+
+  List<QuizProgress> _quizProgresses = [];
+  List<QuizProgress> get quizProgresses => _quizProgresses;
+
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+
   SharedPreferences? pref;
+
   String _todayTipQuote = "";
   String get todayTipQuote => _todayTipQuote;
-  StatisticsViewModel() {
-    init();
+
+  StatisticsViewModel(this._lessonRepository, this._flashCardRepository) {
+    _initSharedPreferences();
+    _initDatas();
   }
 
-  Future<void> init() async {
+  Future<void> _initDatas() async {
+    _isLoading = true;
+    notifyListeners();
+    _flashCardSets = await _flashCardRepository.fetchFlashCardSets();
+    _speakingLessons = await _lessonRepository.fetchSpeakingLessons();
+    _speakingProgresses = await _lessonRepository.fetchSpeakingProgresses();
+    _quizLessons = await _lessonRepository.fetchQuizLessons();
+    _quizProgresses = await _lessonRepository.fetchQuizProgresses();
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> _initSharedPreferences() async {
     pref = await SharedPreferences.getInstance();
     int lastTipQuoteIndex = pref?.getInt('lastTipQuoteIndex') ?? 0;
     String? lastDateStr = pref?.getString('lastActiveDate');
@@ -29,6 +73,60 @@ class StatisticsViewModel extends ChangeNotifier {
     _todayTipQuote = _tipsAndQuotes[lastTipQuoteIndex];
 
     notifyListeners();
+  }
+
+  int countCompletedFlashCardSets() {
+    return _flashCardSets
+        .where((fs) => fs.cards.every((card) => card.isLearned))
+        .length;
+  }
+
+  int countLearnedWords() {
+    return _flashCardSets.fold<int>(
+      0,
+      (sum, cardSet) =>
+          sum + cardSet.cards.where((card) => card.isLearned).length,
+    );
+  }
+
+  int countTotalWords() {
+    return _flashCardSets.fold<int>(
+      0,
+      (sum, cardSet) => sum + cardSet.cards.length,
+    );
+  }
+
+  int countCompletedSpeakingLessons() {
+    return _speakingLessons.where((lesson) {
+      final progress = _speakingProgresses.firstWhereOrNull(
+        (p) => p.lessonId == lesson.id,
+      );
+      return progress != null &&
+          progress.lastDoneIndex == lesson.sentences.length - 1;
+    }).length;
+  }
+
+  int countCompletedQuizLessons() {
+    return _quizLessons.where((lesson) {
+      final progress = _quizProgresses.firstWhereOrNull(
+        (p) => p.quizId == lesson.id,
+      );
+      return progress != null;
+    }).length;
+  }
+
+  int countCorrectedQuizAnswers() {
+    return _quizProgresses.fold<int>(0, (sum, progress) {
+      int correctCount = progress.answers.where((a) => a.values.first).length;
+      return sum + correctCount;
+    });
+  }
+
+  int countTotalQuizAnswers() {
+    return _quizLessons.fold<int>(
+      0,
+      (sum, lesson) => sum + lesson.questions.length,
+    );
   }
 
   final List<String> _tipsAndQuotes = [

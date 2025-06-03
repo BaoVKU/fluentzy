@@ -13,7 +13,10 @@ class TtsService {
     await _tts.setPitch(1.0);
   }
 
-  Future<void> playSpeaker({required String text,required String localeId}) async {
+  Future<void> playSpeaker({
+    required String text,
+    required String localeId,
+  }) async {
     await _tts.setLanguage(localeId);
     await _tts.speak(text);
   }

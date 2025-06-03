@@ -7,18 +7,28 @@ import 'package:just_audio/just_audio.dart';
 class PlayViewModel extends ChangeNotifier {
   final AudioService _audioService;
   final LessonRepository _lessonRepository;
+
   final String _lessonId;
   ListeningLesson? _lesson;
   ListeningLesson? get lesson => _lesson;
+
   AudioPlayer get audioPlayer => _audioService.audioPlayer!;
+
   bool _isTranscriptEnabled = false;
   bool get isTranscriptEnabled => _isTranscriptEnabled;
+
   bool _isDualLanguageEnabled = false;
   bool get isDualLanguageEnabled => _isDualLanguageEnabled;
 
   PlayViewModel(this._lessonRepository, this._audioService, this._lessonId) {
     _audioService.initAudioPlayer();
     _setupAudioPlayer();
+  }
+  
+  @override
+  void dispose() {
+    _audioService.dispose();
+    super.dispose();
   }
 
   Future<void> _setupAudioPlayer() async {
@@ -43,9 +53,4 @@ class PlayViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    _audioService.dispose();
-    super.dispose();
-  }
 }

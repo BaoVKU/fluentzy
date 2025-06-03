@@ -21,7 +21,7 @@ class QuizLearnScreen extends StatelessWidget {
         surfaceTintColor: AppColors.onSecondary,
         backgroundColor: AppColors.background,
         leading: IconButton(
-          onPressed: () => {context.go(RoutePath.home)},
+          onPressed: () => {context.go(RoutePath.quizLesson)},
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         titleSpacing: 0.0,
@@ -44,14 +44,22 @@ class QuizLearnScreen extends StatelessWidget {
               }
 
               if (viewModel.isResultShown) {
+                if (viewModel.currentQuestionIndex ==
+                    viewModel.lesson!.questions.length - 1) {
+                  viewModel.saveProgress();
+                  context.go(RoutePath.quizLesson);
+                  return;
+                }
                 viewModel.nextQuestion();
               } else {
                 viewModel.showResult();
               }
             },
             icon:
-                viewModel.currentQuestionIndex ==
-                        viewModel.lesson!.questions.length - 1
+                (viewModel.lesson != null &&
+                        viewModel.isResultShown &&
+                        viewModel.currentQuestionIndex ==
+                            viewModel.lesson!.questions.length - 1)
                     ? Icon(Icons.check_rounded)
                     : SvgPicture.asset("assets/next.svg"),
           ),

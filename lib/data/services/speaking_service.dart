@@ -27,13 +27,4 @@ class SpeakingService {
 
     return null;
   }
-
-  Future<void> updateSpeakingLessonLastDone({
-    required String id,
-    required int newIndex,
-  }) async {
-    await _db.collection('speak_lessons').doc(id).update({
-      'lastDone': newIndex,
-    });
-  }
 }

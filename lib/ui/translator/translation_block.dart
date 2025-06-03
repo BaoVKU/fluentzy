@@ -87,7 +87,7 @@ class _TranslationBlockState extends State<TranslationBlock> {
                   ),
                 ),
                 const Spacer(),
-                if (!widget.isResultView)
+                if (!widget.isResultView && !kIsWeb)
                   IconButton(
                     onPressed: () {
                       if (widget.controller.text.isNotEmpty) {

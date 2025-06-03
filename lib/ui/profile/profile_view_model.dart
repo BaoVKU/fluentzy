@@ -21,14 +21,19 @@ class ProfileViewModel extends ChangeNotifier {
     });
   }
 
-  Future<void> logout() async {
-    await _authRepository.logout();
-  }
-
   Future<void> _initCurrentLanguage() async {
     final pref = await SharedPreferences.getInstance();
     final languageCode = pref.getString('language_code') ?? 'en';
     _currentLanguageName = LanguageCodes.fromCode(languageCode).nativeName;
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    await _authRepository.logout();
+  }
+
+  Future<void> updateUserName(String newName) async {
+    await _authRepository.updateUserName(newName);
     notifyListeners();
   }
 }

@@ -4,8 +4,12 @@ import 'package:fluentzy/data/models/flash_card_set.dart';
 class FlashCardService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<List<FlashCardSet>> fetchFlashCardSets() async {
-    final snapshot = await _db.collection('flash_card_sets').get();
+  Future<List<FlashCardSet>> fetchFlashCardSets(String uid) async {
+    final snapshot =
+        await _db
+            .collection('flash_card_sets')
+            .where('userId', isEqualTo: uid)
+            .get();
 
     return snapshot.docs.map((doc) {
       final data = doc.data();

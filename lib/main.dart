@@ -37,8 +37,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // final appDir = await getApplicationDocumentsDirectory();
-  // Hive.init(appDir.path);
   await Hive.initFlutter();
   Hive.registerAdapter(ChatMessageAdapter());
   await Hive.openBox<ChatMessage>('chatBox');
@@ -77,6 +75,7 @@ void main() async {
         Provider(
           create:
               (context) => LessonRepository(
+                context.read<UserService>(),
                 context.read<SpeakingService>(),
                 context.read<ListeningService>(),
                 context.read<QuizService>(),
@@ -89,8 +88,10 @@ void main() async {
         ),
         Provider(
           create:
-              (context) =>
-                  FlashCardRepository(context.read<FlashCardService>()),
+              (context) => FlashCardRepository(
+                context.read<FlashCardService>(),
+                context.read<UserService>(),
+              ),
         ),
         Provider(
           create: (context) => IapRepository(context.read<UserService>()),
@@ -115,9 +116,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.varelaRoundTextTheme()
-      ),
+      theme: ThemeData(textTheme: GoogleFonts.varelaRoundTextTheme()),
       locale: locale,
       supportedLocales:
           SupportLanguage.values

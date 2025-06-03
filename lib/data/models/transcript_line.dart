@@ -14,10 +14,6 @@ class TranscriptLine {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'start': start.inSeconds,
-      'en': en,
-      'vi': vi,
-    };
+    return {'start': start.inSeconds, 'en': en, 'vi': vi};
   }
 }

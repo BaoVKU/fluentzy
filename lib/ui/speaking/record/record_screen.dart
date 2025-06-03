@@ -18,7 +18,11 @@ class SpeakingRecordScreen extends StatelessWidget {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.go(
           RoutePath.speakingResult,
-          extra: {'lesson': viewModel.lesson, 'said': viewModel.listenedResult},
+          extra: {
+            'lesson': viewModel.lesson,
+            'said': viewModel.listenedResult,
+            'progress': viewModel.progress,
+          },
         );
       });
     }
@@ -44,67 +48,81 @@ class SpeakingRecordScreen extends StatelessWidget {
           titleSpacing: 0.0,
         ),
         body: SafeArea(
-          child: ListenableBuilder(
-            listenable: viewModel,
-            builder: (context, _) {
-              return Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      viewModel.lesson?.sentences[(viewModel.lesson!.lastDone +
-                              1)] ??
-                          AppLocalizations.of(context)!.cannotFindLesson,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
+          child: Builder(
+            builder: (context) {
+              if (viewModel.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                );
+              }
+              return ListenableBuilder(
+                listenable: viewModel,
+                builder: (context, _) {
+                  return Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          viewModel.lesson?.sentences[viewModel
+                                      .progress!
+                                      .lastDoneIndex +
+                                  1] ??
+                              AppLocalizations.of(context)!.cannotFindLesson,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 32),
+                        SvgPicture.asset(
+                          "assets/speaking.svg",
+                          width: 200,
+                          height: 200,
+                        ),
+                        SizedBox(height: 32),
+                        Builder(
+                          builder: (context) {
+                            return viewModel.isListening
+                                ? GestureDetector(
+                                  onTap: viewModel.stopRecording,
+                                  child: LottieBuilder.asset(
+                                    "assets/voice_recording.json",
+                                    width: 180,
+                                    height: 180,
+                                  ),
+                                )
+                                : IconButton.filled(
+                                  onPressed: viewModel.startRecording,
+                                  style: ButtonStyle(
+                                    backgroundColor: WidgetStatePropertyAll(
+                                      AppColors.primary,
+                                    ),
+                                  ),
+                                  icon: SvgPicture.asset(
+                                    "assets/microphone.svg",
+                                    width: 48,
+                                    height: 48,
+                                  ),
+                                );
+                          },
+                        ),
+                        SizedBox(height: 32),
+                        if (viewModel.hasFinalResult &&
+                            viewModel.listenedResult.isEmpty &&
+                            !viewModel.isListening)
+                          Text(
+                            AppLocalizations.of(context)!.sayItAgain,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.error,
+                            ),
+                          ),
+                      ],
                     ),
-                    SizedBox(height: 32),
-                    SvgPicture.asset(
-                      "assets/speaking.svg",
-                      width: 200,
-                      height: 200,
-                    ),
-                    SizedBox(height: 32),
-                    Builder(
-                      builder: (context) {
-                        return viewModel.isListening
-                            ? GestureDetector(
-                              onTap: viewModel.stopRecording,
-                              child: LottieBuilder.asset(
-                                "assets/voice_recording.json",
-                                width: 180,
-                                height: 180,
-                              ),
-                            )
-                            : IconButton.filled(
-                              onPressed: viewModel.startRecording,
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStatePropertyAll(
-                                  AppColors.primary,
-                                ),
-                              ),
-                              icon: SvgPicture.asset(
-                                "assets/microphone.svg",
-                                width: 48,
-                                height: 48,
-                              ),
-                            );
-                      },
-                    ),
-                    SizedBox(height: 32),
-                    if (viewModel.hasFinalResult &&
-                        viewModel.listenedResult.isEmpty &&
-                        !viewModel.isListening)
-                      Text(
-                        AppLocalizations.of(context)!.sayItAgain,
-                        style: TextStyle(fontSize: 16, color: AppColors.error),
-                      ),
-                  ],
-                ),
+                  );
+                },
               );
             },
           ),

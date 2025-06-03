@@ -16,6 +16,16 @@ class FlashCardLearnViewModel extends ChangeNotifier {
     _oldFlashCardSet = _flashCardSet?.copy();
   }
 
+  bool _checkIfCardSetChanged() {
+    for (int i = 0; i < _flashCardSet!.cards.length; i++) {
+      if (_flashCardSet!.cards[i].isLearned !=
+          _oldFlashCardSet!.cards[i].isLearned) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   void nextCard() {
     if (_flashCardSet != null) {
       if (_currentIndex < _flashCardSet!.cards.length - 1) {
@@ -65,13 +75,4 @@ class FlashCardLearnViewModel extends ChangeNotifier {
     }
   }
 
-  bool _checkIfCardSetChanged() {
-    for (int i = 0; i < _flashCardSet!.cards.length; i++) {
-      if (_flashCardSet!.cards[i].isLearned !=
-          _oldFlashCardSet!.cards[i].isLearned) {
-        return true;
-      }
-    }
-    return false;
-  }
 }

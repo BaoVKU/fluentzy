@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NavigationDestinations {
   static List<NavigationDestination> getList(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return [
       NavigationDestination(
         icon: SvgPicture.asset('assets/home.svg', width: 24, height: 24),

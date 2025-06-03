@@ -103,5 +103,7 @@
 	"topicCannotBeEmpty": "Chủ đề không được để trống",
 	"fieldCannotBeEmpty": "Trường không được để trống",
 	"name": "Tên",
-	"topic": "Chủ đề"
+	"topic": "Chủ đề",
+	"setNewUserName": "Đặt tên người dùng mới",
+	"anonymous": "Ẩn danh"
 }

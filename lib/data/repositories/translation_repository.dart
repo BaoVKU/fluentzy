@@ -2,6 +2,7 @@ import 'package:fluentzy/data/services/translation_service.dart';
 
 class TranslationRepository {
   final TranslationService _translationService;
+
   TranslationRepository(this._translationService);
 
   Future<String?> translate(

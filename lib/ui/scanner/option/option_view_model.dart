@@ -7,10 +7,13 @@ import 'package:mime/mime.dart';
 
 class OptionViewModel extends ChangeNotifier {
   final ImagePickerService _imagePickerService;
+
   XFile? _image;
   XFile? get image => _image;
+
   String? _imageMimeType;
   String? get imageMimeType => _imageMimeType;
+
   OptionViewModel(this._imagePickerService);
 
   Future<void> pickImage() async {

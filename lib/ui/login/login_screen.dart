@@ -84,17 +84,27 @@ class _LoginScreenState extends State<LoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text("Email", style: TextStyle(fontSize: 12)),
-                            TextField(
-                              controller: _emailController,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                            Theme(
+                              data: Theme.of(context).copyWith(
+                                textSelectionTheme: TextSelectionThemeData(
+                                  selectionColor: AppColors.primary.withAlpha(
+                                    (0.2 * 255).toInt(),
+                                  ),
+                                  cursorColor: AppColors.primary,
                                 ),
-                                hintText: "user@gmail.com",
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
+                              ),
+                              child: TextField(
+                                controller: _emailController,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText: "user@gmail.com",
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.primary,
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -104,21 +114,31 @@ class _LoginScreenState extends State<LoginScreen> {
                               AppLocalizations.of(context)!.password,
                               style: TextStyle(fontSize: 12),
                             ),
-                            TextField(
-                              controller: _passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                            Theme(
+                              data: Theme.of(context).copyWith(
+                                textSelectionTheme: TextSelectionThemeData(
+                                  selectionColor: AppColors.primary.withAlpha(
+                                    (0.2 * 255).toInt(),
+                                  ),
+                                  cursorColor: AppColors.primary,
                                 ),
-                                hintText:
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.enterYourPassword,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
+                              ),
+                              child: TextField(
+                                controller: _passwordController,
+                                obscureText: true,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  hintText:
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.enterYourPassword,
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: AppColors.primary,
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
                               ),

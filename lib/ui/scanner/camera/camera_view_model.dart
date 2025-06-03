@@ -5,14 +5,23 @@ import 'package:flutter/foundation.dart';
 
 class CameraViewModel extends ChangeNotifier {
   final CameraService _cameraService;
+
   bool get isCameraInitialized => _cameraService.isInitialized;
   CameraController get controller => _cameraService.controller;
+
   XFile? _image;
   XFile? get image => _image;
+
   bool get isFlashOn => _cameraService.isFlashOn;
 
   CameraViewModel(this._cameraService) {
     initCamera();
+  }
+
+  @override
+  void dispose() {
+    _cameraService.dispose();
+    super.dispose();
   }
 
   Future<void> initCamera() async {
@@ -31,11 +40,5 @@ class CameraViewModel extends ChangeNotifier {
   Future<void> toggleFlash() async {
     await _cameraService.toggleFlash();
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _cameraService.dispose();
-    super.dispose();
   }
 }

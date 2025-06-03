@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class FlashCardListViewModel extends ChangeNotifier {
   final FlashCardRepository _flashCardRepository;
+  
   List<FlashCardSet> _flashCardSets = [];
   List<FlashCardSet> get flashCardSets => _flashCardSets;
 

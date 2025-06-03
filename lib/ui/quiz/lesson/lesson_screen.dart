@@ -1,20 +1,19 @@
 import 'package:fluentzy/extensions/int_ext.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
-import 'package:fluentzy/ui/speaking/lesson/lesson_view_model.dart';
+import 'package:fluentzy/ui/quiz/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class SpeakingLessonScreen extends StatelessWidget {
-  const SpeakingLessonScreen({super.key});
+class QuizLessonScreen extends StatelessWidget {
+  const QuizLessonScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final SpeakingLessonViewModel viewModel =
-        context.watch<SpeakingLessonViewModel>();
-
+    final QuizLessonViewModel viewModel = context.watch<QuizLessonViewModel>();
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
@@ -46,8 +45,8 @@ class SpeakingLessonScreen extends StatelessWidget {
                 onPressed: () => {context.go(RoutePath.home)},
                 icon: SvgPicture.asset("assets/back.svg"),
               ),
-              title: Text(AppLocalizations.of(context)!.lessons),
               titleSpacing: 0.0,
+              title: Text(AppLocalizations.of(context)!.lessons),
             ),
             body: SafeArea(
               child: Builder(
@@ -72,26 +71,9 @@ class SpeakingLessonScreen extends StatelessWidget {
                       return GestureDetector(
                         onTap:
                             () => {
-                              if (viewModel.checkIfLessonCompleted(
-                                viewModel.lessons[index],
-                              ))
-                                {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.lessonCompleted,
-                                      ),
-                                    ),
-                                  ),
-                                }
-                              else
-                                {
-                                  context.go(
-                                    "${RoutePath.speakingRecord}/${viewModel.lessons[index].id}",
-                                  ),
-                                },
+                              context.go(
+                                "${RoutePath.quizLearn}/${viewModel.lessons[index].id}",
+                              ),
                             },
                         child: Card(
                           color: AppColors.surfacePrimary,
@@ -128,7 +110,6 @@ class SpeakingLessonScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -144,12 +125,12 @@ class SpeakingLessonScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "${viewModel.getProgressPercent(viewModel.lessons[index])}%",
+                                  "${viewModel.getAccuracyPercent(viewModel.lessons[index].id)}%",
                                   style: TextStyle(
                                     color:
                                         viewModel
-                                            .getProgressPercent(
-                                              viewModel.lessons[index],
+                                            .getAccuracyPercent(
+                                              viewModel.lessons[index].id,
                                             )
                                             .getAccuracyColor(),
                                     fontSize: 16,

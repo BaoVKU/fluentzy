@@ -103,5 +103,7 @@
 	"topicCannotBeEmpty": "Topic cannot be empty",
 	"fieldCannotBeEmpty": "Field cannot be empty",
 	"name": "Name",
-	"topic": "Topic"
+	"topic": "Topic",
+	"setNewUserName": "Set new user name",
+	"anonymous": "Anonymous"
 }

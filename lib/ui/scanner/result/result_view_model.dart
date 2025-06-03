@@ -12,20 +12,23 @@ class ScannerResultViewModel extends ChangeNotifier {
   final AiRepository _aiRepository;
   final DictionaryRepository _dictionaryRepository;
   final TtsRepository _ttsRepository;
+
   final XFile _image;
   XFile get image => _image;
+
   ResponseState _responseState = Initial();
   ResponseState get responseState => _responseState;
+
   ScannerResultViewModel(
     this._aiRepository,
     this._dictionaryRepository,
     this._ttsRepository,
     this._image,
   ) {
-    detectObject();
+    _detectObject();
   }
 
-  Future<void> detectObject() async {
+  Future<void> _detectObject() async {
     _responseState = Loading();
     notifyListeners();
     final bytes = await compressImage();

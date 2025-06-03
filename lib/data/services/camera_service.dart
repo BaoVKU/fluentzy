@@ -3,8 +3,10 @@ import 'package:camera/camera.dart';
 class CameraService {
   late CameraController _controller;
   CameraController get controller => _controller;
+
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
+
   bool _isFlashOn = false;
   bool get isFlashOn => _isFlashOn;
 

@@ -18,7 +18,7 @@ class ScannerCropScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-            context.go(RoutePath.scannerOptions);
+          context.go(RoutePath.scannerOptions);
         }
       },
       child: Scaffold(
@@ -29,7 +29,10 @@ class ScannerCropScreen extends StatelessWidget {
             onPressed: () => {context.go(RoutePath.scannerOptions)},
             icon: SvgPicture.asset(
               "assets/back.svg",
-              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+              colorFilter: const ColorFilter.mode(
+                Colors.white,
+                BlendMode.srcIn,
+              ),
             ),
           ),
         ),

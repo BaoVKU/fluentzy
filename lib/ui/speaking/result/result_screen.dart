@@ -45,8 +45,9 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
           actions: [
             IconButton(
               onPressed: () {
-                viewModel.increaseLastDone(() {
-                  if (viewModel.lastDone == viewModel.sentence.length - 1) {
+                viewModel.saveProgress(() {
+                  if (viewModel.progress.lastDoneIndex ==
+                      viewModel.sentence.length - 1) {
                     context.go(RoutePath.speakingLesson);
                   } else {
                     context.go(

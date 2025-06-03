@@ -39,14 +39,27 @@ extension DialogExtension on BuildContext {
         return AlertDialog(
           title: Text(title),
           titleTextStyle: TextStyle(color: AppColors.onSecondary, fontSize: 20),
-          content: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              labelText: labelText,
-              labelStyle: TextStyle(color: AppColors.onSecondary),
-              border: OutlineInputBorder(),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.onSecondary, width: 2),
+          content: Theme(
+            data: Theme.of(context).copyWith(
+              textSelectionTheme: TextSelectionThemeData(
+                selectionColor: AppColors.primary.withAlpha(
+                  (0.2 * 255).toInt(),
+                ),
+                cursorColor: AppColors.primary,
+              ),
+            ),
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                labelText: labelText,
+                labelStyle: TextStyle(color: AppColors.onSecondary),
+                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: AppColors.onSecondary,
+                    width: 2,
+                  ),
+                ),
               ),
             ),
           ),

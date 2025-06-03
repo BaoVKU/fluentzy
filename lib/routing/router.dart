@@ -35,6 +35,8 @@ import 'package:fluentzy/ui/profile/profile_page.dart';
 import 'package:fluentzy/ui/profile/profile_view_model.dart';
 import 'package:fluentzy/ui/quiz/learn/learn_screen.dart';
 import 'package:fluentzy/ui/quiz/learn/learn_view_model.dart';
+import 'package:fluentzy/ui/quiz/lesson/lesson_screen.dart';
+import 'package:fluentzy/ui/quiz/lesson/lesson_view_model.dart';
 import 'package:fluentzy/ui/register/register_screen.dart';
 import 'package:fluentzy/ui/register/register_view_model.dart';
 import 'package:fluentzy/ui/scanner/camera/camera_screen.dart';
@@ -250,6 +252,7 @@ class AppRouter {
             (context, state) => ChangeNotifierProvider(
               create:
                   (context) => FlashCardEditViewModel(
+                    context.read<AuthRepository>(),
                     context.read<FlashCardRepository>(),
                     context.read<AiRepository>(),
                     null,
@@ -263,6 +266,7 @@ class AppRouter {
             (context, state) => ChangeNotifierProvider(
               create:
                   (context) => FlashCardEditViewModel(
+                    context.read<AuthRepository>(),
                     context.read<FlashCardRepository>(),
                     context.read<AiRepository>(),
                     state.extra as FlashCardSet,
@@ -280,6 +284,17 @@ class AppRouter {
                     state.extra as FlashCardSet,
                   ),
               child: const FlashCardLearnScreen(),
+            ),
+      ),
+      GoRoute(
+        path: RoutePath.quizLesson,
+        builder:
+            (context, state) => ChangeNotifierProvider(
+              create:
+                  (context) => QuizLessonViewModel(
+                    context.read<LessonRepository>(),
+                  ),
+              child: QuizLessonScreen(),
             ),
       ),
       GoRoute(
@@ -311,7 +326,10 @@ class AppRouter {
         path: RoutePath.statistics,
         builder:
             (context, state) => ChangeNotifierProvider(
-              create: (context) => StatisticsViewModel(),
+              create: (context) => StatisticsViewModel(
+                context.read<LessonRepository>(),
+                context.read<FlashCardRepository>(),
+              ),
               child: StatisticsScreen(),
             ),
       ),

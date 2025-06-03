@@ -1,10 +1,12 @@
 import 'package:fluentzy/data/models/flash_card.dart';
 import 'package:fluentzy/data/models/flash_card_set.dart';
 import 'package:fluentzy/data/repositories/ai_repository.dart';
+import 'package:fluentzy/data/repositories/auth_repository.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:flutter/material.dart';
 
 class FlashCardEditViewModel extends ChangeNotifier {
+  final AuthRepository _authRepository;
   final FlashCardRepository _flashCardRepository;
   final AiRepository _aiRepository;
 
@@ -18,6 +20,7 @@ class FlashCardEditViewModel extends ChangeNotifier {
   bool get isAiGenerating => _isAiGenerating;
 
   FlashCardEditViewModel(
+    this._authRepository,
     this._flashCardRepository,
     this._aiRepository,
     this._flashCardSet,
@@ -40,6 +43,7 @@ class FlashCardEditViewModel extends ChangeNotifier {
 
     final flashCardSet = FlashCardSet(
       id: _flashCardSet?.id ?? '',
+      userId: _flashCardSet?.userId ?? _authRepository.user!.id,
       name: setName.trim(),
       cards: validCards,
     );

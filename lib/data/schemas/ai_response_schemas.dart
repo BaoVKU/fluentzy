@@ -30,8 +30,9 @@ class AiResponseSchemas {
       properties: {
         'word': Schema.string(description: 'Card English word'),
         'description': Schema.string(
-          description: 'Definition or translation(preferrer) of word above in given language',
-        )
+          description:
+              'Definition or translation(preferrer) of word above in given language',
+        ),
       },
       requiredProperties: ['word', 'description'],
     ),

@@ -1,3 +1,4 @@
+import 'package:fluentzy/extensions/context_ext.dart';
 import 'package:fluentzy/extensions/string_ext.dart';
 import 'package:fluentzy/routing/paths.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
@@ -35,6 +36,33 @@ class ProfilePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    context.showInputDialog(
+                      title: AppLocalizations.of(context)!.setNewUserName,
+                      labelText: AppLocalizations.of(context)!.name,
+                      onSaved: viewModel.updateUserName,
+                    );
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        AppLocalizations.of(context)!.name,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        viewModel.user?.name ??
+                            AppLocalizations.of(context)!.anonymous,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: AppColors.border, thickness: 1),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -111,23 +139,6 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                Divider(color: AppColors.border, thickness: 1),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      AppLocalizations.of(context)!.support,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      AppLocalizations.of(context)!.contactUs,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ],
                 ),
                 Divider(color: AppColors.border, thickness: 1),
                 TextButton(

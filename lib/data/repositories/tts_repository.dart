@@ -2,6 +2,7 @@ import 'package:fluentzy/data/services/tts_service.dart';
 
 class TtsRepository {
   final TtsService _ttsService;
+
   bool _isSpeaking = false;
   bool get isSpeaking => _isSpeaking;
 
@@ -11,7 +12,10 @@ class TtsRepository {
     });
   }
 
-  Future<void> playSpeaker({required String text, String langCode = "en"}) async {
+  Future<void> playSpeaker({
+    required String text,
+    String langCode = "en",
+  }) async {
     _isSpeaking = true;
     final String localeId;
     switch (langCode) {
