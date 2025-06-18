@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/scanner/crop/crop_view_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +14,16 @@ class ScannerCropScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<CropViewModel>();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!viewModel.isProcessed) {
+        viewModel.cropImage(context);
+      }
+    });
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.scannerOptions);
+          context.go(AppRoutePath.scannerOptions);
         }
       },
       child: Scaffold(
@@ -26,7 +31,7 @@ class ScannerCropScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.scannerOptions)},
+            onPressed: () => {context.go(AppRoutePath.scannerOptions)},
             icon: SvgPicture.asset(
               "assets/back.svg",
               colorFilter: const ColorFilter.mode(
@@ -46,12 +51,16 @@ class ScannerCropScreen extends StatelessWidget {
                     builder: (context) {
                       if (kIsWeb) {
                         return Image.network(
-                          viewModel.image.path,
+                          viewModel.croppedImage?.path ??
+                              viewModel.originalImage.path,
                           fit: BoxFit.cover,
                         );
                       } else {
                         return Image.file(
-                          File(viewModel.image.path),
+                          File(
+                            viewModel.croppedImage?.path ??
+                                viewModel.originalImage.path,
+                          ),
                           fit: BoxFit.cover,
                         );
                       }
@@ -60,7 +69,10 @@ class ScannerCropScreen extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    context.go(RoutePath.scannerResult, extra: viewModel.image);
+                    context.go(
+                      AppRoutePath.scannerResult,
+                      extra: viewModel.croppedImage ?? viewModel.originalImage,
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 24),

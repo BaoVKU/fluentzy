@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/data/enums/home_feature.dart';
 import 'package:flutter/foundation.dart';
@@ -46,25 +46,25 @@ class HomePage extends StatelessWidget {
                                 () => {
                                   switch (feature) {
                                     HomeFeature.speaking => context.go(
-                                      RoutePath.speakingLesson,
+                                      AppRoutePath.speakingLesson,
                                     ),
                                     HomeFeature.listening => context.go(
-                                      RoutePath.listeningLesson,
+                                      AppRoutePath.listeningLesson,
                                     ),
                                     HomeFeature.scanner => context.go(
-                                      RoutePath.scannerOptions,
+                                      AppRoutePath.scannerOptions,
                                     ),
                                     HomeFeature.flashCard => context.go(
-                                      RoutePath.flashCardList,
+                                      AppRoutePath.flashCardList,
                                     ),
                                     HomeFeature.quiz => context.go(
-                                      RoutePath.quizLesson,
+                                      AppRoutePath.quizLesson,
                                     ),
                                     HomeFeature.translator => context.go(
-                                      RoutePath.translator,
+                                      AppRoutePath.translator,
                                     ),
                                     HomeFeature.statistics => context.go(
-                                      RoutePath.statistics,
+                                      AppRoutePath.statistics,
                                     ),
                                   },
                                 },

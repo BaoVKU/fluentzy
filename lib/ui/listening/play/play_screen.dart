@@ -1,5 +1,5 @@
 import 'package:fluentzy/data/models/transcript_line.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/listening/play/play_view_model.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class PlayScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.listeningLesson);
+          context.go(AppRoutePath.listeningLesson);
         }
       },
       child: Scaffold(
@@ -27,7 +27,7 @@ class PlayScreen extends StatelessWidget {
         appBar: AppBar(
           surfaceTintColor: AppColors.onSecondary,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.listeningLesson)},
+            onPressed: () => {context.go(AppRoutePath.listeningLesson)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           backgroundColor: AppColors.background,

@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/scanner/option/option_view_model.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +19,7 @@ class ScannerOptionScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: Scaffold(
@@ -28,7 +28,7 @@ class ScannerOptionScreen extends StatelessWidget {
           surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.home)},
+            onPressed: () => {context.go(AppRoutePath.home)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           titleSpacing: 0.0,
@@ -40,7 +40,7 @@ class ScannerOptionScreen extends StatelessWidget {
               if (viewModel.image != null && viewModel.imageMimeType != null) {
                 if (viewModel.imageMimeType == 'image/jpeg' ||
                     viewModel.imageMimeType == 'image/png') {
-                  context.go(RoutePath.scannerCrop, extra: viewModel.image);
+                  context.go(AppRoutePath.scannerCrop, extra: viewModel.image);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -98,7 +98,7 @@ class ScannerOptionScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: GestureDetector(
                         onTap: () {
-                          context.go(RoutePath.scannerCamera);
+                          context.go(AppRoutePath.scannerCamera);
                         },
                         child: Container(
                           height: 96,

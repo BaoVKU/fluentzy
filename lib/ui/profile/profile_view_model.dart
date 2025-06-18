@@ -1,16 +1,17 @@
 import 'package:fluentzy/data/models/app_user.dart';
 import 'package:fluentzy/data/repositories/auth_repository.dart';
+import 'package:fluentzy/data/services/preference_service.dart';
 import 'package:flutter/material.dart';
 import 'package:language_code/language_code.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileViewModel extends ChangeNotifier {
+  final PreferenceService _preferenceService;
   final AuthRepository _authRepository;
   AppUser? get user => _authRepository.user;
   String? _currentLanguageName;
   String? get currentLanguageName => _currentLanguageName;
 
-  ProfileViewModel(this._authRepository) {
+  ProfileViewModel(this._preferenceService, this._authRepository) {
     _initCurrentLanguage();
     _authRepository.setAuthStateListener((user) {
       if (user != null) {
@@ -22,8 +23,7 @@ class ProfileViewModel extends ChangeNotifier {
   }
 
   Future<void> _initCurrentLanguage() async {
-    final pref = await SharedPreferences.getInstance();
-    final languageCode = pref.getString('language_code') ?? 'en';
+    final languageCode = _preferenceService.fetchAppLanguageCode();
     _currentLanguageName = LanguageCodes.fromCode(languageCode).nativeName;
     notifyListeners();
   }

@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/scanner/camera/camera_view_model.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +15,14 @@ class ScannerCameraScreen extends StatelessWidget {
     final viewModel = context.watch<CameraViewModel>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (viewModel.image != null) {
-        context.go(RoutePath.scannerCrop, extra: viewModel.image!);
+        context.go(AppRoutePath.scannerCrop, extra: viewModel.image!);
       }
     });
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.scannerOptions);
+          context.go(AppRoutePath.scannerOptions);
         }
       },
       child: Scaffold(
@@ -30,7 +30,7 @@ class ScannerCameraScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.black,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.scannerOptions)},
+            onPressed: () => {context.go(AppRoutePath.scannerOptions)},
             icon: SvgPicture.asset(
               "assets/back.svg",
               colorFilter: const ColorFilter.mode(

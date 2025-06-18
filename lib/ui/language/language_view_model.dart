@@ -1,9 +1,10 @@
 import 'package:fluentzy/data/enums/support_language.dart';
+import 'package:fluentzy/data/services/preference_service.dart';
+import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageViewModel extends ChangeNotifier {
-  SharedPreferences? pref;
+  final PreferenceService _preferenceService;
 
   SupportLanguage _selectedLanguage = SupportLanguage.english;
   SupportLanguage get selectedLanguage => _selectedLanguage;
@@ -11,13 +12,14 @@ class LanguageViewModel extends ChangeNotifier {
   Locale _locale = const Locale('en');
   Locale get locale => _locale;
 
-  LanguageViewModel() {
+  LanguageViewModel(this._preferenceService) {
     _init();
   }
 
   void _init() async {
-    pref = await SharedPreferences.getInstance();
-    final languageCode = pref?.getString('language_code') ?? 'en';
+    await _preferenceService.initialize();
+    final languageCode = _preferenceService.fetchAppLanguageCode();
+    Logger.error("Fetched language code: $languageCode");
     _locale = Locale(languageCode);
     _selectedLanguage = SupportLanguage.values.firstWhere(
       (language) => language.languageCode.code == languageCode,
@@ -26,10 +28,10 @@ class LanguageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLocale(Locale locale) {
+  void setLocale(Locale locale) async {
     if (_locale == locale) return;
     _locale = locale;
-    pref?.setString('language_code', locale.languageCode);
+    await _preferenceService.updateAppLanguageCode(locale.languageCode);
     notifyListeners();
   }
 

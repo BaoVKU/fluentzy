@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/quiz/learn/learn_view_model.dart';
 import 'package:flutter/foundation.dart';
@@ -21,7 +21,7 @@ class QuizLearnScreen extends StatelessWidget {
         surfaceTintColor: AppColors.onSecondary,
         backgroundColor: AppColors.background,
         leading: IconButton(
-          onPressed: () => {context.go(RoutePath.quizLesson)},
+          onPressed: () => {context.go(AppRoutePath.quizLesson)},
           icon: SvgPicture.asset("assets/back.svg"),
         ),
         titleSpacing: 0.0,
@@ -47,7 +47,7 @@ class QuizLearnScreen extends StatelessWidget {
                 if (viewModel.currentQuestionIndex ==
                     viewModel.lesson!.questions.length - 1) {
                   viewModel.saveProgress();
-                  context.go(RoutePath.quizLesson);
+                  context.go(AppRoutePath.quizLesson);
                   return;
                 }
                 viewModel.nextQuestion();

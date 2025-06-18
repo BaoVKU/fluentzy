@@ -105,5 +105,7 @@
 	"name": "Name",
 	"topic": "Topic",
 	"setNewUserName": "Set new user name",
-	"anonymous": "Anonymous"
+	"anonymous": "Anonymous",
+	"cropImage": "Crop Image",
+	"crop": "Crop"
 }

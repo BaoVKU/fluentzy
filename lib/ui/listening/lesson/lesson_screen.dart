@@ -1,5 +1,5 @@
 import 'package:fluentzy/extensions/int_ext.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/listening/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class ListeningLessonScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: LayoutBuilder(
@@ -43,7 +43,7 @@ class ListeningLessonScreen extends StatelessWidget {
               surfaceTintColor: AppColors.onSecondary,
               backgroundColor: AppColors.background,
               leading: IconButton(
-                onPressed: () => {context.go(RoutePath.home)},
+                onPressed: () => {context.go(AppRoutePath.home)},
                 icon: SvgPicture.asset("assets/back.svg"),
               ),
               titleSpacing: 0.0,
@@ -73,7 +73,7 @@ class ListeningLessonScreen extends StatelessWidget {
                         onTap:
                             () => {
                               context.go(
-                                "${RoutePath.listeningPlay}/${viewModel.lessons[index].id}",
+                                "${AppRoutePath.listeningPlay}/${viewModel.lessons[index].id}",
                               ),
                             },
                         child: Card(

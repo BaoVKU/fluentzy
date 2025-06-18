@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/flash_card/list/list_view_model.dart';
 import 'package:flutter/foundation.dart';
@@ -19,7 +19,7 @@ class FlashCardListScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: LayoutBuilder(
@@ -43,14 +43,14 @@ class FlashCardListScreen extends StatelessWidget {
               surfaceTintColor: AppColors.onSecondary,
               backgroundColor: AppColors.background,
               leading: IconButton(
-                onPressed: () => {context.go(RoutePath.home)},
+                onPressed: () => {context.go(AppRoutePath.home)},
                 icon: SvgPicture.asset("assets/back.svg"),
               ),
               titleSpacing: 0.0,
               title: Text(AppLocalizations.of(context)!.sets),
               actions: [
                 IconButton(
-                  onPressed: () => {context.go(RoutePath.flashCardCreate)},
+                  onPressed: () => {context.go(AppRoutePath.flashCardCreate)},
                   icon: const Icon(Icons.add),
                 ),
               ],
@@ -91,7 +91,7 @@ class FlashCardListScreen extends StatelessWidget {
                           onTap:
                               () => {
                                 context.go(
-                                  RoutePath.flashCardLearn,
+                                  AppRoutePath.flashCardLearn,
                                   extra: viewModel.flashCardSets[index],
                                 ),
                               },
@@ -102,7 +102,7 @@ class FlashCardListScreen extends StatelessWidget {
                                 SlidableAction(
                                   onPressed: (context) {
                                     context.go(
-                                      RoutePath.flashCardEdit,
+                                      AppRoutePath.flashCardEdit,
                                       extra: viewModel.flashCardSets[index],
                                     );
                                   },

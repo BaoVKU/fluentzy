@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/flash_card/edit/edit_view_model.dart';
 import 'package:fluentzy/extensions/context_ext.dart';
@@ -86,7 +86,7 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
             backgroundColor: AppColors.success,
           ),
         );
-        context.go(RoutePath.flashCardList);
+        context.go(AppRoutePath.flashCardList);
       }
     });
 
@@ -102,7 +102,7 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.flashCardList);
+          context.go(AppRoutePath.flashCardList);
         }
       },
       child: Scaffold(
@@ -111,7 +111,7 @@ class _FlashCardEditScreenState extends State<FlashCardEditScreen> {
           surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.flashCardList)},
+            onPressed: () => {context.go(AppRoutePath.flashCardList)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           titleSpacing: 0.0,

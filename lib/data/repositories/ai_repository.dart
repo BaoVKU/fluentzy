@@ -4,23 +4,23 @@ import 'package:fluentzy/data/models/chat_message.dart';
 import 'package:fluentzy/data/models/flash_card.dart';
 import 'package:fluentzy/data/models/speaking_response.dart';
 import 'package:fluentzy/data/services/ai_service.dart';
+import 'package:fluentzy/data/services/preference_service.dart';
 import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:language_code/language_code.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AiRepository {
+  final PreferenceService _preferenceService;
   final AiService _aiService;
 
-  AiRepository(this._aiService);
+  AiRepository(this._preferenceService, this._aiService);
 
   Future<SpeakingResponse?> checkPronunciation({
     required said,
     required actual,
   }) async {
-    final pref = await SharedPreferences.getInstance();
-    final languageCode = pref.getString('language_code') ?? 'en';
+    final languageCode = _preferenceService.fetchAppLanguageCode();
     final language = LanguageCodes.fromCode(languageCode).englishName;
 
     GenerateContentResponse response = await _aiService.checkPronunciation(
@@ -82,8 +82,7 @@ class AiRepository {
   }
 
   Future<List<FlashCard>> suggestFlashCards({required String topic}) async {
-    final pref = await SharedPreferences.getInstance();
-    final languageCode = pref.getString('language_code') ?? 'en';
+    final languageCode = _preferenceService.fetchAppLanguageCode();
     final language = LanguageCodes.fromCode(languageCode).englishName;
 
     GenerateContentResponse response = await _aiService.suggestFlashCards(

@@ -6,10 +6,12 @@ import 'package:fluentzy/data/models/speaking_lesson.dart';
 import 'package:fluentzy/data/models/speaking_progress.dart';
 import 'package:fluentzy/data/repositories/flash_card_repository.dart';
 import 'package:fluentzy/data/repositories/lesson_repository.dart';
+import 'package:fluentzy/data/services/preference_service.dart';
+import 'package:fluentzy/utils/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class StatisticsViewModel extends ChangeNotifier {
+  final PreferenceService _preferenceService;
   final LessonRepository _lessonRepository;
   final FlashCardRepository _flashCardRepository;
 
@@ -31,12 +33,14 @@ class StatisticsViewModel extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  SharedPreferences? pref;
-
   String _todayTipQuote = "";
   String get todayTipQuote => _todayTipQuote;
 
-  StatisticsViewModel(this._lessonRepository, this._flashCardRepository) {
+  StatisticsViewModel(
+    this._preferenceService,
+    this._lessonRepository,
+    this._flashCardRepository,
+  ) {
     _initSharedPreferences();
     _initDatas();
   }
@@ -54,23 +58,25 @@ class StatisticsViewModel extends ChangeNotifier {
   }
 
   Future<void> _initSharedPreferences() async {
-    pref = await SharedPreferences.getInstance();
-    int lastTipQuoteIndex = pref?.getInt('lastTipQuoteIndex') ?? 0;
-    String? lastDateStr = pref?.getString('lastActiveDate');
+    int lastTipIndex = _preferenceService.fetchLastTipIndex();
+    String lastDateStr = _preferenceService.fetchLastActiveDateStr();
+    Logger.error("Last tip index: $lastTipIndex");
+    Logger.error("Last active date: $lastDateStr");
     DateTime today = DateTime.now();
     DateTime lastDate =
-        lastDateStr != null ? DateTime.parse(lastDateStr) : today;
+        lastDateStr.isNotEmpty ? DateTime.parse(lastDateStr) : today;
+    Logger.error("Last active date: ${lastDate.toIso8601String()}");
     final difference =
         today
             .difference(DateTime(lastDate.year, lastDate.month, lastDate.day))
             .inDays;
-    if (difference >= 1 && lastTipQuoteIndex < _tipsAndQuotes.length - 1) {
-      lastTipQuoteIndex++;
-      pref?.setInt('lastTipQuoteIndex', lastTipQuoteIndex);
-      pref?.setString('lastActiveDate', today.toIso8601String());
+    if (difference >= 1 && lastTipIndex < _tipsAndQuotes.length - 1) {
+      lastTipIndex++;
+      await _preferenceService.updateLastTipIndex(lastTipIndex);
+      await _preferenceService.updateLastActiveDateStr(today.toIso8601String());
     }
 
-    _todayTipQuote = _tipsAndQuotes[lastTipQuoteIndex];
+    _todayTipQuote = _tipsAndQuotes[lastTipIndex];
 
     notifyListeners();
   }

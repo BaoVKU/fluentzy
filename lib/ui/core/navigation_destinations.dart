@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,9 +28,9 @@ class NavigationDestinations {
   }
 
   static List paths = [
-    RoutePath.home,
-    RoutePath.premium,
-    RoutePath.chat,
-    RoutePath.profile,
+    AppRoutePath.home,
+    AppRoutePath.premium,
+    AppRoutePath.chat,
+    AppRoutePath.profile,
   ];
 }

@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/login/login_view_model.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final viewModel = context.watch<LoginViewModel>();
     if (viewModel.isLoggedIn) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go(RoutePath.home);
+        context.go(AppRoutePath.home);
       });
     }
 
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.go(RoutePath.register);
+                                    context.go(AppRoutePath.register);
                                   },
                                   child: Text(
                                     AppLocalizations.of(context)!.signUp,

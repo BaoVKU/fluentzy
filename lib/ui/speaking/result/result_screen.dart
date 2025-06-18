@@ -1,7 +1,7 @@
 import 'package:fluentzy/data/models/speaking_response.dart';
 import 'package:fluentzy/data/models/response_state.dart';
 import 'package:fluentzy/extensions/int_ext.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/speaking/result/result_view_model.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: Scaffold(
@@ -35,7 +35,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
           surfaceTintColor: AppColors.onSecondary,
           leading: IconButton(
             onPressed: () {
-              context.go(RoutePath.home);
+              context.go(AppRoutePath.home);
             },
             icon: SvgPicture.asset("assets/back.svg"),
           ),
@@ -48,10 +48,10 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
                 viewModel.saveProgress(() {
                   if (viewModel.progress.lastDoneIndex ==
                       viewModel.sentence.length - 1) {
-                    context.go(RoutePath.speakingLesson);
+                    context.go(AppRoutePath.speakingLesson);
                   } else {
                     context.go(
-                      "${RoutePath.speakingRecord}/${viewModel.lessonId}",
+                      "${AppRoutePath.speakingRecord}/${viewModel.lessonId}",
                     );
                   }
                 });
@@ -168,7 +168,7 @@ class _SpeakingResultScreenState extends State<SpeakingResultScreen> {
                   ),
                   onPressed: () {
                     context.go(
-                      "${RoutePath.speakingRecord}/${viewModel.lessonId}",
+                      "${AppRoutePath.speakingRecord}/${viewModel.lessonId}",
                     );
                   },
                   icon: SvgPicture.asset(

@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/translator/translation_block.dart';
 import 'package:fluentzy/ui/translator/translator_view_model.dart';
@@ -45,7 +45,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: Scaffold(
@@ -54,7 +54,7 @@ class _TranslatorScreenState extends State<TranslatorScreen> {
           surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.home)},
+            onPressed: () => {context.go(AppRoutePath.home)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           title: Text(AppLocalizations.of(context)!.translator),

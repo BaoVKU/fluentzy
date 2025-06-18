@@ -1,5 +1,5 @@
 import 'package:fluentzy/data/enums/support_language.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/language/language_view_model.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class LanguageScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.profile);
+          context.go(AppRoutePath.profile);
         }
       },
       child: Scaffold(
@@ -27,16 +27,16 @@ class LanguageScreen extends StatelessWidget {
           surfaceTintColor: AppColors.onSecondary,
           backgroundColor: AppColors.background,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.profile)},
+            onPressed: () => {context.go(AppRoutePath.profile)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           actions: [
             IconButton(
-              onPressed: () {
+              onPressed: () async {
                 viewModel.setLocale(
                   viewModel.selectedLanguage.languageCode.locale,
                 );
-                context.go(RoutePath.profile);
+                context.go(AppRoutePath.profile);
               },
               icon: Icon(Icons.check_rounded),
             ),

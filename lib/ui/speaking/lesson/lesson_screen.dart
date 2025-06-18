@@ -1,5 +1,5 @@
 import 'package:fluentzy/extensions/int_ext.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/speaking/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class SpeakingLessonScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: LayoutBuilder(
@@ -43,7 +43,7 @@ class SpeakingLessonScreen extends StatelessWidget {
               surfaceTintColor: AppColors.onSecondary,
               backgroundColor: AppColors.background,
               leading: IconButton(
-                onPressed: () => {context.go(RoutePath.home)},
+                onPressed: () => {context.go(AppRoutePath.home)},
                 icon: SvgPicture.asset("assets/back.svg"),
               ),
               title: Text(AppLocalizations.of(context)!.lessons),
@@ -89,7 +89,7 @@ class SpeakingLessonScreen extends StatelessWidget {
                               else
                                 {
                                   context.go(
-                                    "${RoutePath.speakingRecord}/${viewModel.lessons[index].id}",
+                                    "${AppRoutePath.speakingRecord}/${viewModel.lessons[index].id}",
                                   ),
                                 },
                             },

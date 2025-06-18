@@ -105,5 +105,7 @@
 	"name": "Tên",
 	"topic": "Chủ đề",
 	"setNewUserName": "Đặt tên người dùng mới",
-	"anonymous": "Ẩn danh"
+	"anonymous": "Ẩn danh",
+	"cropImage": "Cắt ảnh",
+	"crop": "Cắt"
 }

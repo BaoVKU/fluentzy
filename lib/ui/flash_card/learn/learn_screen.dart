@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/flash_card/learn/learn_view_model.dart';
 import 'package:flutter/foundation.dart';
@@ -25,7 +25,7 @@ class FlashCardLearnScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.flashCardList);
+          context.go(AppRoutePath.flashCardList);
         }
       },
       child: Scaffold(
@@ -36,7 +36,7 @@ class FlashCardLearnScreen extends StatelessWidget {
           leading: IconButton(
             onPressed: () {
               viewModel.saveFlashCardSet();
-              context.go(RoutePath.flashCardList);
+              context.go(AppRoutePath.flashCardList);
             },
             icon: SvgPicture.asset("assets/back.svg"),
           ),

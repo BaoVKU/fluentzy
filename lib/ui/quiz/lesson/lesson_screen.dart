@@ -1,5 +1,5 @@
 import 'package:fluentzy/extensions/int_ext.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/quiz/lesson/lesson_view_model.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class QuizLessonScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.home);
+          context.go(AppRoutePath.home);
         }
       },
       child: LayoutBuilder(
@@ -42,7 +42,7 @@ class QuizLessonScreen extends StatelessWidget {
               surfaceTintColor: AppColors.onSecondary,
               backgroundColor: AppColors.background,
               leading: IconButton(
-                onPressed: () => {context.go(RoutePath.home)},
+                onPressed: () => {context.go(AppRoutePath.home)},
                 icon: SvgPicture.asset("assets/back.svg"),
               ),
               titleSpacing: 0.0,
@@ -72,7 +72,7 @@ class QuizLessonScreen extends StatelessWidget {
                         onTap:
                             () => {
                               context.go(
-                                "${RoutePath.quizLearn}/${viewModel.lessons[index].id}",
+                                "${AppRoutePath.quizLearn}/${viewModel.lessons[index].id}",
                               ),
                             },
                         child: Card(

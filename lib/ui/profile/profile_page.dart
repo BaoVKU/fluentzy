@@ -1,6 +1,6 @@
 import 'package:fluentzy/extensions/context_ext.dart';
 import 'package:fluentzy/extensions/string_ext.dart';
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class ProfilePage extends StatelessWidget {
     final viewModel = context.watch<ProfileViewModel>();
     if (viewModel.user == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go(RoutePath.login);
+        context.go(AppRoutePath.login);
       });
     }
     return Scaffold(
@@ -120,7 +120,7 @@ class ProfilePage extends StatelessWidget {
                 Divider(color: AppColors.border, thickness: 1),
                 GestureDetector(
                   onTap: () {
-                    context.go(RoutePath.language);
+                    context.go(AppRoutePath.language);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

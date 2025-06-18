@@ -25,8 +25,10 @@ class FlashCardLearnViewModel extends ChangeNotifier {
     }
     return false;
   }
-  
+
   void nextCard() {
+    _isCardFlipped ? flipCard() : null;
+
     if (_flashCardSet != null) {
       if (_currentIndex < _flashCardSet!.cards.length - 1) {
         _currentIndex++;
@@ -36,6 +38,8 @@ class FlashCardLearnViewModel extends ChangeNotifier {
   }
 
   void undoCard() {
+    _isCardFlipped ? flipCard() : null;
+
     if (_flashCardSet != null) {
       _flashCardSet!.cards[_currentIndex].isLearned =
           _oldFlashCardSet!.cards[_currentIndex].isLearned;
@@ -74,5 +78,4 @@ class FlashCardLearnViewModel extends ChangeNotifier {
       await _flashCardRepository.saveFlashCardSet(_flashCardSet!);
     }
   }
-
 }

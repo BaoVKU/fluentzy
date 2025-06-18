@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/speaking/record/record_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class SpeakingRecordScreen extends StatelessWidget {
     if (viewModel.hasFinalResult && viewModel.listenedResult.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.go(
-          RoutePath.speakingResult,
+          AppRoutePath.speakingResult,
           extra: {
             'lesson': viewModel.lesson,
             'said': viewModel.listenedResult,
@@ -30,7 +30,7 @@ class SpeakingRecordScreen extends StatelessWidget {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) {
-          context.go(RoutePath.speakingLesson);
+          context.go(AppRoutePath.speakingLesson);
         }
       },
       child: Scaffold(
@@ -38,7 +38,7 @@ class SpeakingRecordScreen extends StatelessWidget {
         appBar: AppBar(
           surfaceTintColor: AppColors.onSecondary,
           leading: IconButton(
-            onPressed: () => {context.go(RoutePath.speakingLesson)},
+            onPressed: () => {context.go(AppRoutePath.speakingLesson)},
             icon: SvgPicture.asset("assets/back.svg"),
           ),
           backgroundColor: AppColors.background,

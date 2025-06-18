@@ -1,5 +1,5 @@
-class RoutePath {
-  RoutePath();
+class AppRoutePath {
+  AppRoutePath();
   static const main = '/';
 
   static const login = '${main}login';

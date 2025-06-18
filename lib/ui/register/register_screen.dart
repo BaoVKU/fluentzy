@@ -1,4 +1,4 @@
-import 'package:fluentzy/routing/paths.dart';
+import 'package:fluentzy/routing/app_route_path.dart';
 import 'package:fluentzy/ui/core/app_colors.dart';
 import 'package:fluentzy/ui/register/register_view_model.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final viewModel = context.watch<RegisterViewModel>();
     if (viewModel.isSignedUp) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go(RoutePath.home);
+        context.go(AppRoutePath.home);
       });
     }
 
@@ -268,7 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.go(RoutePath.login);
+                                    context.go(AppRoutePath.login);
                                   },
                                   child: Text(
                                     AppLocalizations.of(context)!.login,

@@ -81,5 +81,4 @@ class ScannerResultViewModel extends ChangeNotifier {
     await _ttsRepository.playSpeaker(text: text);
     notifyListeners();
   }
-
 }
